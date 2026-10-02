@@ -462,20 +462,22 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      background: linear-gradient(45deg, #405DE6, #833AB4, #C13584, #E1306C);
+      background: linear-gradient(135deg, #1c0514, #360723);
       color: var(--white);
       text-decoration: none;
       padding: 12px 15px;
       font-size: 0.85rem;
       font-weight: bold;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid #e1306c;
+      border-left: 5px solid #e1306c;
       transition: all 0.3s ease;
       margin-top: 10px;
       border-radius: 14px 14px 0 0;
+      box-shadow: inset 0 0 10px rgba(225, 48, 108, 0.25);
     }
 
-    .ig-btn-single i { font-size: 1.2rem; margin-right: 8px; }
-    .ig-btn-single:hover { opacity: 0.9; transform: scale(1.02); box-shadow: 0 0 12px rgba(193, 53, 132, 0.6); }
+    .ig-btn-single i { font-size: 1.1rem; margin-right: 8px; color: #e1306c; }
+    .ig-btn-single:hover { filter: brightness(1.25); transform: scale(1.02); box-shadow: 0 0 14px rgba(225, 48, 108, 0.6); }
 
     .email-btn-single {
       display: flex;
@@ -6087,6 +6089,7 @@
         const parsed = JSON.parse(cachedSiteData);
         if (parsed.posts && Array.isArray(parsed.posts)) postsData = parsed.posts;
         if (parsed.galleries && typeof parsed.galleries === 'object') galleriesData = parsed.galleries;
+        if (parsed.galleryOrder && Array.isArray(parsed.galleryOrder)) window.galleryOrder = parsed.galleryOrder;
         if (parsed.live) {
           if (Array.isArray(parsed.live.buttons)) liveButtonsData = parsed.live.buttons;
           if (typeof parsed.live.isVisible === 'boolean') isLiveSectionVisible = parsed.live.isVisible;
@@ -6884,20 +6887,50 @@
     let currentIndex = 0;
     let startX = 0;
     let isDragging = false;
-    let currentGalleryKey = '';
+    /* ORDEN FIJO Y DETERMINISTA DE GALERÍAS (PORTADAS PRIMERO) */
+    let fixedGalleryOrder = ['fotos', 'julianaqudateotroda'];
+    if (typeof window.galleryOrder === 'undefined' || !Array.isArray(window.galleryOrder) || window.galleryOrder.length === 0) {
+      window.galleryOrder = ['fotos', 'julianaqudateotroda'];
+    }
+
+    function getOrderedGalleryKeys() {
+      if (!galleriesData || typeof galleriesData !== 'object') return [];
+      const allKeys = Object.keys(galleriesData);
+      const orderList = (window.galleryOrder && Array.isArray(window.galleryOrder) && window.galleryOrder.length > 0)
+        ? window.galleryOrder
+        : fixedGalleryOrder;
+
+      const ordered = [];
+      // Primero incluir las claves en el orden explícito
+      orderList.forEach(k => {
+        if (allKeys.includes(k) && !ordered.includes(k)) {
+          ordered.push(k);
+        }
+      });
+      // Añadir cualquier galería nueva o extra al final de forma estable
+      allKeys.forEach(k => {
+        if (!ordered.includes(k)) {
+          ordered.push(k);
+        }
+      });
+      return ordered;
+    }
+
+    let currentGalleryKey = 'fotos';
     let currentModalPhotoIndex = 0;
 
     function renderGalleryTabs() {
       const container = document.getElementById('galleryTabsContainer');
       container.innerHTML = '';
 
-      const keys = Object.keys(galleriesData);
+      const keys = getOrderedGalleryKeys();
       if (keys.length === 0) {
         track.innerHTML = '<p style="text-align: center; color: var(--text-muted); width: 100%;">No hay galerías disponibles.</p>';
         dotsContainer.innerHTML = '';
         return;
       }
 
+      // La galería fija seleccionada por defecto al entrar siempre es la primera (Portadas)
       if (!currentGalleryKey || !galleriesData[currentGalleryKey]) {
         currentGalleryKey = keys[0];
       }
@@ -6965,22 +6998,30 @@
     }
 
     function reorderGalleriesInAdmin(fromKey, targetKey) {
-      const keys = Object.keys(galleriesData);
+      const keys = getOrderedGalleryKeys();
       const fromIdx = keys.indexOf(fromKey);
       const toIdx = keys.indexOf(targetKey);
       if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx) return;
 
-      const entries = Object.entries(galleriesData);
-      const [moved] = entries.splice(fromIdx, 1);
-      entries.splice(toIdx, 0, moved);
+      const [moved] = keys.splice(fromIdx, 1);
+      keys.splice(toIdx, 0, moved);
+
+      window.galleryOrder = [...keys];
+      fixedGalleryOrder = [...keys];
 
       const newGalleriesData = {};
-      entries.forEach(([k, v]) => {
-        newGalleriesData[k] = v;
+      keys.forEach(k => {
+        if (galleriesData[k]) newGalleriesData[k] = galleriesData[k];
       });
       galleriesData = newGalleriesData;
+      window.galleriesData = galleriesData;
+
       populateAdminGallerySelect();
       renderGalleryTabs();
+
+      if (typeof window.persistSiteDataInRealtime === 'function') {
+        window.persistSiteDataInRealtime();
+      }
     }
 
     /* AUTOPLAY DEL CARRUSEL DE GALERÍAS (CADA 5 SEGUNDOS A MENOS QUE HAYA INTERACCIÓN) */
@@ -7744,7 +7785,7 @@
       newOpt.textContent = '➕ Crear Nueva Galería...';
       select.appendChild(newOpt);
 
-      const keys = Object.keys(galleriesData);
+      const keys = (typeof getOrderedGalleryKeys === 'function') ? getOrderedGalleryKeys() : Object.keys(galleriesData);
 
       keys.forEach(key => {
         const option = document.createElement('option');
@@ -11164,7 +11205,18 @@
 
     function applyAllSectionsChangesToDOM() {
       if (window.postsData) postsData = window.postsData;
-      if (window.galleriesData) galleriesData = window.galleriesData;
+      if (window.galleriesData) {
+        galleriesData = window.galleriesData;
+        if (typeof getOrderedGalleryKeys === 'function') {
+          const orderedKeys = getOrderedGalleryKeys();
+          const reordered = {};
+          orderedKeys.forEach(k => {
+            if (galleriesData[k]) reordered[k] = galleriesData[k];
+          });
+          galleriesData = reordered;
+          window.galleriesData = galleriesData;
+        }
+      }
       if (window.liveButtonsData) liveButtonsData = window.liveButtonsData;
       if (window.merchItemsData) merchItemsData = window.merchItemsData;
       if (window.merchCategories) merchCategories = window.merchCategories;
@@ -11810,7 +11862,10 @@
         currentDocumentHTML = currentDocumentHTML.replace(/const postsData = \[[\s\S]*?\];/, `let postsData = ${JSON.stringify(postsData, null, 2)};`);
       }
       if (/let galleriesData = {[\s\S]*?};/.test(currentDocumentHTML)) {
-        currentDocumentHTML = currentDocumentHTML.replace(/let galleriesData = {[\s\S]*?};/, `let galleriesData = ${JSON.stringify(galleriesData, null, 2)};`);
+        const ordered = {};
+        const orderedKeys = (typeof getOrderedGalleryKeys === 'function') ? getOrderedGalleryKeys() : Object.keys(galleriesData);
+        orderedKeys.forEach(k => { if (galleriesData[k]) ordered[k] = galleriesData[k]; });
+        currentDocumentHTML = currentDocumentHTML.replace(/let galleriesData = {[\s\S]*?};/, `let galleriesData = ${JSON.stringify(ordered, null, 2)};`);
       }
       if (/let liveButtonsData = \[[\s\S]*?\];/.test(currentDocumentHTML)) {
         currentDocumentHTML = currentDocumentHTML.replace(/let liveButtonsData = \[[\s\S]*?\];/, `let liveButtonsData = ${JSON.stringify(liveButtonsData, null, 2)};`);
@@ -13283,6 +13338,7 @@
       const payload = {
         posts: Array.isArray(window.postsData) ? window.postsData : [],
         galleries: (window.galleriesData && typeof window.galleriesData === 'object') ? window.galleriesData : {},
+        galleryOrder: (typeof getOrderedGalleryKeys === 'function') ? getOrderedGalleryKeys() : ['fotos', 'julianaqudateotroda'],
         live: {
           buttons: Array.isArray(window.liveButtonsData) ? window.liveButtonsData : [],
           isVisible: !!window.isLiveSectionVisible,
@@ -13355,6 +13411,10 @@
               window.galleriesData = data.galleries;
               changed = true;
             }
+            if (data.galleryOrder && Array.isArray(data.galleryOrder)) {
+              window.galleryOrder = data.galleryOrder;
+              changed = true;
+            }
             if (data.live) {
               if (Array.isArray(data.live.buttons)) window.liveButtonsData = data.live.buttons;
               if (typeof data.live.isVisible === 'boolean') window.isLiveSectionVisible = data.live.isVisible;
@@ -13382,6 +13442,7 @@
                 localStorage.setItem('blutu_live_site_data', JSON.stringify({
                   posts: window.postsData,
                   galleries: window.galleriesData,
+                  galleryOrder: window.galleryOrder,
                   live: {
                     buttons: window.liveButtonsData,
                     isVisible: window.isLiveSectionVisible,
