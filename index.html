@@ -1095,6 +1095,28 @@
       color: #fff;
     }
 
+    .comment-admin-delete-btn {
+      background: rgba(180, 50, 50, 0.22);
+      border: 1px solid #b33636;
+      color: #ff9595;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 0.78rem;
+      font-family: 'Cormorant Garamond', serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .comment-admin-delete-btn:hover {
+      background: #b33636;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(220, 50, 50, 0.45);
+    }
+
     .comments-empty-state, .comments-loading {
       text-align: center;
       padding: 40px 20px;
@@ -13131,7 +13153,7 @@
         dateSpan.textContent = formatCommentDate(c.createdAt);
         dateGroup.appendChild(dateSpan);
 
-        // Si está en modo edición, botón interactivo para ocultar o mostrar
+        // Si está en modo edición, botones interactivos para ocultar o eliminar
         if (isCurrentAdmin) {
           const toggleBtn = document.createElement('button');
           toggleBtn.type = 'button';
@@ -13142,7 +13164,19 @@
             e.stopPropagation();
             window.toggleCommentVisibility(c.id);
           };
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'comment-admin-delete-btn';
+          delBtn.innerHTML = '🗑️ Eliminar';
+          delBtn.title = 'Eliminar permanentemente este comentario';
+          delBtn.onclick = (e) => {
+            e.stopPropagation();
+            window.deleteCommentFromAdmin(c.id);
+          };
+
           dateGroup.appendChild(toggleBtn);
+          dateGroup.appendChild(delBtn);
         }
 
         header.appendChild(authorGroup);
@@ -13256,11 +13290,11 @@
 
         const delBtn = document.createElement('button');
         delBtn.type = 'button';
-        delBtn.className = 'admin-btn btn-delete-comment';
-        delBtn.innerHTML = '🗑️ Borrar';
+        delBtn.className = 'comment-admin-delete-btn';
+        delBtn.innerHTML = '🗑️ Eliminar';
         delBtn.title = 'Eliminar permanentemente este comentario de la base de datos';
-        delBtn.style.cssText = 'padding: 6px 10px; font-size: 0.82rem; font-weight: bold; cursor: pointer; background: rgba(180, 50, 50, 0.25); color: #ff8080; border: 1px solid #b33636; border-radius: 4px; transition: all 0.2s ease;';
-        delBtn.onclick = () => deleteCommentFromAdmin(c.id);
+        delBtn.style.cssText = 'padding: 6px 12px; font-size: 0.85rem; font-weight: bold; cursor: pointer;';
+        delBtn.onclick = () => window.deleteCommentFromAdmin(c.id);
 
         actions.appendChild(toggleBtn);
         actions.appendChild(delBtn);
