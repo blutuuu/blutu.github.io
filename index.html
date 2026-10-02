@@ -5566,8 +5566,8 @@
     <button class="modal-arrow next" onclick="navigateModal(1)"><i class="fa-solid fa-chevron-right"></i></button>
     <div id="modalMediaContainer" style="display: flex; justify-content: center; align-items: center; max-width: 90vw; max-height: 80vh; position: relative;">
       <img class="modal-content" id="modalImg" alt="Vista Ampliada" referrerpolicy="no-referrer" style="display: none;">
-      <div id="modalVideoWrapper" style="display: none; width: min(88vw, 420px); height: min(78vh, 720px); aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; border: 2px solid var(--accent-blue); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--modal-aura-color, rgba(90, 116, 191, 0.5)); background: #000; transform: translateZ(0); will-change: transform;">
-        <iframe id="modalVideoIframe" style="width: 100%; height: 100%; border: none; display: block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="no-referrer-when-downgrade" allowfullscreen="" src=""></iframe>
+      <div id="modalVideoWrapper" style="display: none; position: relative; border-radius: 16px; overflow: hidden; border: 2px solid var(--accent-blue); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--modal-aura-color, rgba(90, 116, 191, 0.5)); background: #000; transform: translateZ(0); will-change: transform;">
+        <iframe id="modalVideoIframe" style="position: absolute; top: 0; left: 0; border: none; transform-origin: top left; display: block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="no-referrer-when-downgrade" allowfullscreen="" src=""></iframe>
       </div>
     </div>
     <div class="modal-caption" id="modalCaption">YouTube Shorts</div>
@@ -7277,14 +7277,19 @@
       if (!url || typeof url !== 'string') return null;
       const trimmed = url.trim();
 
+      const originParam = (typeof window !== 'undefined' && window.location && window.location.origin)
+        ? encodeURIComponent(window.location.origin)
+        : '';
+      const originQuery = originParam ? `&origin=${originParam}` : '';
+
       const shortsMatch = trimmed.match(/(?:youtube\.com\/shorts\/|youtube\.com\/embed\/shorts\/)([a-zA-Z0-9_-]{11})/i);
       if (shortsMatch && shortsMatch[1]) {
         const videoId = shortsMatch[1];
         return {
           videoId: videoId,
           isShorts: true,
-          thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
-          embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=1&vq=hd1080`
+          thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+          embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=1&hd=1&vq=hd1080&enablejsapi=1${originQuery}`
         };
       }
 
@@ -7295,13 +7300,96 @@
         return {
           videoId: videoId,
           isShorts: isShorts,
-          thumbnailUrl: isShorts ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
-          embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=1&vq=hd1080`
+          thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+          embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=1&hd=1&vq=hd1080&enablejsapi=1${originQuery}`
         };
       }
 
       return null;
     }
+
+    function enforceYouTube1080p(iframeEl) {
+      if (!iframeEl || !iframeEl.contentWindow) return;
+      const commands = [
+        { event: 'command', func: 'setPlaybackQuality', args: ['hd1080'] },
+        { event: 'command', func: 'setPlaybackQualityRange', args: ['hd1080', 'hd1080'] },
+        { event: 'command', func: 'suggestPlaybackQuality', args: ['hd1080'] }
+      ];
+      commands.forEach(cmd => {
+        try {
+          iframeEl.contentWindow.postMessage(JSON.stringify(cmd), '*');
+        } catch (e) {}
+      });
+    }
+
+    function resizeModalVideo() {
+      const videoWrapper = document.getElementById("modalVideoWrapper");
+      const videoIframe = document.getElementById("modalVideoIframe");
+      if (!videoWrapper || !videoIframe || videoWrapper.style.display === 'none') return;
+
+      const isShorts = videoWrapper.dataset.isShorts === 'true';
+
+      let targetW, targetH;
+      let nativeW, nativeH;
+
+      if (isShorts) {
+        // Vertical 9:16 nativo 1080x1920 (Shorts)
+        nativeW = 1080;
+        nativeH = 1920;
+        const maxW = Math.min(window.innerWidth * 0.88, 420);
+        const maxH = Math.min(window.innerHeight * 0.76, 740);
+
+        let w = maxW;
+        let h = w * (16 / 9);
+        if (h > maxH) {
+          h = maxH;
+          w = h * (9 / 16);
+        }
+        targetW = Math.round(w);
+        targetH = Math.round(h);
+      } else {
+        // Horizontal 16:9 nativo 1920x1080 (YouTube requiere >1633px de ancho para entregar 1080p por defecto)
+        nativeW = 1920;
+        nativeH = 1080;
+        const maxW = Math.min(window.innerWidth * 0.90, 880);
+        const maxH = Math.min(window.innerHeight * 0.76, 540);
+
+        let w = maxW;
+        let h = w * (9 / 16);
+        if (h > maxH) {
+          h = maxH;
+          w = h * (16 / 9);
+        }
+        targetW = Math.round(w);
+        targetH = Math.round(h);
+      }
+
+      videoWrapper.style.width = `${targetW}px`;
+      videoWrapper.style.height = `${targetH}px`;
+      videoWrapper.style.maxWidth = `${targetW}px`;
+      videoWrapper.style.maxHeight = `${targetH}px`;
+
+      videoIframe.style.width = `${nativeW}px`;
+      videoIframe.style.height = `${nativeH}px`;
+
+      const scale = targetW / nativeW;
+      videoIframe.style.transform = `scale(${scale})`;
+      videoIframe.style.transformOrigin = 'top left';
+    }
+
+    window.addEventListener('resize', resizeModalVideo, { passive: true });
+
+    window.addEventListener('message', (event) => {
+      try {
+        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+        if (data && (data.event === 'onStateChange' || data.event === 'initialDelivery' || data.infoDelivery)) {
+          const videoIframe = document.getElementById('modalVideoIframe');
+          if (videoIframe && videoIframe.contentWindow) {
+            enforceYouTube1080p(videoIframe);
+          }
+        }
+      } catch (e) {}
+    });
 
     function cleanOrTransformMediaUrl(rawUrl) {
       if (!rawUrl || typeof rawUrl !== 'string') return rawUrl;
@@ -7521,18 +7609,9 @@
 
         if (modalImg) modalImg.style.display = 'none';
         if (videoWrapper) {
+          videoWrapper.dataset.isShorts = ytInfo.isShorts ? 'true' : 'false';
           videoWrapper.style.display = 'block';
-          if (ytInfo.isShorts) {
-            videoWrapper.style.width = 'min(88vw, 420px)';
-            videoWrapper.style.height = 'min(78vh, 720px)';
-            videoWrapper.style.maxWidth = '420px';
-            videoWrapper.style.aspectRatio = '9/16';
-          } else {
-            videoWrapper.style.width = 'min(90vw, 860px)';
-            videoWrapper.style.height = 'auto';
-            videoWrapper.style.maxWidth = '860px';
-            videoWrapper.style.aspectRatio = '16/9';
-          }
+          resizeModalVideo();
         }
         if (videoIframe) {
           videoIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
@@ -7541,6 +7620,15 @@
           if (videoIframe.src !== ytInfo.embedUrl) {
             videoIframe.src = ytInfo.embedUrl;
           }
+          videoIframe.onload = function() {
+            resizeModalVideo();
+            enforceYouTube1080p(videoIframe);
+            setTimeout(() => enforceYouTube1080p(videoIframe), 300);
+            setTimeout(() => enforceYouTube1080p(videoIframe), 800);
+            setTimeout(() => enforceYouTube1080p(videoIframe), 1600);
+            setTimeout(() => enforceYouTube1080p(videoIframe), 3000);
+          };
+          enforceYouTube1080p(videoIframe);
         }
       } else {
         if (videoIframe) videoIframe.src = '';
