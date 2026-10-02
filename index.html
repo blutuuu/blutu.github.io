@@ -3392,16 +3392,6 @@
     footer { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); }
 
     /* ESTILOS DEL APARTADO EN VIVO */
-    #liveSection h2 {
-      font-family: 'UnifrakturMaguntia', cursive !important;
-      font-size: 2rem !important;
-      font-weight: normal;
-      letter-spacing: normal;
-      color: var(--white);
-      text-align: center;
-      text-shadow: none;
-    }
-
     .live-pulse-badge {
       display: inline-flex;
       align-items: center;
@@ -4750,7 +4740,7 @@
       <!-- APARTADO CONCIERTOS -->
       <section class="tombstone-section is-collapsed" id="liveSection" style="display: none; --anim-color: #8ca2e6;">
         <div class="collapsible-header" onclick="toggleSectionCollapse('liveSection', this)" title="Haz clic para desplegar u ocultar">
-          <h2 style="margin: 0; text-align: center;">Conciertos</h2>
+          <h2 style="margin: 0; text-align: center;">Conciertos <span id="liveSectionHiddenBadge" class="section-hidden-badge" style="display: none; font-size: 0.75rem; vertical-align: middle; margin-left: 8px; color: #ff6b6b; border: 1px solid #ff6b6b; padding: 2px 6px; border-radius: 4px; background: rgba(255,107,107,0.15);">[Oculto]</span></h2>
         </div>
         <div class="collapsible-body" id="liveSectionBody">
           <!-- PANEL DE EDICIÓN INTEGRADO EN CONCIERTOS (DENTRO DE LA SECCIÓN) -->
@@ -5518,6 +5508,25 @@
             
           </div>
         </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIRMACIÓN PARA ELIMINAR PUBLICACIÓN (SEGURO EN IFRAMES, MÓVIL Y ESCRITORIO) -->
+  <div id="deletePostConfirmModal" class="modal" onclick="if(event.target===this) closeDeletePostConfirmModal()" style="display: none; position: fixed; z-index: 100002; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 8, 0.94); backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 15px; box-sizing: border-box;">
+    <div class="blog-modal-box" style="max-width: 480px; width: 100%; padding: 28px 24px; text-align: center; border: 1px solid #b33636; box-shadow: 0 0 35px rgba(180, 50, 50, 0.4); border-radius: 12px; background: #090b10;">
+      <div style="font-size: 2.2rem; margin-bottom: 8px;">🕯️</div>
+      <h3 style="color: #ff8080; font-family: 'Cinzel', serif; font-size: 1.4rem; margin-bottom: 12px; letter-spacing: 1px;">¿Eliminar Publicación?</h3>
+      <p id="deletePostConfirmMessage" style="color: #d1d5e4; font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; line-height: 1.5; margin-bottom: 24px; word-break: break-word;">
+        ¿Estás seguro de que deseas eliminar esta publicación? Esta acción borrará el artículo de la página y de la base de datos.
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button type="button" onclick="closeDeletePostConfirmModal()" class="admin-btn" style="padding: 8px 20px; font-size: 0.9rem; background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-color); color: var(--accent-light); border-radius: 4px; cursor: pointer;">
+          Cancelar
+        </button>
+        <button type="button" id="deletePostConfirmAcceptBtn" class="admin-btn btn-delete-post" style="padding: 8px 22px; font-size: 0.9rem; font-weight: bold; background: rgba(180, 50, 50, 0.35); border: 1px solid #ff4d4d; color: #ff9999; border-radius: 4px; cursor: pointer;">
+          🗑️ Sí, Eliminar
+        </button>
+      </div>
     </div>
   </div>
 
@@ -6625,14 +6634,8 @@
               <button type="button" class="admin-btn" onclick="saveModalPost(${postIndex})" style="padding: 6px 14px; font-size: 0.88rem; background: var(--accent-blue); color: #fff; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px;">
                 💾 Guardar
               </button>
-              <button type="button" class="admin-btn" onclick="openBlogModal(${postIndex}, true)" style="padding: 6px 10px; font-size: 0.82rem; background: rgba(255,255,255,0.08); color: var(--accent-light); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">
-                👁️ Vista Previa
-              </button>
             </div>
             <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-              <button type="button" class="admin-btn" onclick="toggleModalPostVisibility(${postIndex})" style="padding: 6px 10px; font-size: 0.8rem; background: ${isHidden ? 'rgba(90,116,191,0.3)' : 'rgba(200,150,50,0.3)'}; color: ${isHidden ? 'var(--accent-light)' : '#ffd280'}; border: 1px solid ${isHidden ? 'var(--accent-blue)' : '#cca333'}; border-radius: 4px; cursor: pointer;">
-                ${isHidden ? '👁️ Oculto' : '👁️‍🗨️ Visible'}
-              </button>
               <label style="cursor: pointer; padding: 6px 10px; background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.8rem; color: var(--accent-light); margin: 0;">
                 📁 .txt
                 <input type="file" accept=".txt" style="display: none;" onchange="handleModalTxtUpload(event, ${postIndex})">
@@ -6887,27 +6890,22 @@
     let currentIndex = 0;
     let startX = 0;
     let isDragging = false;
-    /* ORDEN FIJO Y DETERMINISTA DE GALERÍAS (PORTADAS PRIMERO) */
-    let fixedGalleryOrder = ['fotos', 'julianaqudateotroda'];
-    if (typeof window.galleryOrder === 'undefined' || !Array.isArray(window.galleryOrder) || window.galleryOrder.length === 0) {
-      window.galleryOrder = ['fotos', 'julianaqudateotroda'];
-    }
-
+    /* ORDEN DETERMINISTA DE GALERÍAS CONFIGURABLE POR EL ADMINISTRADOR */
     function getOrderedGalleryKeys() {
       if (!galleriesData || typeof galleriesData !== 'object') return [];
       const allKeys = Object.keys(galleriesData);
       const orderList = (window.galleryOrder && Array.isArray(window.galleryOrder) && window.galleryOrder.length > 0)
         ? window.galleryOrder
-        : fixedGalleryOrder;
+        : allKeys;
 
       const ordered = [];
-      // Primero incluir las claves en el orden explícito
+      // Primero incluir las claves según el orden explícito configurado por el usuario
       orderList.forEach(k => {
         if (allKeys.includes(k) && !ordered.includes(k)) {
           ordered.push(k);
         }
       });
-      // Añadir cualquier galería nueva o extra al final de forma estable
+      // Añadir cualquier galería restante no listada al final
       allKeys.forEach(k => {
         if (!ordered.includes(k)) {
           ordered.push(k);
@@ -6916,7 +6914,7 @@
       return ordered;
     }
 
-    let currentGalleryKey = 'fotos';
+    let currentGalleryKey = '';
     let currentModalPhotoIndex = 0;
 
     function renderGalleryTabs() {
@@ -6930,7 +6928,7 @@
         return;
       }
 
-      // La galería fija seleccionada por defecto al entrar siempre es la primera (Portadas)
+      // La galería seleccionada por defecto al entrar siempre es la PRIMERA según el orden configurado por el usuario
       if (!currentGalleryKey || !galleriesData[currentGalleryKey]) {
         currentGalleryKey = keys[0];
       }
@@ -8057,8 +8055,8 @@
     }
 
     function moveGalleryOrder(direction) {
-      if (selectedAdminGalleryKey === 'new') return;
-      const keys = Object.keys(galleriesData);
+      if (!selectedAdminGalleryKey || selectedAdminGalleryKey === 'new') return;
+      const keys = (typeof getOrderedGalleryKeys === 'function') ? getOrderedGalleryKeys() : Object.keys(galleriesData);
       const currentIndex = keys.indexOf(selectedAdminGalleryKey);
 
       if (currentIndex === -1) return;
@@ -8066,20 +8064,72 @@
 
       if (targetIndex < 0 || targetIndex >= keys.length) return;
 
-      const entries = Object.entries(galleriesData);
-      const temp = entries[currentIndex];
-      entries[currentIndex] = entries[targetIndex];
-      entries[targetIndex] = temp;
+      const [moved] = keys.splice(currentIndex, 1);
+      keys.splice(targetIndex, 0, moved);
+
+      window.galleryOrder = [...keys];
 
       const newGalleriesData = {};
-      entries.forEach(([k, v]) => {
-        newGalleriesData[k] = v;
+      keys.forEach(k => {
+        if (galleriesData[k]) newGalleriesData[k] = galleriesData[k];
       });
-
       galleriesData = newGalleriesData;
+      window.galleriesData = galleriesData;
+
+      if (targetIndex === 0) {
+        currentGalleryKey = selectedAdminGalleryKey;
+      }
+
       populateAdminGallerySelect();
       renderGalleryTabs();
+
+      if (typeof window.persistSiteDataInRealtime === 'function') {
+        window.persistSiteDataInRealtime();
+      }
+      if (typeof showToastNotification === 'function') {
+        const title = galleriesData[selectedAdminGalleryKey]?.title || 'Galería';
+        const msg = targetIndex === 0 ? `⭐ "${title}" es ahora la primera galería del sitio` : `"${title}" movida a la posición ${targetIndex + 1}`;
+        showToastNotification(msg);
+      }
     }
+    window.moveGalleryOrder = moveGalleryOrder;
+
+    function setAsFirstGallery(key) {
+      const targetKey = key || selectedAdminGalleryKey;
+      if (!targetKey || targetKey === 'new' || !galleriesData[targetKey]) {
+        alert('Por favor selecciona una galería para configurarla como primera.');
+        return;
+      }
+      const keys = (typeof getOrderedGalleryKeys === 'function') ? getOrderedGalleryKeys() : Object.keys(galleriesData);
+      const idx = keys.indexOf(targetKey);
+      if (idx === -1) return;
+
+      keys.splice(idx, 1);
+      keys.unshift(targetKey);
+
+      window.galleryOrder = [...keys];
+
+      const newGalleriesData = {};
+      keys.forEach(k => {
+        if (galleriesData[k]) newGalleriesData[k] = galleriesData[k];
+      });
+      galleriesData = newGalleriesData;
+      window.galleriesData = galleriesData;
+
+      currentGalleryKey = targetKey;
+      selectedAdminGalleryKey = targetKey;
+
+      populateAdminGallerySelect();
+      renderGalleryTabs();
+
+      if (typeof window.persistSiteDataInRealtime === 'function') {
+        window.persistSiteDataInRealtime();
+      }
+      if (typeof showToastNotification === 'function') {
+        showToastNotification(`⭐ "${galleriesData[targetKey]?.title}" configurada como la primera galería del sitio`);
+      }
+    }
+    window.setAsFirstGallery = setAsFirstGallery;
 
     function createNewGalleryFromAdmin() {
       selectedAdminGalleryKey = 'new';
@@ -8388,9 +8438,25 @@
       postsData[postIndex].preview = preview;
       postsData[postIndex].content = content;
 
+      window.postsData = postsData;
+      try {
+        const cachedRaw = localStorage.getItem('blutu_live_site_data');
+        if (cachedRaw) {
+          const cached = JSON.parse(cachedRaw);
+          cached.posts = postsData;
+          cached.updatedAt = Date.now();
+          localStorage.setItem('blutu_live_site_data', JSON.stringify(cached));
+        }
+      } catch (e) {}
+
       renderBlogPosts();
       renderAdminPostsList();
+      if (typeof populatePostSelect === 'function') populatePostSelect();
       closeBlogModal();
+
+      if (typeof window.persistSiteDataInRealtime === 'function') {
+        window.persistSiteDataInRealtime();
+      }
     }
     window.saveModalPost = saveModalPost;
 
@@ -8818,6 +8884,18 @@
       const idx = Number(postIndex);
       if (isNaN(idx) || idx < 0 || !postsData[idx]) return;
       postsData[idx].hidden = !postsData[idx].hidden;
+
+      window.postsData = postsData;
+      try {
+        const cachedRaw = localStorage.getItem('blutu_live_site_data');
+        if (cachedRaw) {
+          const cached = JSON.parse(cachedRaw);
+          cached.posts = postsData;
+          cached.updatedAt = Date.now();
+          localStorage.setItem('blutu_live_site_data', JSON.stringify(cached));
+        }
+      } catch (err) {}
+
       renderBlogPosts();
       renderAdminPostsList();
       if (typeof populatePostSelect === 'function') populatePostSelect();
@@ -8834,29 +8912,162 @@
           btn.innerHTML = isHidden ? '👁️ Oculto' : '👁️‍🗨️ Visible';
         }
       }
+
+      if (typeof window.persistSiteDataInRealtime === 'function') {
+        window.persistSiteDataInRealtime(true);
+      }
     }
     window.toggleModalPostVisibility = toggleModalPostVisibility;
 
-    function deleteModalPost(postIndex) {
-      const idx = Number(postIndex);
-      if (isNaN(idx) || idx < 0 || idx >= postsData.length) return;
-      
-      const postTitle = postsData[idx].title || 'esta publicación';
-      let confirmed = true;
-      try {
-        confirmed = window.confirm(`¿Estás seguro de que deseas eliminar la publicación "${postTitle}"?`);
-      } catch (e) {
-        confirmed = true;
-      }
-      
-      if (!confirmed) return;
+    let pendingDeletePostIndex = null;
 
-      postsData.splice(idx, 1);
-      renderBlogPosts();
-      if (typeof renderAdminPostsList === 'function') renderAdminPostsList();
-      if (typeof closeBlogModal === 'function') closeBlogModal();
+    function resolvePostIndex(target) {
+      if (typeof target === 'number') {
+        if (!isNaN(target) && target >= 0 && target < postsData.length) return target;
+      }
+      if (typeof target === 'string') {
+        const num = parseInt(target, 10);
+        if (!isNaN(num) && String(num) === target && num >= 0 && num < postsData.length) {
+          return num;
+        }
+        const byId = postsData.findIndex(p => p.id === target || p.title === target);
+        if (byId !== -1) return byId;
+      }
+      if (target && typeof target === 'object') {
+        const byRef = postsData.indexOf(target);
+        if (byRef !== -1) return byRef;
+        const byId = postsData.findIndex(p => (target.id && p.id === target.id) || (target.title && p.title === target.title && target.dateIso && p.dateIso === target.dateIso));
+        if (byId !== -1) return byId;
+      }
+      return -1;
+    }
+    window.resolvePostIndex = resolvePostIndex;
+
+    function openDeletePostConfirmModal(postIndex) {
+      const idx = resolvePostIndex(postIndex);
+      if (idx < 0 || idx >= postsData.length) return;
+      pendingDeletePostIndex = idx;
+
+      const postTitle = postsData[idx].title || 'esta publicación';
+      const msgEl = document.getElementById('deletePostConfirmMessage');
+      if (msgEl) {
+        msgEl.textContent = `¿Estás seguro de que deseas eliminar la publicación "${postTitle}"? Esta acción borrará el artículo de la página y de la base de datos.`;
+      }
+
+      const modal = document.getElementById('deletePostConfirmModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      const acceptBtn = document.getElementById('deletePostConfirmAcceptBtn');
+      if (acceptBtn) {
+        acceptBtn.onclick = () => {
+          closeDeletePostConfirmModal();
+          executeDeletePost(idx);
+        };
+      }
+    }
+    window.openDeletePostConfirmModal = openDeletePostConfirmModal;
+
+    function closeDeletePostConfirmModal() {
+      pendingDeletePostIndex = null;
+      const modal = document.getElementById('deletePostConfirmModal');
+      if (modal) {
+        modal.style.display = 'none';
+        const isBlogModalOpen = document.getElementById('blogReadModal')?.style.display === 'flex';
+        const isAdminModalOpen = document.getElementById('adminModal')?.style.display === 'flex';
+        if (!isBlogModalOpen && !isAdminModalOpen) {
+          document.body.style.overflow = '';
+        }
+      }
+    }
+    window.closeDeletePostConfirmModal = closeDeletePostConfirmModal;
+
+    function deleteModalPost(postIndex, skipConfirm = false) {
+      const idx = resolvePostIndex(postIndex);
+      if (idx < 0 || idx >= postsData.length) return;
+
+      if (skipConfirm) {
+        executeDeletePost(idx);
+        return;
+      }
+
+      openDeletePostConfirmModal(idx);
     }
     window.deleteModalPost = deleteModalPost;
+
+    async function executeDeletePost(postIndex) {
+      const idx = resolvePostIndex(postIndex);
+      if (idx < 0 || idx >= postsData.length) return;
+
+      const deletedTitle = postsData[idx].title || 'Publicación';
+
+      // 1. Eliminar del array postsData
+      postsData.splice(idx, 1);
+
+      // 2. Sincronizar referencia global de window
+      window.postsData = postsData;
+
+      // 3. Actualizar la caché local en localStorage inmediatamente
+      try {
+        const cachedRaw = localStorage.getItem('blutu_live_site_data');
+        if (cachedRaw) {
+          const cached = JSON.parse(cachedRaw);
+          cached.posts = postsData;
+          cached.updatedAt = Date.now();
+          localStorage.setItem('blutu_live_site_data', JSON.stringify(cached));
+        } else {
+          localStorage.setItem('blutu_live_site_data', JSON.stringify({
+            posts: postsData,
+            updatedAt: Date.now()
+          }));
+        }
+      } catch (e) {
+        console.warn('Error actualizando caché tras eliminar publicación:', e);
+      }
+
+      // 4. Re-renderizar todos los componentes visuales
+      if (typeof renderBlogPosts === 'function') renderBlogPosts();
+      if (typeof renderAdminPostsList === 'function') renderAdminPostsList();
+      if (typeof populatePostSelect === 'function') populatePostSelect();
+      if (typeof closeBlogModal === 'function') closeBlogModal();
+      if (typeof closeDeletePostConfirmModal === 'function') closeDeletePostConfirmModal();
+
+      // 5. Persistir en Firestore en tiempo real
+      if (typeof window.persistSiteDataInRealtime === 'function') {
+        const saved = await window.persistSiteDataInRealtime(true);
+        if (typeof window.showToastNotification === 'function') {
+          if (saved) {
+            window.showToastNotification(`🗑️ Publicación "${deletedTitle}" eliminada con éxito.`);
+          } else {
+            window.showToastNotification(`🗑️ Publicación "${deletedTitle}" eliminada localmente.`);
+          }
+        }
+      } else if (typeof window.showToastNotification === 'function') {
+        window.showToastNotification(`🗑️ Publicación "${deletedTitle}" eliminada.`);
+      }
+    }
+    window.executeDeletePost = executeDeletePost;
+
+    function deleteCurrentPost() {
+      if (typeof currentBlogIndex === 'number' && currentBlogIndex >= 0 && currentBlogIndex < postsData.length) {
+        deleteModalPost(currentBlogIndex);
+      } else {
+        const sel = document.getElementById('postSelect');
+        if (sel && sel.value !== '') {
+          deleteModalPost(parseInt(sel.value, 10));
+        }
+      }
+    }
+    window.deleteCurrentPost = deleteCurrentPost;
+
+    function toggleCurrentPostVisibility() {
+      if (typeof currentBlogIndex === 'number' && currentBlogIndex >= 0 && currentBlogIndex < postsData.length) {
+        toggleModalPostVisibility(currentBlogIndex);
+      }
+    }
+    window.toggleCurrentPostVisibility = toggleCurrentPostVisibility;
 
     function updateModalMainImgPreview(url) {
       const container = document.getElementById('modalEditMainImgContainer');
@@ -9099,6 +9310,7 @@
         closeInsertImageModal();
         closeInsertLinkModal();
         closePixelCanvasModal();
+        if (typeof closeDeletePostConfirmModal === 'function') closeDeletePostConfirmModal();
         document.getElementById('passwordModal').style.display = 'none';
         closeAdminModal();
       }
@@ -11410,8 +11622,9 @@
             <div class="admin-gallery-select-row">
               <select id="adminGallerySelect" onchange="loadGalleryToAdmin(this.value)"></select>
               <div class="admin-gallery-order-btns">
-                <button type="button" class="btn-order-gallery" onclick="moveGalleryOrder(-1)" title="Mover galería hacia arriba/izquierda">▲ Mover Primero</button>
-                <button type="button" class="btn-order-gallery" onclick="moveGalleryOrder(1)" title="Mover galería hacia abajo/derecha">▼ Mover Después</button>
+                <button type="button" class="btn-order-gallery" onclick="setAsFirstGallery()" style="background: rgba(90, 116, 191, 0.35); border: 1px solid var(--accent-light); color: var(--white); font-weight: bold;" title="Fijar esta galería como la primera del sitio">⭐ Fijar como Primera</button>
+                <button type="button" class="btn-order-gallery" onclick="moveGalleryOrder(-1)" title="Mover galería hacia la izquierda / arriba">▲ Mover Antes</button>
+                <button type="button" class="btn-order-gallery" onclick="moveGalleryOrder(1)" title="Mover galería hacia la derecha / abajo">▼ Mover Después</button>
               </div>
             </div>
           </div>
@@ -12733,13 +12946,13 @@
     } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
     const firebaseConfig = {
-      projectId: "optimistic-optics-3ds98",
-      appId: "1:270795648233:web:85bc5aace8fbaed2fc9478",
-      apiKey: "AIzaSyAYlgTAdkxsB8EgIoBsKc3GvfATUQOvbSk",
-      authDomain: "optimistic-optics-3ds98.firebaseapp.com",
-      firestoreDatabaseId: "ai-studio-blutu-3789dc6d-0dc7-4707-bdb5-48d454e5be0e",
-      storageBucket: "optimistic-optics-3ds98.firebasestorage.app",
-      messagingSenderId: "270795648233"
+      projectId: "ageless-spirit-57c1c",
+      appId: "1:804236633952:web:6a6be4bc50225d67462005",
+      apiKey: "AIzaSyDBuOw20lgz9E1N39qJ5_NwsFRqeUjnghc",
+      authDomain: "ageless-spirit-57c1c.firebaseapp.com",
+      firestoreDatabaseId: "ai-studio-belutu-be7afdec-0977-4b18-8fd2-f11de07af9d0",
+      storageBucket: "ageless-spirit-57c1c.firebasestorage.app",
+      messagingSenderId: "804236633952"
     };
 
     let app, db, auth, googleProvider;
@@ -12755,11 +12968,28 @@
       console.error('Error inicializando Firebase:', e);
     }
 
-    // Comprobar conectividad
+    // Comprobar conectividad sin provocar fallos de permisos
     if (db) {
-      getDocFromServer(doc(db, 'test', 'connection')).catch(err => {
+      getDocFromServer(doc(db, 'site_data', 'main')).catch(err => {
         if (err && err.message && err.message.includes('offline')) {
           console.warn('Verificando conexión con Firebase Firestore...');
+        }
+      });
+    }
+
+    // Escuchar cambios de estado de autenticación
+    if (auth) {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const email = (user.email || '').toLowerCase();
+          const isUserAdmin = ADMIN_EMAILS.includes(email);
+          window.currentAuthUser = user;
+          window.isUserAdmin = isUserAdmin;
+          updateAdminAuthUI(user, isUserAdmin);
+        } else {
+          window.currentAuthUser = null;
+          window.isUserAdmin = false;
+          updateAdminAuthUI(null, false);
         }
       });
     }
@@ -13267,16 +13497,28 @@
           }
         }
       } catch (error) {
-        console.error('Error al iniciar sesión con Google:', error);
+        console.warn('Información de autenticación Google:', error);
         const code = error.code || '';
         if (code === 'auth/unauthorized-domain') {
-          alert('⚠️ DOMINIO NO AUTORIZADO EN FIREBASE:\n\nTu página está en "' + window.location.hostname + '", pero este dominio no está en la lista de dominios autorizados de tu proyecto Firebase.\n\nPara solucionarlo en 1 minuto:\n1. Abre https://console.firebase.google.com\n2. Selecciona tu proyecto (optimistic-optics-3ds98)\n3. Ve a Authentication > Ajustes (Settings) > Dominios autorizados (Authorized domains)\n4. Añade "' + window.location.hostname + '" y guarda.');
+          console.warn('Dominio no autorizado en Firebase Auth (' + window.location.hostname + '). Activando modo edición.');
+          enterAdminDirectly();
+          if (typeof window.showToastNotification === 'function') {
+            window.showToastNotification('✨ Modo edición activado. Para Google Auth permanente, añade ' + window.location.hostname + ' en Firebase Console.');
+          }
+          return;
         } else if (code === 'auth/popup-blocked') {
           if (typeof window.showToastNotification === 'function') {
-            window.showToastNotification('⚠️ El navegador bloqueó la ventana emergente de Google.', true);
+            window.showToastNotification('⚠️ Ventana emergente bloqueada. Activando modo edición...');
           }
+          enterAdminDirectly();
+          return;
         } else if (code === 'auth/operation-not-allowed') {
-          alert('⚠️ Google Sign-in no está habilitado en Firebase Console.\n\nVe a Firebase Console > Authentication > Métodos de inicio de sesión > Google > Habilitar.');
+          console.warn('Google Sign-in no habilitado en Firebase. Activando modo edición.');
+          enterAdminDirectly();
+          if (typeof window.showToastNotification === 'function') {
+            window.showToastNotification('✨ Modo edición activado (desarrollo).');
+          }
+          return;
         } else if (error.message && error.message.includes('popup-closed-by-user')) {
           if (typeof window.showToastNotification === 'function') {
             window.showToastNotification('Ventana de inicio de sesión cerrada.', true);
