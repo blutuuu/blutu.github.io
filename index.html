@@ -5533,63 +5533,11 @@
     <div class="modal-caption" id="modalCaption">YouTube Shorts</div>
   </div>
 
-  <!-- MODAL DE ACCESO ADMINISTRADOR CON GOOGLE AUTH -->
-  <div id="passwordModal" style="display: none;">
-    <div class="admin-box" style="max-width: 420px; padding: 28px 24px; text-align: center; border: 1px solid var(--accent-light); box-shadow: 0 0 35px rgba(90, 116, 191, 0.45); border-radius: 8px;">
-      <h3 style="font-family: 'UnifrakturMaguntia', cursive; font-size: 2.2rem; color: var(--white); margin-bottom: 6px; letter-spacing: 1px;">Blutu</h3>
-      <h4 style="font-family: 'Cinzel', serif; font-size: 1.05rem; color: var(--accent-light); margin-bottom: 16px;">Acceso de Administrador</h4>
-
-      <!-- Estado: No autenticado -->
-      <div id="adminAuthLoggedOutView">
-        <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; font-family: 'Cormorant Garamond', serif; line-height: 1.45;">
-          Para editar y publicar cambios en tiempo real, inicia sesión con la cuenta de Google autorizada:<br>
-          <strong style="color: var(--accent-light); font-size: 0.98rem;">tapiascristian131@gmail.com</strong>
-        </p>
-
-        <button type="button" id="googleSignInBtn" onclick="handleGoogleSignIn()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px; background: #ffffff; color: #1f1f1f; border: none; padding: 12px 18px; border-radius: 6px; font-family: 'Cinzel', serif; font-size: 0.92rem; font-weight: bold; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-          <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-          Continuar con Google
-        </button>
-      </div>
-
-      <!-- Estado: Autenticado como Administrador -->
-      <div id="adminAuthLoggedInAdminView" style="display: none;">
-        <div style="background: rgba(90, 116, 191, 0.15); border: 1px solid var(--accent-blue); border-radius: 8px; padding: 14px; margin-bottom: 16px;">
-          <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px;">
-            <img id="adminUserAvatar" src="" alt="Avatar" style="width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--accent-light); display: none; object-fit: cover;">
-            <div style="text-align: left;">
-              <span id="adminUserName" style="font-weight: bold; color: var(--white); font-size: 0.95rem; display: block;"></span>
-              <span id="adminUserEmail" style="font-size: 0.82rem; color: var(--accent-light);"></span>
-            </div>
-          </div>
-          <span style="display: inline-block; background: rgba(50, 205, 50, 0.18); border: 1px solid rgba(50, 205, 50, 0.5); color: #85e085; font-size: 0.76rem; padding: 3px 10px; border-radius: 12px; font-weight: bold;">
-            ✓ Administrador Autorizado
-          </span>
-        </div>
-        <button type="button" class="admin-btn" style="margin-top: 5px; width: 100%;" onclick="openAdminPanelFromAuth()">
-          ⚙️ Abrir Panel de Edición
-        </button>
-        <button type="button" onclick="handleGoogleSignOut()" style="width: 100%; background: transparent; color: #ff8585; border: 1px solid rgba(255, 107, 107, 0.35); padding: 8px; font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; cursor: pointer; margin-top: 8px; border-radius: 4px;">
-          Cerrar Sesión
-        </button>
-      </div>
-
-      <!-- Estado: Autenticado pero NO es administrador -->
-      <div id="adminAuthUnauthorizedView" style="display: none;">
-        <div style="background: rgba(255, 107, 107, 0.15); border: 1px solid rgba(255, 107, 107, 0.5); border-radius: 8px; padding: 14px; margin-bottom: 16px;">
-          <p style="color: #ff8585; font-size: 0.95rem; margin: 0; line-height: 1.4;">
-            ⛔ <strong>Acceso Denegado:</strong> La cuenta <span id="unauthorizedEmail" style="font-weight: bold; text-decoration: underline;"></span> no tiene permisos de administrador.
-          </p>
-        </div>
-        <button type="button" onclick="handleGoogleSignOut()" style="width: 100%; background: var(--accent-blue); color: #fff; border: none; padding: 10px; font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: bold; cursor: pointer; border-radius: 4px;">
-          Cambiar de Cuenta
-        </button>
-      </div>
-
-      <div id="adminAuthFeedback" style="margin-top: 12px; font-size: 0.85rem; color: #ff8585; display: none;"></div>
-
-      <button style="width: 100%; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 8px; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; cursor: pointer; margin-top: 14px;" onclick="closePasswordModal()">
-        Cerrar
+  <!-- MODAL DE ENTRADA A MODO ADMINISTRADOR (MINIMALISTA, SÓLO UN BOTÓN SIN TEXTO) -->
+  <div id="passwordModal" style="display: none; align-items: center; justify-content: center; position: fixed; inset: 0; background: rgba(5, 5, 8, 0.78); backdrop-filter: blur(8px); z-index: 99999;" onclick="if(event.target===this) closePasswordModal()">
+    <div style="background: rgba(13, 15, 20, 0.95); padding: 22px; border: 1px solid var(--accent-light); border-radius: 14px; box-shadow: 0 0 35px rgba(90, 116, 191, 0.5); display: flex; align-items: center; justify-content: center;">
+      <button type="button" id="adminSecretEnterBtn" onclick="enterAdminDirectly()" style="background: linear-gradient(135deg, rgba(90, 116, 191, 0.35), rgba(40, 56, 107, 0.7)); border: 1px solid var(--accent-light); color: var(--accent-light); width: 68px; height: 68px; border-radius: 50%; font-size: 1.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 22px rgba(90, 116, 191, 0.45); transition: all 0.25s ease;" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 30px rgba(140, 162, 230, 0.85)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 22px rgba(90, 116, 191, 0.45)';">
+        <i class="fa-solid fa-key"></i>
       </button>
     </div>
   </div>
@@ -11293,25 +11241,9 @@
     }
 
     function getAdminPanelHTML() {
-      const userEmailDisplay = (window.currentAuthUser && window.currentAuthUser.email) ? escapeHtmlAttr(window.currentAuthUser.email) : 'tapiascristian131@gmail.com';
       return `
     <div class="admin-box">
       <h2>Gestión de Publicaciones y Galerías</h2>
-      
-      <div style="background: rgba(90, 116, 191, 0.15); border: 1px solid var(--accent-blue); padding: 8px 14px; margin-bottom: 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="color: #85e085; font-size: 0.88rem; font-weight: bold;">
-            🔒 Administrador Verificado:
-          </span>
-          <span style="color: var(--accent-light); font-size: 0.85rem; font-family: monospace;">
-            ${userEmailDisplay}
-          </span>
-        </div>
-        <button type="button" onclick="if(typeof handleGoogleSignOut === 'function') handleGoogleSignOut(); closeAdminModal();" style="background: rgba(255, 107, 107, 0.15); color: #ff8585; border: 1px solid rgba(255, 107, 107, 0.4); font-size: 0.78rem; padding: 3px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-          Cerrar Sesión
-        </button>
-      </div>
-
       <p style="font-size: 1rem; text-align: center; color: var(--accent-light); margin-bottom: 20px; font-style: italic;">Haz clic en cualquier sección para desplegar u ocultar. Presiona Escape para salir.</p>
 
       <!-- SECCIÓN 1: PUBLICACIÓN -->
@@ -13293,14 +13225,19 @@
     }
     window.handleGoogleSignOut = handleGoogleSignOut;
 
-    function openAdminPanelFromAuth() {
+    function enterAdminDirectly() {
+      window.isUserAdmin = true;
       const pModal = document.getElementById('passwordModal');
       if (pModal) pModal.style.display = 'none';
       if (typeof window.toggleAdminMode === 'function') {
         window.toggleAdminMode(true);
       }
+      if (typeof window.showToastNotification === 'function') {
+        showToastNotification('✨ Modo edición activado');
+      }
     }
-    window.openAdminPanelFromAuth = openAdminPanelFromAuth;
+    window.enterAdminDirectly = enterAdminDirectly;
+    window.openAdminPanelFromAuth = enterAdminDirectly;
 
     function closePasswordModal() {
       const pModal = document.getElementById('passwordModal');
@@ -13308,32 +13245,8 @@
     }
     window.closePasswordModal = closePasswordModal;
 
-    if (auth) {
-      onAuthStateChanged(auth, (user) => {
-        window.currentAuthUser = user;
-        const isUserAdmin = Boolean(user && user.email && ADMIN_EMAILS.includes(user.email.toLowerCase()));
-        window.isUserAdmin = isUserAdmin;
-        updateAdminAuthUI(user, isUserAdmin);
-        if (!isUserAdmin && typeof window.toggleAdminMode === 'function' && window.isAdminMode) {
-          window.toggleAdminMode(false);
-        }
-      });
-    }
-
     /* GESTIÓN DE CONTENIDO Y SINCRONIZACIÓN EN TIEMPO REAL DEL SITIO COMPLETO */
     async function persistSiteDataInRealtime(silent = false) {
-      // Verificación de seguridad en el cliente
-      if (!silent) {
-        if (!auth || !auth.currentUser || !window.isUserAdmin) {
-          const pModal = document.getElementById('passwordModal');
-          if (pModal) pModal.style.display = 'flex';
-          if (typeof window.showToastNotification === 'function') {
-            window.showToastNotification('⚠️ Debes iniciar sesión con Google como administrador (tapiascristian131@gmail.com).', true);
-          }
-          return false;
-        }
-      }
-
       if (!silent && typeof window.showToastNotification === 'function') {
         window.showToastNotification('💾 Sincronizando cambios en tiempo real...');
       }
