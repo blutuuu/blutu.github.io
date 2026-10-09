@@ -1117,6 +1117,95 @@
       box-shadow: 0 0 10px rgba(220, 50, 50, 0.45);
     }
 
+    .comment-admin-reply-btn {
+      background: rgba(90, 116, 191, 0.2);
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-light);
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 0.78rem;
+      font-family: 'Cormorant Garamond', serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .comment-admin-reply-btn:hover {
+      background: var(--accent-blue);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(90, 116, 191, 0.45);
+    }
+
+    .comment-admin-reply-btn.has-reply-btn {
+      background: rgba(90, 116, 191, 0.35);
+      border-color: #8ca2e6;
+      color: #fff;
+    }
+
+    .comment-reply-card {
+      margin-top: 12px;
+      margin-left: 14px;
+      padding: 12px 16px;
+      background: rgba(90, 116, 191, 0.08);
+      border-left: 3px solid var(--accent-light);
+      border-radius: 0 10px 10px 0;
+      position: relative;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .comment-reply-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .comment-reply-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .comment-reply-logo {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 5px rgba(90, 116, 191, 0.85));
+    }
+
+    .comment-reply-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #b5c7ff;
+      letter-spacing: 0.6px;
+    }
+
+    .comment-reply-badge {
+      font-size: 0.68rem;
+      background: rgba(90, 116, 191, 0.28);
+      color: #dbe4ff;
+      border: 1px solid rgba(90, 116, 191, 0.45);
+      padding: 1px 7px;
+      border-radius: 12px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+    }
+
+    .comment-reply-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.08rem;
+      line-height: 1.45;
+      color: #e6ebfa;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
     .comments-empty-state, .comments-loading {
       text-align: center;
       padding: 40px 20px;
@@ -5448,17 +5537,17 @@
       </div>
     </section>
 
-    <!-- SECCIÓN DE BUZÓN EN TIEMPO REAL (UBICADA ABAJO DE PENSAMIENTOS) -->
+    <!-- SECCIÓN DE MURO EN TIEMPO REAL (UBICADA ABAJO DE PENSAMIENTOS) -->
     <section class="tombstone-section is-collapsed" id="commentsSection" style="--anim-color: #8ca2e6;">
       <div class="collapsible-header" onclick="toggleSectionCollapse('commentsSection', this)" title="Haz clic para desplegar u ocultar">
-        <h2 style="margin: 0; text-align: center;">Buzón <span id="buzonSectionHiddenBadge" class="section-hidden-badge" style="display: none; font-size: 0.75rem; vertical-align: middle; margin-left: 8px; color: #ff6b6b; border: 1px solid #ff6b6b; padding: 2px 6px; border-radius: 4px; background: rgba(255,107,107,0.15);">[Oculto]</span></h2>
+        <h2 style="margin: 0; text-align: center;">Muro <span id="buzonSectionHiddenBadge" class="section-hidden-badge" style="display: none; font-size: 0.75rem; vertical-align: middle; margin-left: 8px; color: #ff6b6b; border: 1px solid #ff6b6b; padding: 2px 6px; border-radius: 4px; background: rgba(255,107,107,0.15);">[Oculto]</span></h2>
       </div>
       <div class="collapsible-body" id="commentsSectionBody">
         <div class="comments-container">
-          <!-- PANEL DE EDICIÓN INTEGRADO EN BUZÓN -->
+          <!-- PANEL DE EDICIÓN INTEGRADO EN EL MURO -->
           <div id="inlineCommentsAdmin" class="inline-admin-panel" style="display: none; margin-bottom: 15px; margin-top: 5px; padding: 10px 14px;">
             <div class="inline-admin-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0; flex-wrap: wrap; gap: 8px;">
-              <span>⚙️ Configuración del Buzón</span>
+              <span>⚙️ Configuración del Muro</span>
               <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; cursor: pointer; color: var(--accent-light);">
                 <input type="checkbox" id="inlineBuzonVisibleCheckbox" onchange="toggleBuzonVisibility(this.checked)" checked style="cursor: pointer;">
                 <span>Mostrar sección a los visitantes</span>
@@ -5469,7 +5558,7 @@
             </p>
           </div>
 
-          <!-- Formulario simplificado para publicar en el buzón -->
+          <!-- Formulario simplificado para publicar en el muro -->
           <div class="comments-form-card">
             <form id="commentSubmitForm" onsubmit="event.preventDefault(); window.submitVisitorComment &amp;&amp; window.submitVisitorComment();">
               <div class="comment-input-group">
@@ -5566,8 +5655,8 @@
     <button class="modal-arrow next" onclick="navigateModal(1)"><i class="fa-solid fa-chevron-right"></i></button>
     <div id="modalMediaContainer" style="display: flex; justify-content: center; align-items: center; max-width: 90vw; max-height: 80vh; position: relative;">
       <img class="modal-content" id="modalImg" alt="Vista Ampliada" referrerpolicy="no-referrer" style="display: none;">
-      <div id="modalVideoWrapper" style="display: none; position: relative; border-radius: 16px; overflow: hidden; border: 2px solid var(--accent-blue); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--modal-aura-color, rgba(90, 116, 191, 0.5)); background: #000; transform: translateZ(0); will-change: transform;">
-        <iframe id="modalVideoIframe" style="position: absolute; top: 0; left: 0; border: none; transform-origin: top left; display: block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="no-referrer-when-downgrade" allowfullscreen="" src=""></iframe>
+      <div id="modalVideoWrapper" style="display: none; width: min(92vw, 820px); max-height: 75vh; border-radius: 16px; overflow: hidden; border: 2px solid var(--accent-blue); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--modal-aura-color, rgba(90, 116, 191, 0.5)); background: #000; position: relative;">
+        <iframe id="modalVideoIframe" style="width: 100%; height: 100%; min-height: 240px; border: none; display: block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="no-referrer-when-downgrade" allowfullscreen="" src="about:blank"></iframe>
       </div>
     </div>
     <div class="modal-caption" id="modalCaption">YouTube Shorts</div>
@@ -5886,6 +5975,197 @@
       }
     });
 
+    /* BÓVEDA INDESTRUCTIBLE DE BLOGS (INDEXEDDB + LOCALSTORAGE RESILIENTE) */
+    const BlutuVault = {
+      dbName: 'blutu_permanent_vault_v2',
+      storeName: 'blogs_vault',
+      _dbPromise: null,
+
+      getDb() {
+        if (this._dbPromise) return this._dbPromise;
+        this._dbPromise = new Promise((resolve) => {
+          if (!window.indexedDB) {
+            resolve(null);
+            return;
+          }
+          try {
+            const req = indexedDB.open(this.dbName, 1);
+            req.onupgradeneeded = (e) => {
+              const db = e.target.result;
+              if (!db.objectStoreNames.contains(this.storeName)) {
+                db.createObjectStore(this.storeName, { keyPath: 'id' });
+              }
+            };
+            req.onsuccess = (e) => resolve(e.target.result);
+            req.onerror = () => resolve(null);
+          } catch(err) {
+            resolve(null);
+          }
+        });
+        return this._dbPromise;
+      },
+
+      async savePosts(posts) {
+        if (!Array.isArray(posts) || posts.length === 0) return;
+        try {
+          const db = await this.getDb();
+          if (!db) return;
+          const cleanPosts = (typeof deduplicatePosts === 'function') ? deduplicatePosts(posts) : posts;
+          const tx = db.transaction(this.storeName, 'readwrite');
+          const store = tx.objectStore(this.storeName);
+          store.clear();
+          cleanPosts.forEach(post => {
+            if (post) {
+              const key = String(post.id || (post.title + '_' + (post.dateIso || ''))).trim();
+              if (key) {
+                store.put({ ...post, id: key });
+              }
+            }
+          });
+        } catch (e) {
+          console.warn('BlutuVault save notice:', e);
+        }
+      },
+
+      async getAllPosts() {
+        try {
+          const db = await this.getDb();
+          if (!db) return [];
+          return new Promise((resolve) => {
+            const tx = db.transaction(this.storeName, 'readonly');
+            const store = tx.objectStore(this.storeName);
+            const req = store.getAll();
+            req.onsuccess = () => {
+              const res = req.result || [];
+              const clean = (typeof deduplicatePosts === 'function') ? deduplicatePosts(res) : res;
+              resolve(clean);
+            };
+            req.onerror = () => resolve([]);
+          });
+        } catch (e) {
+          return [];
+        }
+      }
+    };
+    window.BlutuVault = BlutuVault;
+
+    function normalizePostStr(str) {
+      if (!str) return '';
+      return String(str)
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '');
+    }
+
+    function arePostsIdentical(a, b) {
+      if (!a || !b) return false;
+      // 1. Coincidencia directa de ID
+      if (a.id && b.id && String(a.id).trim().toLowerCase() === String(b.id).trim().toLowerCase()) return true;
+      // 2. Coincidencia exacta de Título (insensible a mayúsculas/espacios)
+      if (a.title && b.title && String(a.title).trim().toLowerCase() === String(b.title).trim().toLowerCase()) return true;
+      // 3. Coincidencia por slug normalizado sin acentos ni puntuación
+      const slugA = normalizePostStr(a.title || a.id);
+      const slugB = normalizePostStr(b.title || b.id);
+      if (slugA && slugB && slugA === slugB) return true;
+      // 4. Coincidencia por combinación de título + fecha
+      const tdA = normalizePostStr((a.title || '') + (a.dateIso || ''));
+      const tdB = normalizePostStr((b.title || '') + (b.dateIso || ''));
+      if (tdA && tdB && tdA === tdB) return true;
+      return false;
+    }
+
+    function isDeletedPost(p) {
+      if (!p || p.isArchived) return true;
+      let deletedIds = [];
+      try {
+        const storedDel = localStorage.getItem('blutu_deleted_post_ids');
+        if (storedDel) deletedIds = JSON.parse(storedDel);
+      } catch(e) {}
+      if (!Array.isArray(deletedIds) || deletedIds.length === 0) return false;
+      const normTitle = normalizePostStr(p.title);
+      const normId = normalizePostStr(p.id);
+      const normTD = normalizePostStr((p.title || '') + (p.dateIso || ''));
+      return deletedIds.some(del => {
+        const normDel = normalizePostStr(del);
+        return normDel && (normDel === normTitle || normDel === normId || normDel === normTD || String(del).trim() === String(p.id).trim());
+      });
+    }
+
+    function deduplicatePosts(postsList) {
+      if (!Array.isArray(postsList)) return [];
+      const result = [];
+
+      for (const p of postsList) {
+        if (!p || p.isArchived || isDeletedPost(p)) continue;
+        const existingIndex = result.findIndex(ex => arePostsIdentical(ex, p));
+
+        if (existingIndex >= 0) {
+          const ex = result[existingIndex];
+          result[existingIndex] = {
+            ...ex,
+            ...p,
+            id: ex.id || p.id || ('post_' + Date.now()),
+            title: (ex.title && ex.title.trim()) || p.title || '',
+            date: (ex.date && ex.date.trim()) || p.date || '',
+            dateIso: (ex.dateIso && ex.dateIso.trim()) || p.dateIso || '',
+            content: (p.content && p.content.length > (ex.content || '').length) ? p.content : (ex.content || p.content || ''),
+            preview: (p.preview && p.preview.trim()) ? p.preview : (ex.preview || ''),
+            image: (p.image && p.image.trim()) ? p.image : (ex.image || ''),
+            imageCaption: (p.imageCaption && p.imageCaption.trim()) ? p.imageCaption : (ex.imageCaption || ''),
+            imageFit: p.imageFit || ex.imageFit || 'cover-center',
+            imageAura: p.imageAura || ex.imageAura || '',
+            hidden: typeof p.hidden === 'boolean' ? p.hidden : !!ex.hidden
+          };
+        } else {
+          result.push({
+            ...p,
+            id: p.id || ('post_' + Date.now())
+          });
+        }
+      }
+      return result;
+    }
+    window.deduplicatePosts = deduplicatePosts;
+
+    function reconcileAndMergePosts(incomingPosts) {
+      if (!Array.isArray(incomingPosts) || incomingPosts.length === 0) return;
+
+      const current = Array.isArray(window.postsData) && window.postsData.length > 0 
+        ? window.postsData 
+        : postsData;
+
+      const cleanCurrent = deduplicatePosts(current).filter(p => !isDeletedPost(p));
+      const cleanIncoming = deduplicatePosts(incomingPosts).filter(p => !isDeletedPost(p));
+
+      // Fusión estricta sin duplicaciones
+      const merged = deduplicatePosts([...cleanCurrent, ...cleanIncoming])
+        .sort((a, b) => new Date(b.dateIso || 0) - new Date(a.dateIso || 0));
+
+      postsData = merged;
+      window.postsData = merged;
+
+      // Actualizar bóvedas locales de forma limpia
+      try {
+        localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(merged));
+        const liveRaw = localStorage.getItem('blutu_live_site_data');
+        if (liveRaw) {
+          const parsedLive = JSON.parse(liveRaw);
+          parsedLive.posts = merged;
+          localStorage.setItem('blutu_live_site_data', JSON.stringify(parsedLive));
+        }
+        if (typeof BlutuVault !== 'undefined' && BlutuVault.savePosts) {
+          BlutuVault.savePosts(merged);
+        }
+      } catch(e) {}
+
+      // Re-renderizar componentes de blog
+      if (typeof renderBlogPosts === 'function') renderBlogPosts();
+      if (typeof renderAdminPostsList === 'function') renderAdminPostsList();
+      if (typeof populatePostSelect === 'function') populatePostSelect();
+    }
+    window.reconcileAndMergePosts = reconcileAndMergePosts;
+
     /* BASE DE DATOS DE PUBLICACIONES DE BLOG */
     let postsData = [
   {
@@ -6125,7 +6405,14 @@
       const cachedSiteData = localStorage.getItem('blutu_live_site_data');
       if (cachedSiteData) {
         const parsed = JSON.parse(cachedSiteData);
-        if (parsed.posts && Array.isArray(parsed.posts)) postsData = parsed.posts;
+        if (parsed.posts && Array.isArray(parsed.posts)) {
+          const cleanCachedPosts = deduplicatePosts(parsed.posts);
+          postsData = cleanCachedPosts;
+          parsed.posts = cleanCachedPosts;
+          try {
+            localStorage.setItem('blutu_live_site_data', JSON.stringify(parsed));
+          } catch(e) {}
+        }
         if (parsed.galleries && typeof parsed.galleries === 'object') galleriesData = parsed.galleries;
         if (parsed.galleryOrder && Array.isArray(parsed.galleryOrder)) window.galleryOrder = parsed.galleryOrder;
         if (parsed.live) {
@@ -6140,13 +6427,41 @@
           if (typeof parsed.merch.isVisible === 'boolean') isMerchSectionVisible = parsed.merch.isVisible;
           if (typeof parsed.merch.description === 'string') merchSectionDescription = parsed.merch.description;
         }
-        if (parsed.buzon) {
-          if (typeof parsed.buzon.isVisible === 'boolean') isBuzonSectionVisible = parsed.buzon.isVisible;
-          if (Array.isArray(parsed.buzon.hiddenCommentIds)) hiddenCommentIds = parsed.buzon.hiddenCommentIds;
+        const buzonOrMuro = parsed.muro || parsed.buzon;
+        if (buzonOrMuro) {
+          if (typeof buzonOrMuro.isVisible === 'boolean') isBuzonSectionVisible = buzonOrMuro.isVisible;
+          if (Array.isArray(buzonOrMuro.hiddenCommentIds)) hiddenCommentIds = buzonOrMuro.hiddenCommentIds;
+        }
+      }
+
+      // Cargar también desde la bóveda permanente de publicaciones sanitizada
+      const permVault = localStorage.getItem('blutu_permanent_posts_vault');
+      if (permVault) {
+        const parsedVault = JSON.parse(permVault);
+        if (Array.isArray(parsedVault) && parsedVault.length > 0) {
+          const cleanVault = deduplicatePosts(parsedVault);
+          try {
+            localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(cleanVault));
+          } catch(e) {}
+          reconcileAndMergePosts(cleanVault);
         }
       }
     } catch (e) {
       console.warn('Error reading blutu_live_site_data cache:', e);
+    }
+
+    // Asegurar que postsData en memoria esté 100% libre de duplicados
+    postsData = deduplicatePosts(postsData);
+    window.postsData = postsData;
+
+    // Cargar de forma resiliente desde IndexedDB BlutuVault saneado
+    if (typeof BlutuVault !== 'undefined') {
+      BlutuVault.getAllPosts().then(dbPosts => {
+        if (Array.isArray(dbPosts) && dbPosts.length > 0) {
+          const cleanDb = deduplicatePosts(dbPosts);
+          reconcileAndMergePosts(cleanDb);
+        }
+      }).catch(() => {});
     }
 
     // Exponer estado al objeto window para sincronización bidireccional en tiempo real
@@ -6274,7 +6589,8 @@
     }
 
     function getVisibleBlogPosts() {
-      return (typeof isAdminMode !== 'undefined' && isAdminMode) ? postsData : postsData.filter(post => !post.hidden);
+      const source = deduplicatePosts(Array.isArray(window.postsData) ? window.postsData : postsData);
+      return (typeof isAdminMode !== 'undefined' && isAdminMode) ? source : source.filter(post => !post.hidden);
     }
 
     function renderBlogPosts() {
@@ -7277,11 +7593,6 @@
       if (!url || typeof url !== 'string') return null;
       const trimmed = url.trim();
 
-      const originParam = (typeof window !== 'undefined' && window.location && window.location.origin)
-        ? encodeURIComponent(window.location.origin)
-        : '';
-      const originQuery = originParam ? `&origin=${originParam}` : '';
-
       const shortsMatch = trimmed.match(/(?:youtube\.com\/shorts\/|youtube\.com\/embed\/shorts\/)([a-zA-Z0-9_-]{11})/i);
       if (shortsMatch && shortsMatch[1]) {
         const videoId = shortsMatch[1];
@@ -7289,7 +7600,7 @@
           videoId: videoId,
           isShorts: true,
           thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
-          embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=1&hd=1&vq=hd1080&enablejsapi=1${originQuery}`
+          embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&controls=1&enablejsapi=1`
         };
       }
 
@@ -7301,95 +7612,12 @@
           videoId: videoId,
           isShorts: isShorts,
           thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
-          embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=1&hd=1&vq=hd1080&enablejsapi=1${originQuery}`
+          embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&controls=1&enablejsapi=1`
         };
       }
 
       return null;
     }
-
-    function enforceYouTube1080p(iframeEl) {
-      if (!iframeEl || !iframeEl.contentWindow) return;
-      const commands = [
-        { event: 'command', func: 'setPlaybackQuality', args: ['hd1080'] },
-        { event: 'command', func: 'setPlaybackQualityRange', args: ['hd1080', 'hd1080'] },
-        { event: 'command', func: 'suggestPlaybackQuality', args: ['hd1080'] }
-      ];
-      commands.forEach(cmd => {
-        try {
-          iframeEl.contentWindow.postMessage(JSON.stringify(cmd), '*');
-        } catch (e) {}
-      });
-    }
-
-    function resizeModalVideo() {
-      const videoWrapper = document.getElementById("modalVideoWrapper");
-      const videoIframe = document.getElementById("modalVideoIframe");
-      if (!videoWrapper || !videoIframe || videoWrapper.style.display === 'none') return;
-
-      const isShorts = videoWrapper.dataset.isShorts === 'true';
-
-      let targetW, targetH;
-      let nativeW, nativeH;
-
-      if (isShorts) {
-        // Vertical 9:16 nativo 1080x1920 (Shorts)
-        nativeW = 1080;
-        nativeH = 1920;
-        const maxW = Math.min(window.innerWidth * 0.88, 420);
-        const maxH = Math.min(window.innerHeight * 0.76, 740);
-
-        let w = maxW;
-        let h = w * (16 / 9);
-        if (h > maxH) {
-          h = maxH;
-          w = h * (9 / 16);
-        }
-        targetW = Math.round(w);
-        targetH = Math.round(h);
-      } else {
-        // Horizontal 16:9 nativo 1920x1080 (YouTube requiere >1633px de ancho para entregar 1080p por defecto)
-        nativeW = 1920;
-        nativeH = 1080;
-        const maxW = Math.min(window.innerWidth * 0.90, 880);
-        const maxH = Math.min(window.innerHeight * 0.76, 540);
-
-        let w = maxW;
-        let h = w * (9 / 16);
-        if (h > maxH) {
-          h = maxH;
-          w = h * (16 / 9);
-        }
-        targetW = Math.round(w);
-        targetH = Math.round(h);
-      }
-
-      videoWrapper.style.width = `${targetW}px`;
-      videoWrapper.style.height = `${targetH}px`;
-      videoWrapper.style.maxWidth = `${targetW}px`;
-      videoWrapper.style.maxHeight = `${targetH}px`;
-
-      videoIframe.style.width = `${nativeW}px`;
-      videoIframe.style.height = `${nativeH}px`;
-
-      const scale = targetW / nativeW;
-      videoIframe.style.transform = `scale(${scale})`;
-      videoIframe.style.transformOrigin = 'top left';
-    }
-
-    window.addEventListener('resize', resizeModalVideo, { passive: true });
-
-    window.addEventListener('message', (event) => {
-      try {
-        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
-        if (data && (data.event === 'onStateChange' || data.event === 'initialDelivery' || data.infoDelivery)) {
-          const videoIframe = document.getElementById('modalVideoIframe');
-          if (videoIframe && videoIframe.contentWindow) {
-            enforceYouTube1080p(videoIframe);
-          }
-        }
-      } catch (e) {}
-    });
 
     function cleanOrTransformMediaUrl(rawUrl) {
       if (!rawUrl || typeof rawUrl !== 'string') return rawUrl;
@@ -7609,29 +7837,34 @@
 
         if (modalImg) modalImg.style.display = 'none';
         if (videoWrapper) {
-          videoWrapper.dataset.isShorts = ytInfo.isShorts ? 'true' : 'false';
           videoWrapper.style.display = 'block';
-          resizeModalVideo();
+          if (ytInfo.isShorts) {
+            videoWrapper.style.width = 'min(86vw, 380px)';
+            videoWrapper.style.height = 'min(76vh, 675px)';
+            videoWrapper.style.maxWidth = '380px';
+            videoWrapper.style.aspectRatio = '9 / 16';
+          } else {
+            videoWrapper.style.width = 'min(92vw, 820px)';
+            videoWrapper.style.height = 'auto';
+            videoWrapper.style.maxWidth = '820px';
+            videoWrapper.style.aspectRatio = '16 / 9';
+          }
         }
         if (videoIframe) {
+          videoIframe.style.width = '100%';
+          videoIframe.style.height = '100%';
+          videoIframe.style.minHeight = ytInfo.isShorts ? '480px' : '240px';
+          videoIframe.style.border = 'none';
+          videoIframe.style.display = 'block';
           videoIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
           videoIframe.setAttribute('allowfullscreen', 'true');
           videoIframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
-          if (videoIframe.src !== ytInfo.embedUrl) {
-            videoIframe.src = ytInfo.embedUrl;
-          }
-          videoIframe.onload = function() {
-            resizeModalVideo();
-            enforceYouTube1080p(videoIframe);
-            setTimeout(() => enforceYouTube1080p(videoIframe), 300);
-            setTimeout(() => enforceYouTube1080p(videoIframe), 800);
-            setTimeout(() => enforceYouTube1080p(videoIframe), 1600);
-            setTimeout(() => enforceYouTube1080p(videoIframe), 3000);
-          };
-          enforceYouTube1080p(videoIframe);
+          videoIframe.src = ytInfo.embedUrl;
         }
       } else {
-        if (videoIframe) videoIframe.src = '';
+        if (videoIframe) {
+          videoIframe.src = 'about:blank';
+        }
         if (videoWrapper) videoWrapper.style.display = 'none';
         if (modalImg) {
           modalImg.style.display = 'block';
@@ -7705,7 +7938,7 @@
       popModalState('image');
       resetModalZoom();
       const videoIframe = document.getElementById("modalVideoIframe");
-      if (videoIframe) videoIframe.src = '';
+      if (videoIframe) videoIframe.src = 'about:blank';
       const videoWrapper = document.getElementById("modalVideoWrapper");
       if (videoWrapper) videoWrapper.style.display = 'none';
       document.getElementById("imageModal").style.display = "none"; 
@@ -8425,6 +8658,9 @@
       if (!list) return;
       list.innerHTML = '';
 
+      postsData = deduplicatePosts(Array.isArray(window.postsData) ? window.postsData : postsData);
+      window.postsData = postsData;
+
       if (!postsData || postsData.length === 0) {
         list.innerHTML = '<p style="color: var(--text-muted); font-size: 0.82rem; font-style: italic; margin: 4px 0;">No hay publicaciones creadas.</p>';
         return;
@@ -8499,8 +8735,9 @@
 
     function createNewBlogInModal() {
       const todayIso = new Date().toISOString().split('T')[0];
+      const uniqueId = 'post_' + Date.now();
       const newPost = {
-        id: 'Nueva Publicación ' + (postsData.length + 1),
+        id: uniqueId,
         title: 'Nueva Publicación',
         dateIso: todayIso,
         date: formatIsoToSpanishDate(todayIso),
@@ -8509,9 +8746,11 @@
         imageFit: 'cover-center',
         hidden: false,
         preview: '',
-        content: ''
+        content: '',
+        createdAt: new Date().toISOString()
       };
       postsData.unshift(newPost);
+      window.postsData = postsData;
       renderBlogPosts();
       renderAdminPostsList();
       openBlogModal(0);
@@ -8544,8 +8783,11 @@
         postsData[postIndex] = {};
       }
 
+      if (!postsData[postIndex].id) {
+        postsData[postIndex].id = 'post_' + Date.now();
+      }
+
       postsData[postIndex].title = title;
-      postsData[postIndex].id = title;
       postsData[postIndex].dateIso = dateIso;
       postsData[postIndex].date = date;
       postsData[postIndex].image = image;
@@ -8554,23 +8796,34 @@
       postsData[postIndex].imageAura = imageAura;
       postsData[postIndex].preview = preview;
       postsData[postIndex].content = content;
+      postsData[postIndex].updatedAt = new Date().toISOString();
 
       window.postsData = postsData;
+
+      // 1. Guardar de inmediato en almacenamiento permanente local y caché
       try {
+        localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(postsData));
         const cachedRaw = localStorage.getItem('blutu_live_site_data');
-        if (cachedRaw) {
-          const cached = JSON.parse(cachedRaw);
-          cached.posts = postsData;
-          cached.updatedAt = Date.now();
-          localStorage.setItem('blutu_live_site_data', JSON.stringify(cached));
-        }
+        const cached = cachedRaw ? JSON.parse(cachedRaw) : {};
+        cached.posts = postsData;
+        cached.updatedAt = Date.now();
+        localStorage.setItem('blutu_live_site_data', JSON.stringify(cached));
       } catch (e) {}
+
+      // 2. Guardar en IndexedDB indestructible
+      if (typeof BlutuVault !== 'undefined' && BlutuVault.savePosts) {
+        BlutuVault.savePosts(postsData);
+      }
 
       renderBlogPosts();
       renderAdminPostsList();
       if (typeof populatePostSelect === 'function') populatePostSelect();
       closeBlogModal();
 
+      // 3. Persistir en Firestore de forma redundante (colección individual + site_data + backups)
+      if (typeof window.persistSingleBlogPostToCloud === 'function') {
+        window.persistSingleBlogPostToCloud(postsData[postIndex]);
+      }
       if (typeof window.persistSiteDataInRealtime === 'function') {
         window.persistSiteDataInRealtime();
       }
@@ -9118,7 +9371,20 @@
       const idx = resolvePostIndex(postIndex);
       if (idx < 0 || idx >= postsData.length) return;
 
-      const deletedTitle = postsData[idx].title || 'Publicación';
+      const deletedPost = postsData[idx];
+      const deletedTitle = deletedPost.title || 'Publicación';
+      const delKey = String(deletedPost.id || (deletedPost.title + '_' + (deletedPost.dateIso || ''))).trim();
+
+      // Registrar claves en la lista de eliminados intencionales por el administrador
+      try {
+        let delList = [];
+        const rawDel = localStorage.getItem('blutu_deleted_post_ids');
+        if (rawDel) delList = JSON.parse(rawDel);
+        [delKey, deletedPost.id, deletedPost.title, (deletedPost.title + '_' + deletedPost.dateIso)].forEach(k => {
+          if (k && !delList.includes(k)) delList.push(k);
+        });
+        localStorage.setItem('blutu_deleted_post_ids', JSON.stringify(delList));
+      } catch(e) {}
 
       // 1. Eliminar del array postsData
       postsData.splice(idx, 1);
@@ -9126,8 +9392,9 @@
       // 2. Sincronizar referencia global de window
       window.postsData = postsData;
 
-      // 3. Actualizar la caché local en localStorage inmediatamente
+      // 3. Actualizar la caché local en localStorage e IndexedDB inmediatamente
       try {
+        localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(postsData));
         const cachedRaw = localStorage.getItem('blutu_live_site_data');
         if (cachedRaw) {
           const cached = JSON.parse(cachedRaw);
@@ -9151,12 +9418,15 @@
       if (typeof closeBlogModal === 'function') closeBlogModal();
       if (typeof closeDeletePostConfirmModal === 'function') closeDeletePostConfirmModal();
 
-      // 5. Persistir en Firestore en tiempo real
+      // 5. Archivar en Firestore (soft-delete seguro, nunca borrado destructivo) y sincronizar sitio
+      if (typeof window.archiveSingleBlogPostInCloud === 'function') {
+        window.archiveSingleBlogPostInCloud(deletedPost);
+      }
       if (typeof window.persistSiteDataInRealtime === 'function') {
         const saved = await window.persistSiteDataInRealtime(true);
         if (typeof window.showToastNotification === 'function') {
           if (saved) {
-            window.showToastNotification(`🗑️ Publicación "${deletedTitle}" eliminada con éxito.`);
+            window.showToastNotification(`🗑️ Publicación "${deletedTitle}" archivada con éxito.`);
           } else {
             window.showToastNotification(`🗑️ Publicación "${deletedTitle}" eliminada localmente.`);
           }
@@ -9382,6 +9652,8 @@
 
     // Funciones de compatibilidad
     function populatePostSelect() {
+      postsData = deduplicatePosts(Array.isArray(window.postsData) ? window.postsData : postsData);
+      window.postsData = postsData;
       const sel = document.getElementById('postSelect');
       if (sel) {
         sel.innerHTML = '<option value="" disabled selected>-- Seleccionar publicación para editar --</option>';
@@ -11533,7 +11805,13 @@
     window.applyCartCouponCode = applyCartCouponCode;
 
     function applyAllSectionsChangesToDOM() {
-      if (window.postsData) postsData = window.postsData;
+      if (window.postsData) {
+        postsData = deduplicatePosts(window.postsData);
+        window.postsData = postsData;
+      } else {
+        postsData = deduplicatePosts(postsData);
+        window.postsData = postsData;
+      }
       if (window.galleriesData) {
         galleriesData = window.galleriesData;
         if (typeof getOrderedGalleryKeys === 'function') {
@@ -11942,32 +12220,32 @@
         </div>
       </details>
 
-      <!-- SECCIÓN 5: GESTOR DE BUZÓN (COMENTARIOS) -->
-      <details class="admin-section" id="adminCommentsSection" name="adminAccordion">
-        <summary>Gestor de Buzón (Comentarios) ✉️</summary>
+      <!-- SECCIÓN 5: GESTOR DE MURO (COMENTARIOS) -->
+      <details class="admin-section" id="adminCommentsSection" name="adminAccordion" ontoggle="if(this.open) refreshAdminCommentsList()">
+        <summary>Gestor del Muro (Comentarios y Respuestas) ✉️</summary>
         <div class="admin-section-content">
           <p style="font-size: 0.9rem; color: var(--accent-light); margin-bottom: 12px;">
-            Administra la visibilidad general del Buzón y modera comentarios específicos para ocultarlos o mostrarlos al público.
+            Administra la visibilidad del Muro, responde directamente como Blutu con el logo oficial a cualquier mensaje de los usuarios, y modera comentarios para ocultarlos o mostrarlos al público.
           </p>
 
           <div class="admin-form-group" style="margin-bottom: 14px; padding: 10px 12px; background: rgba(5, 5, 8, 0.45); border: 1px solid var(--accent-blue); border-radius: 6px;">
             <label style="color: var(--accent-light); font-size: 0.92rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold;">
               <input type="checkbox" id="adminBuzonVisibleInput" onchange="toggleBuzonVisibility(this.checked)" style="cursor: pointer; transform: scale(1.15);">
-              <span>Mostrar sección "Buzón" a los visitantes</span>
+              <span>Mostrar sección "Muro" a los visitantes</span>
             </label>
             <p style="font-size: 0.8rem; color: var(--text-muted); margin: 4px 0 0 24px;">
-              Si desmarcas esta casilla, la sección Buzón estará completamente oculta para los visitantes regulares.
+              Si desmarcas esta casilla, la sección Muro estará completamente oculta para los visitantes regulares.
             </p>
           </div>
 
           <div style="background: rgba(13, 15, 20, 0.85); border: 1px solid var(--accent-blue); padding: 12px; border-radius: 8px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
               <span style="font-size: 0.9rem; color: var(--accent-light); font-weight: bold;">
-                💬 Moderación de Mensajes del Buzón:
+                💬 Respuestas y Moderación de Mensajes del Muro:
               </span>
               <button type="button" onclick="refreshAdminCommentsList()" class="btn-live-move" style="font-size: 0.78rem;">🔄 Actualizar Lista</button>
             </div>
-            <div id="adminCommentsListContainer" style="max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;">
+            <div id="adminCommentsListContainer" style="max-height: 480px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 4px;">
               <!-- Se renderiza dinámicamente -->
             </div>
           </div>
@@ -13054,6 +13332,8 @@
       addDoc,
       setDoc,
       deleteDoc,
+      updateDoc,
+      deleteField,
       doc,
       onSnapshot,
       query,
@@ -13169,6 +13449,8 @@
     }
 
     let latestLoadedComments = [];
+    let activeAdminReplyId = null;
+    let activeFeedReplyId = null;
 
     function renderComments(comments) {
       if (Array.isArray(comments)) {
@@ -13202,7 +13484,7 @@
         feed.innerHTML = `
           <div class="comments-empty-state">
             <span class="empty-state-icon">🕯</span>
-            <p class="empty-state-text">El buzón está en silencio. Sé la primera voz en dejar su mensaje.</p>
+            <p class="empty-state-text">El muro está en silencio. Sé la primera voz en dejar su mensaje.</p>
           </div>
         `;
         return;
@@ -13234,15 +13516,39 @@
         }
 
         const dateGroup = document.createElement('div');
-        dateGroup.style.cssText = 'display: flex; align-items: center; gap: 8px;';
+        dateGroup.style.cssText = 'display: flex; align-items: center; gap: 8px; flex-wrap: wrap;';
 
         const dateSpan = document.createElement('span');
         dateSpan.className = 'comment-date';
         dateSpan.textContent = formatCommentDate(c.createdAt);
         dateGroup.appendChild(dateSpan);
 
-        // Si está en modo edición, botones interactivos para ocultar o eliminar
+        // Si está en modo edición, botones interactivos para ocultar, responder o eliminar
         if (isCurrentAdmin) {
+          const replyBtn = document.createElement('button');
+          replyBtn.type = 'button';
+          replyBtn.className = 'comment-admin-reply-btn' + (c.reply ? ' has-reply-btn' : '');
+          replyBtn.innerHTML = c.reply ? '✏️ Rta Blutu' : '💬 Responder';
+          replyBtn.title = c.reply ? 'Editar respuesta oficial de Blutu' : 'Responder a este mensaje como Blutu';
+          replyBtn.onclick = (e) => {
+            e.stopPropagation();
+            window.openInlineFeedReply(c.id);
+          };
+          dateGroup.appendChild(replyBtn);
+
+          if (c.reply) {
+            const delReplyBtn = document.createElement('button');
+            delReplyBtn.type = 'button';
+            delReplyBtn.className = 'comment-admin-delete-btn';
+            delReplyBtn.innerHTML = '↩️ Quitar Rta';
+            delReplyBtn.title = 'Eliminar la respuesta de Blutu';
+            delReplyBtn.onclick = (e) => {
+              e.stopPropagation();
+              window.deleteReplyFromAdmin(c.id);
+            };
+            dateGroup.appendChild(delReplyBtn);
+          }
+
           const toggleBtn = document.createElement('button');
           toggleBtn.type = 'button';
           toggleBtn.className = 'comment-admin-toggle-btn' + (isHidden ? ' is-hidden-btn' : '');
@@ -13252,6 +13558,7 @@
             e.stopPropagation();
             window.toggleCommentVisibility(c.id);
           };
+          dateGroup.appendChild(toggleBtn);
 
           const delBtn = document.createElement('button');
           delBtn.type = 'button';
@@ -13262,8 +13569,6 @@
             e.stopPropagation();
             window.deleteCommentFromAdmin(c.id);
           };
-
-          dateGroup.appendChild(toggleBtn);
           dateGroup.appendChild(delBtn);
         }
 
@@ -13276,6 +13581,126 @@
 
         card.appendChild(header);
         card.appendChild(body);
+
+        // RESPUESTA OFICIAL DE BLUTU: Aparece directamente abajo del comentario con el logo al lado izquierdo del nombre
+        if (c.reply && typeof c.reply === 'string' && c.reply.trim().length > 0) {
+          const replyCard = document.createElement('div');
+          replyCard.className = 'comment-reply-card';
+
+          const replyHeader = document.createElement('div');
+          replyHeader.className = 'comment-reply-header';
+
+          const replyAuthor = document.createElement('div');
+          replyAuthor.className = 'comment-reply-author';
+
+          const replyLogo = document.createElement('img');
+          replyLogo.src = 'blutu_logo.png';
+          replyLogo.alt = 'Blutu';
+          replyLogo.className = 'comment-reply-logo';
+
+          const replyName = document.createElement('span');
+          replyName.className = 'comment-reply-name';
+          replyName.textContent = c.replyAuthor || 'Blutu';
+
+          const replyBadge = document.createElement('span');
+          replyBadge.className = 'comment-reply-badge';
+          replyBadge.textContent = 'Oficial';
+
+          replyAuthor.appendChild(replyLogo);
+          replyAuthor.appendChild(replyName);
+          replyAuthor.appendChild(replyBadge);
+
+          const replyDateSpan = document.createElement('span');
+          replyDateSpan.className = 'comment-date';
+          replyDateSpan.textContent = formatCommentDate(c.replyCreatedAt || c.replyUpdatedAt);
+
+          replyHeader.appendChild(replyAuthor);
+          replyHeader.appendChild(replyDateSpan);
+
+          const replyBody = document.createElement('div');
+          replyBody.className = 'comment-reply-body';
+          replyBody.textContent = c.reply;
+
+          replyCard.appendChild(replyHeader);
+          replyCard.appendChild(replyBody);
+
+          card.appendChild(replyCard);
+        }
+
+        // Formulario de respuesta rápida si el admin lo desplegó en el feed
+        if (isCurrentAdmin && activeFeedReplyId === c.id) {
+          const feedReplyBox = document.createElement('div');
+          feedReplyBox.style.cssText = 'margin-top: 10px; margin-left: 10px; padding: 12px; background: rgba(13, 16, 25, 0.95); border: 1px solid #5a74bf; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);';
+
+          const head = document.createElement('div');
+          head.style.cssText = 'display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;';
+
+          const titleGroup = document.createElement('div');
+          titleGroup.style.cssText = 'display: flex; align-items: center; gap: 7px;';
+
+          const logoImg = document.createElement('img');
+          logoImg.src = 'blutu_logo.png';
+          logoImg.alt = 'Blutu';
+          logoImg.style.cssText = 'width: 20px; height: 20px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(90,116,191,0.85));';
+
+          const titleSpan = document.createElement('strong');
+          titleSpan.style.cssText = 'color: #b5c7ff; font-family: Cinzel, serif; font-size: 0.92rem;';
+          titleSpan.textContent = 'Responder como Blutu';
+
+          titleGroup.appendChild(logoImg);
+          titleGroup.appendChild(titleSpan);
+
+          head.appendChild(titleGroup);
+
+          const textarea = document.createElement('textarea');
+          textarea.id = `feedReplyText_${c.id}`;
+          textarea.rows = 3;
+          textarea.maxLength = 1000;
+          textarea.placeholder = 'Escribe aquí la respuesta oficial de Blutu a este comentario...';
+          textarea.style.cssText = 'width: 100%; box-sizing: border-box; background: #050508; border: 1px solid var(--accent-blue); color: #fff; padding: 8px 10px; border-radius: 4px; font-family: Cormorant Garamond, serif; font-size: 1rem; resize: vertical; outline: none;';
+          textarea.value = c.reply || '';
+
+          const foot = document.createElement('div');
+          foot.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-top: 8px; flex-wrap: wrap; gap: 8px;';
+
+          const counter = document.createElement('span');
+          counter.id = `feedReplyCharCount_${c.id}`;
+          counter.style.cssText = 'font-size: 0.75rem; color: var(--text-muted);';
+          counter.textContent = `${(c.reply || '').length} / 1000`;
+
+          textarea.oninput = () => {
+            counter.textContent = `${textarea.value.length} / 1000`;
+          };
+
+          const btns = document.createElement('div');
+          btns.style.cssText = 'display: flex; gap: 8px;';
+
+          const cancelBtn = document.createElement('button');
+          cancelBtn.type = 'button';
+          cancelBtn.style.cssText = 'background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 5px 12px; font-size: 0.82rem; border-radius: 4px; cursor: pointer;';
+          cancelBtn.textContent = 'Cancelar';
+          cancelBtn.onclick = () => window.cancelFeedReply(c.id);
+
+          const saveBtn = document.createElement('button');
+          saveBtn.type = 'button';
+          saveBtn.id = `feedReplySaveBtn_${c.id}`;
+          saveBtn.style.cssText = 'background: #2b3a6b; border: 1px solid #5a74bf; color: #fff; padding: 5px 14px; font-size: 0.82rem; font-weight: bold; border-radius: 4px; cursor: pointer;';
+          saveBtn.textContent = '💾 Publicar Respuesta';
+          saveBtn.onclick = () => window.saveAdminReply(c.id, textarea.value);
+
+          btns.appendChild(cancelBtn);
+          btns.appendChild(saveBtn);
+
+          foot.appendChild(counter);
+          foot.appendChild(btns);
+
+          feedReplyBox.appendChild(head);
+          feedReplyBox.appendChild(textarea);
+          feedReplyBox.appendChild(foot);
+
+          card.appendChild(feedReplyBox);
+        }
+
         feed.appendChild(card);
       });
     }
@@ -13325,23 +13750,24 @@
       container.innerHTML = '';
 
       if (!latestLoadedComments || latestLoadedComments.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic; margin: 6px 0;">No se han recibido mensajes en el buzón aún.</p>';
+        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic; margin: 6px 0;">No se han recibido mensajes en el muro aún.</p>';
         return;
       }
 
       latestLoadedComments.forEach(c => {
         const isHidden = Array.isArray(hiddenCommentIds) && hiddenCommentIds.includes(c.id);
         const item = document.createElement('div');
-        item.style.cssText = 'background: rgba(5,5,8,0.7); border: 1px solid ' + (isHidden ? 'rgba(255,107,107,0.45)' : 'rgba(90,116,191,0.3)') + '; border-radius: 6px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;';
+        item.style.cssText = 'background: rgba(5,5,8,0.85); border: 1px solid ' + (isHidden ? 'rgba(255,107,107,0.45)' : (c.reply ? 'rgba(140,162,230,0.45)' : 'rgba(90,116,191,0.3)')) + '; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;';
 
-        const info = document.createElement('div');
-        info.style.cssText = 'flex: 1; min-width: 200px;';
+        // Fila superior: Datos de autor y botones de acción
+        const topRow = document.createElement('div');
+        topRow.style.cssText = 'display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;';
 
-        const head = document.createElement('div');
-        head.style.cssText = 'display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap;';
+        const infoHead = document.createElement('div');
+        infoHead.style.cssText = 'display: flex; align-items: center; gap: 8px; flex-wrap: wrap;';
 
         const name = document.createElement('strong');
-        name.style.cssText = 'color: var(--accent-light); font-size: 0.92rem; font-family: Cinzel, serif;';
+        name.style.cssText = 'color: var(--accent-light); font-size: 0.95rem; font-family: Cinzel, serif;';
         name.textContent = c.name;
 
         const date = document.createElement('span');
@@ -13354,48 +13780,354 @@
           : 'font-size: 0.72rem; color: #8ca2e6; font-weight: bold; background: rgba(90,116,191,0.15); padding: 1px 6px; border-radius: 4px; border: 1px solid rgba(90,116,191,0.3);';
         statusBadge.textContent = isHidden ? 'Oculto al público' : 'Visible';
 
-        head.appendChild(name);
-        head.appendChild(date);
-        head.appendChild(statusBadge);
+        infoHead.appendChild(name);
+        infoHead.appendChild(date);
+        infoHead.appendChild(statusBadge);
 
-        const excerpt = document.createElement('p');
-        excerpt.style.cssText = 'margin: 0; color: #cdd4e5; font-size: 0.88rem; font-family: Cormorant Garamond, serif; line-height: 1.35; word-break: break-word;';
-        excerpt.textContent = c.content;
-
-        info.appendChild(head);
-        info.appendChild(excerpt);
+        if (c.reply) {
+          const repliedBadge = document.createElement('span');
+          repliedBadge.style.cssText = 'font-size: 0.72rem; color: #a2f0c7; font-weight: bold; background: rgba(30,130,80,0.22); padding: 1px 6px; border-radius: 4px; border: 1px solid rgba(50,200,120,0.4); display: flex; align-items: center; gap: 4px;';
+          repliedBadge.innerHTML = '<span>✓</span> Respondido por Blutu';
+          infoHead.appendChild(repliedBadge);
+        }
 
         const actions = document.createElement('div');
         actions.style.cssText = 'display: flex; gap: 6px; align-items: center; flex-wrap: wrap;';
+
+        // Botón Responder / Editar Respuesta
+        const replyBtn = document.createElement('button');
+        replyBtn.type = 'button';
+        replyBtn.className = 'comment-admin-reply-btn' + (c.reply ? ' has-reply-btn' : '');
+        replyBtn.innerHTML = c.reply ? '✏️ Editar Respuesta' : '💬 Responder';
+        replyBtn.title = c.reply ? 'Editar respuesta oficial de Blutu' : 'Responder como Blutu a este mensaje';
+        replyBtn.style.cssText = 'padding: 5px 10px; font-size: 0.82rem; font-weight: bold; cursor: pointer;';
+        replyBtn.onclick = () => window.openAdminReplyForm(c.id);
+        actions.appendChild(replyBtn);
+
+        // Botón Quitar Respuesta si ya existe
+        if (c.reply) {
+          const delReplyBtn = document.createElement('button');
+          delReplyBtn.type = 'button';
+          delReplyBtn.className = 'comment-admin-delete-btn';
+          delReplyBtn.innerHTML = '↩️ Quitar Rta';
+          delReplyBtn.title = 'Eliminar la respuesta de Blutu a este comentario';
+          delReplyBtn.style.cssText = 'padding: 5px 10px; font-size: 0.82rem; font-weight: bold; cursor: pointer;';
+          delReplyBtn.onclick = () => window.deleteReplyFromAdmin(c.id);
+          actions.appendChild(delReplyBtn);
+        }
 
         const toggleBtn = document.createElement('button');
         toggleBtn.type = 'button';
         toggleBtn.className = 'comment-admin-toggle-btn' + (isHidden ? ' is-hidden-btn' : '');
         toggleBtn.innerHTML = isHidden ? '👁️ Mostrar' : '🚫 Ocultar';
         toggleBtn.title = isHidden ? 'Mostrar este comentario al público' : 'Ocultar este comentario al público';
-        toggleBtn.style.cssText = 'padding: 6px 12px; font-size: 0.85rem; font-weight: bold; cursor: pointer;';
+        toggleBtn.style.cssText = 'padding: 5px 10px; font-size: 0.82rem; font-weight: bold; cursor: pointer;';
         toggleBtn.onclick = () => window.toggleCommentVisibility(c.id);
+        actions.appendChild(toggleBtn);
 
         const delBtn = document.createElement('button');
         delBtn.type = 'button';
         delBtn.className = 'comment-admin-delete-btn';
         delBtn.innerHTML = '🗑️ Eliminar';
         delBtn.title = 'Eliminar permanentemente este comentario de la base de datos';
-        delBtn.style.cssText = 'padding: 6px 12px; font-size: 0.85rem; font-weight: bold; cursor: pointer;';
+        delBtn.style.cssText = 'padding: 5px 10px; font-size: 0.82rem; font-weight: bold; cursor: pointer;';
         delBtn.onclick = () => window.deleteCommentFromAdmin(c.id);
-
-        actions.appendChild(toggleBtn);
         actions.appendChild(delBtn);
 
-        item.appendChild(info);
-        item.appendChild(actions);
+        topRow.appendChild(infoHead);
+        topRow.appendChild(actions);
+        item.appendChild(topRow);
+
+        // Texto del comentario original
+        const excerpt = document.createElement('p');
+        excerpt.style.cssText = 'margin: 2px 0 0 0; color: #cdd4e5; font-size: 0.95rem; font-family: Cormorant Garamond, serif; line-height: 1.4; word-break: break-word;';
+        excerpt.textContent = c.content;
+        item.appendChild(excerpt);
+
+        // Si se está respondiendo/editando este comentario en el panel admin:
+        if (activeAdminReplyId === c.id) {
+          const replyBox = document.createElement('div');
+          replyBox.style.cssText = 'margin-top: 8px; padding: 12px; background: rgba(13, 16, 25, 0.95); border: 1px solid #5a74bf; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,0.5);';
+
+          const replyBoxHead = document.createElement('div');
+          replyBoxHead.style.cssText = 'display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;';
+
+          const authorBranding = document.createElement('div');
+          authorBranding.style.cssText = 'display: flex; align-items: center; gap: 7px;';
+
+          const blutuLogoImg = document.createElement('img');
+          blutuLogoImg.src = 'blutu_logo.png';
+          blutuLogoImg.alt = 'Blutu';
+          blutuLogoImg.style.cssText = 'width: 20px; height: 20px; object-fit: contain; filter: drop-shadow(0 0 5px rgba(90,116,191,0.85));';
+
+          const blutuTitle = document.createElement('strong');
+          blutuTitle.style.cssText = 'color: #b5c7ff; font-family: Cinzel, serif; font-size: 0.92rem;';
+          blutuTitle.textContent = 'Responder como Blutu';
+
+          const officialBadge = document.createElement('span');
+          officialBadge.style.cssText = 'font-size: 0.68rem; background: rgba(90,116,191,0.3); color: #dbe4ff; padding: 1px 6px; border-radius: 10px; font-weight: bold;';
+          officialBadge.textContent = 'Oficial';
+
+          authorBranding.appendChild(blutuLogoImg);
+          authorBranding.appendChild(blutuTitle);
+          authorBranding.appendChild(officialBadge);
+
+          const hint = document.createElement('span');
+          hint.style.cssText = 'font-size: 0.74rem; color: var(--text-muted); font-style: italic;';
+          hint.textContent = 'Se mostrará directamente abajo del comentario con el logo de Blutu';
+
+          replyBoxHead.appendChild(authorBranding);
+          replyBoxHead.appendChild(hint);
+
+          const textarea = document.createElement('textarea');
+          textarea.id = `adminReplyText_${c.id}`;
+          textarea.rows = 3;
+          textarea.maxLength = 1000;
+          textarea.placeholder = 'Escribe aquí la respuesta oficial de Blutu a este mensaje...';
+          textarea.style.cssText = 'width: 100%; box-sizing: border-box; background: #050508; border: 1px solid var(--accent-blue); color: #fff; padding: 8px 10px; border-radius: 4px; font-family: Cormorant Garamond, serif; font-size: 1rem; resize: vertical; outline: none;';
+          textarea.value = c.reply || '';
+
+          const replyBoxFoot = document.createElement('div');
+          replyBoxFoot.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-top: 8px; flex-wrap: wrap; gap: 8px;';
+
+          const charCounter = document.createElement('span');
+          charCounter.id = `adminReplyCharCount_${c.id}`;
+          charCounter.style.cssText = 'font-size: 0.75rem; color: var(--text-muted);';
+          charCounter.textContent = `${(c.reply || '').length} / 1000 caracteres`;
+
+          textarea.oninput = () => {
+            charCounter.textContent = `${textarea.value.length} / 1000 caracteres`;
+          };
+
+          const replyActions = document.createElement('div');
+          replyActions.style.cssText = 'display: flex; gap: 8px;';
+
+          const cancelBtn = document.createElement('button');
+          cancelBtn.type = 'button';
+          cancelBtn.style.cssText = 'background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 5px 12px; font-size: 0.82rem; border-radius: 4px; cursor: pointer;';
+          cancelBtn.textContent = 'Cancelar';
+          cancelBtn.onclick = () => window.cancelAdminReply(c.id);
+
+          const saveBtn = document.createElement('button');
+          saveBtn.type = 'button';
+          saveBtn.id = `adminReplySaveBtn_${c.id}`;
+          saveBtn.style.cssText = 'background: #2b3a6b; border: 1px solid #5a74bf; color: #fff; padding: 5px 14px; font-size: 0.82rem; font-weight: bold; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 4px;';
+          saveBtn.textContent = '💾 Publicar Respuesta';
+          saveBtn.onclick = () => window.saveAdminReply(c.id, textarea.value);
+
+          replyActions.appendChild(cancelBtn);
+          replyActions.appendChild(saveBtn);
+
+          replyBoxFoot.appendChild(charCounter);
+          replyBoxFoot.appendChild(replyActions);
+
+          replyBox.appendChild(replyBoxHead);
+          replyBox.appendChild(textarea);
+          replyBox.appendChild(replyBoxFoot);
+
+          item.appendChild(replyBox);
+        } else if (c.reply) {
+          // Previsualización de la respuesta existente de Blutu
+          const previewBox = document.createElement('div');
+          previewBox.style.cssText = 'margin-top: 8px; background: rgba(90, 116, 191, 0.12); border-left: 3px solid #8ca2e6; border-radius: 0 6px 6px 0; padding: 8px 12px;';
+
+          const pHead = document.createElement('div');
+          pHead.style.cssText = 'display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; flex-wrap: wrap;';
+
+          const pAuthor = document.createElement('div');
+          pAuthor.style.cssText = 'display: flex; align-items: center; gap: 6px;';
+
+          const pLogo = document.createElement('img');
+          pLogo.src = 'blutu_logo.png';
+          pLogo.alt = 'Blutu';
+          pLogo.style.cssText = 'width: 17px; height: 17px; object-fit: contain; filter: drop-shadow(0 0 4px rgba(90,116,191,0.8));';
+
+          const pName = document.createElement('strong');
+          pName.style.cssText = 'color: #b5c7ff; font-family: Cinzel, serif; font-size: 0.88rem;';
+          pName.textContent = c.replyAuthor || 'Blutu';
+
+          const pBadge = document.createElement('span');
+          pBadge.style.cssText = 'font-size: 0.65rem; background: rgba(90,116,191,0.3); color: #dbe4ff; padding: 1px 6px; border-radius: 10px; font-weight: bold;';
+          pBadge.textContent = 'Oficial';
+
+          pAuthor.appendChild(pLogo);
+          pAuthor.appendChild(pName);
+          pAuthor.appendChild(pBadge);
+
+          const pDate = document.createElement('span');
+          pDate.style.cssText = 'font-size: 0.74rem; color: #a4b7ee; font-style: italic;';
+          pDate.textContent = formatCommentDate(c.replyCreatedAt || c.replyUpdatedAt);
+
+          pHead.appendChild(pAuthor);
+          pHead.appendChild(pDate);
+
+          const pBody = document.createElement('p');
+          pBody.style.cssText = 'margin: 0; color: #e6ebfa; font-size: 0.92rem; font-family: Cormorant Garamond, serif; line-height: 1.35; white-space: pre-wrap; word-break: break-word;';
+          pBody.textContent = c.reply;
+
+          previewBox.appendChild(pHead);
+          previewBox.appendChild(pBody);
+          item.appendChild(previewBox);
+        }
+
         container.appendChild(item);
       });
     }
 
+    function openAdminReplyForm(commentId) {
+      activeAdminReplyId = (activeAdminReplyId === commentId) ? null : commentId;
+      refreshAdminCommentsList();
+      if (activeAdminReplyId) {
+        setTimeout(() => {
+          const textarea = document.getElementById(`adminReplyText_${commentId}`);
+          if (textarea) {
+            textarea.focus();
+            textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+          }
+        }, 50);
+      }
+    }
+
+    function cancelAdminReply(commentId) {
+      if (activeAdminReplyId === commentId) {
+        activeAdminReplyId = null;
+        refreshAdminCommentsList();
+      }
+    }
+
+    function openInlineFeedReply(commentId) {
+      activeFeedReplyId = (activeFeedReplyId === commentId) ? null : commentId;
+      renderCommentsListFromMemory();
+      if (activeFeedReplyId) {
+        setTimeout(() => {
+          const textarea = document.getElementById(`feedReplyText_${commentId}`);
+          if (textarea) {
+            textarea.focus();
+            textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+          }
+        }, 50);
+      }
+    }
+
+    function cancelFeedReply(commentId) {
+      if (activeFeedReplyId === commentId) {
+        activeFeedReplyId = null;
+        renderCommentsListFromMemory();
+      }
+    }
+
+    async function saveAdminReply(commentId, customText) {
+      if (!commentId) return;
+      const textarea = document.getElementById(`adminReplyText_${commentId}`) || document.getElementById(`feedReplyText_${commentId}`);
+      const replyContent = (typeof customText === 'string' ? customText : (textarea ? textarea.value : '')).trim();
+
+      if (!replyContent) {
+        if (typeof window.showToastNotification === 'function') {
+          window.showToastNotification('Por favor escribe una respuesta antes de publicar.', true);
+        }
+        if (textarea) textarea.focus();
+        return;
+      }
+
+      if (replyContent.length > 1000) {
+        if (typeof window.showToastNotification === 'function') {
+          window.showToastNotification('La respuesta no debe superar los 1000 caracteres.', true);
+        }
+        return;
+      }
+
+      const saveBtn = document.getElementById(`adminReplySaveBtn_${commentId}`) || document.getElementById(`feedReplySaveBtn_${commentId}`);
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Publicando...';
+      }
+
+      try {
+        if (!db) throw new Error('Firestore db no inicializado');
+        const commentRef = doc(db, 'comments', commentId);
+        const existing = Array.isArray(latestLoadedComments) ? latestLoadedComments.find(c => c.id === commentId) : null;
+        const now = serverTimestamp();
+        const replyCreatedAt = (existing && existing.replyCreatedAt) ? existing.replyCreatedAt : now;
+
+        await updateDoc(commentRef, {
+          reply: replyContent,
+          replyAuthor: 'Blutu',
+          replyCreatedAt: replyCreatedAt,
+          replyUpdatedAt: now
+        });
+
+        if (existing) {
+          existing.reply = replyContent;
+          existing.replyAuthor = 'Blutu';
+          if (!existing.replyCreatedAt) existing.replyCreatedAt = new Date();
+          existing.replyUpdatedAt = new Date();
+        }
+
+        activeAdminReplyId = null;
+        activeFeedReplyId = null;
+
+        renderCommentsListFromMemory();
+        refreshAdminCommentsList();
+
+        if (typeof window.showToastNotification === 'function') {
+          window.showToastNotification('💬 Respuesta de Blutu publicada con éxito.');
+        }
+      } catch (err) {
+        console.error('Error al guardar respuesta de Blutu en Firestore:', err);
+        if (typeof window.showToastNotification === 'function') {
+          window.showToastNotification('Error al publicar la respuesta en Firestore.', true);
+        }
+      } finally {
+        if (saveBtn) {
+          saveBtn.disabled = false;
+          saveBtn.textContent = '💾 Publicar Respuesta';
+        }
+      }
+    }
+
+    async function deleteReplyFromAdmin(commentId) {
+      if (!commentId) return;
+      const confirmed = window.confirm('¿Estás seguro de que deseas eliminar la respuesta de Blutu a este comentario?');
+      if (!confirmed) return;
+
+      try {
+        if (!db) throw new Error('Firestore db no inicializado');
+        const commentRef = doc(db, 'comments', commentId);
+        await updateDoc(commentRef, {
+          reply: deleteField(),
+          replyAuthor: deleteField(),
+          replyCreatedAt: deleteField(),
+          replyUpdatedAt: deleteField()
+        });
+
+        const existing = Array.isArray(latestLoadedComments) ? latestLoadedComments.find(c => c.id === commentId) : null;
+        if (existing) {
+          delete existing.reply;
+          delete existing.replyAuthor;
+          delete existing.replyCreatedAt;
+          delete existing.replyUpdatedAt;
+        }
+
+        if (activeAdminReplyId === commentId) activeAdminReplyId = null;
+        if (activeFeedReplyId === commentId) activeFeedReplyId = null;
+
+        renderCommentsListFromMemory();
+        refreshAdminCommentsList();
+
+        if (typeof window.showToastNotification === 'function') {
+          window.showToastNotification('🗑️ Respuesta de Blutu eliminada.');
+        }
+      } catch (err) {
+        console.error('Error al eliminar respuesta de Blutu en Firestore:', err);
+        if (typeof window.showToastNotification === 'function') {
+          window.showToastNotification('Error al eliminar la respuesta en Firestore.', true);
+        }
+      }
+    }
+
     async function deleteCommentFromAdmin(commentId) {
       if (!commentId) return;
-      const confirmed = window.confirm('¿Estás seguro de que deseas eliminar permanentemente este comentario del buzón? Esta acción no se puede deshacer.');
+      const confirmed = window.confirm('¿Estás seguro de que deseas eliminar permanentemente este comentario del muro? Esta acción no se puede deshacer.');
       if (!confirmed) return;
 
       try {
@@ -13435,6 +14167,12 @@
     window.refreshAdminCommentsList = refreshAdminCommentsList;
     window.renderCommentsListFromMemory = renderCommentsListFromMemory;
     window.deleteCommentFromAdmin = deleteCommentFromAdmin;
+    window.openAdminReplyForm = openAdminReplyForm;
+    window.cancelAdminReply = cancelAdminReply;
+    window.saveAdminReply = saveAdminReply;
+    window.deleteReplyFromAdmin = deleteReplyFromAdmin;
+    window.openInlineFeedReply = openInlineFeedReply;
+    window.cancelFeedReply = cancelFeedReply;
 
     function initCommentsRealtimeListener() {
       if (!db) {
@@ -13468,7 +14206,11 @@
                 name: data.name || 'Anónimo',
                 content: data.content || '',
                 symbol: data.symbol || '🦇',
-                createdAt: data.createdAt
+                createdAt: data.createdAt,
+                reply: data.reply || undefined,
+                replyAuthor: data.replyAuthor || 'Blutu',
+                replyCreatedAt: data.replyCreatedAt || null,
+                replyUpdatedAt: data.replyUpdatedAt || null
               });
             });
             renderComments(comments);
@@ -13751,13 +14493,75 @@
     window.closePasswordModal = closePasswordModal;
 
     /* GESTIÓN DE CONTENIDO Y SINCRONIZACIÓN EN TIEMPO REAL DEL SITIO COMPLETO */
+    async function persistSingleBlogPostToCloud(post) {
+      if (!db || !post) return false;
+      try {
+        const safeId = String(post.id || (post.title + '_' + (post.dateIso || ''))).trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9_-]/g, '_')
+          .substring(0, 50) + '_' + (post.dateIso || 'date');
+
+        const postDocRef = doc(db, 'blog_posts', safeId);
+        await setDoc(postDocRef, {
+          ...post,
+          id: safeId,
+          permanentAnchor: true,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        // Guardar respaldo adicional en blog_backups
+        try {
+          const backupRef = doc(db, 'blog_backups', 'latest_posts_backup');
+          await setDoc(backupRef, {
+            posts: Array.isArray(window.postsData) ? window.postsData : [],
+            updatedAt: serverTimestamp(),
+            lastPostSaved: safeId
+          }, { merge: true });
+        } catch(e) {}
+
+        return true;
+      } catch (err) {
+        console.warn('Error guardando publicación en blog_posts collection:', err);
+        return false;
+      }
+    }
+    window.persistSingleBlogPostToCloud = persistSingleBlogPostToCloud;
+
+    async function archiveSingleBlogPostInCloud(post) {
+      if (!db || !post) return false;
+      try {
+        const safeId = String(post.id || (post.title + '_' + (post.dateIso || ''))).trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9_-]/g, '_')
+          .substring(0, 50) + '_' + (post.dateIso || 'date');
+
+        const postDocRef = doc(db, 'blog_posts', safeId);
+        await setDoc(postDocRef, {
+          ...post,
+          id: safeId,
+          isArchived: true,
+          hidden: true,
+          archivedAt: serverTimestamp()
+        }, { merge: true });
+        return true;
+      } catch(err) {
+        console.warn('Error archivando publicación en cloud:', err);
+        return false;
+      }
+    }
+    window.archiveSingleBlogPostInCloud = archiveSingleBlogPostInCloud;
+
     async function persistSiteDataInRealtime(silent = false) {
       if (!silent && typeof window.showToastNotification === 'function') {
         window.showToastNotification('💾 Sincronizando cambios en tiempo real...');
       }
 
+      const activePosts = deduplicatePosts(Array.isArray(window.postsData) ? window.postsData : postsData);
+      window.postsData = activePosts;
+      postsData = activePosts;
+
       const payload = {
-        posts: Array.isArray(window.postsData) ? window.postsData : [],
+        posts: activePosts,
         galleries: (window.galleriesData && typeof window.galleriesData === 'object') ? window.galleriesData : {},
         galleryOrder: (typeof getOrderedGalleryKeys === 'function') ? getOrderedGalleryKeys() : ['fotos', 'julianaqudateotroda'],
         live: {
@@ -13776,6 +14580,10 @@
           isVisible: !!window.isBuzonSectionVisible,
           hiddenCommentIds: Array.isArray(window.hiddenCommentIds) ? window.hiddenCommentIds : []
         },
+        muro: {
+          isVisible: !!window.isBuzonSectionVisible,
+          hiddenCommentIds: Array.isArray(window.hiddenCommentIds) ? window.hiddenCommentIds : []
+        },
         updatedAt: serverTimestamp()
       };
 
@@ -13784,6 +14592,10 @@
           ...payload,
           updatedAt: Date.now()
         }));
+        localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(activePosts));
+        if (typeof BlutuVault !== 'undefined' && BlutuVault.savePosts) {
+          BlutuVault.savePosts(activePosts);
+        }
       } catch (e) {
         console.warn('Error guardando caché local de datos:', e);
       }
@@ -13796,9 +14608,18 @@
       }
 
       try {
+        // Guardar documento principal de sitio
         await setDoc(doc(db, 'site_data', 'main'), payload);
+
+        // Respaldar de forma concurrente cada post en la colección permanente blog_posts
+        activePosts.forEach(p => {
+          if (p && !p.isArchived) {
+            persistSingleBlogPostToCloud(p);
+          }
+        });
+
         if (!silent && typeof window.showToastNotification === 'function') {
-          window.showToastNotification('✨ ¡Todos los cambios han sido aplicados y guardados en tiempo real!');
+          window.showToastNotification('✨ ¡Todos los cambios han sido aplicados y guardados permanentemente!');
         }
         return true;
       } catch (err) {
@@ -13815,87 +14636,93 @@
     }
     window.persistSiteDataInRealtime = persistSiteDataInRealtime;
 
+    let lastKnownSiteDataFingerprint = '';
+
     function initSiteDataRealtimeListener() {
       if (!db) return;
       try {
         const siteDocRef = doc(db, 'site_data', 'main');
         onSnapshot(siteDocRef, (snap) => {
-          if (snap.exists()) {
-            const data = snap.data();
-            let changed = false;
+          if (!snap.exists()) return;
 
-            if (data.posts && Array.isArray(data.posts)) {
-              window.postsData = data.posts;
-              changed = true;
-            }
-            if (data.galleries && typeof data.galleries === 'object') {
-              window.galleriesData = data.galleries;
-              changed = true;
-            }
-            if (data.galleryOrder && Array.isArray(data.galleryOrder)) {
-              window.galleryOrder = data.galleryOrder;
-              changed = true;
-            }
-            if (data.live) {
-              if (Array.isArray(data.live.buttons)) window.liveButtonsData = data.live.buttons;
-              if (typeof data.live.isVisible === 'boolean') window.isLiveSectionVisible = data.live.isVisible;
-              if (typeof data.live.description === 'string') window.liveSectionDescription = data.live.description;
-              changed = true;
-            }
-            if (data.merch) {
-              if (Array.isArray(data.merch.items)) window.merchItemsData = data.merch.items;
-              if (Array.isArray(data.merch.categories)) window.merchCategories = data.merch.categories;
-              if (data.merch.cartConfig && typeof data.merch.cartConfig === 'object') {
-                window.cartConfig = { ...window.cartConfig, ...data.merch.cartConfig };
-              }
-              if (typeof data.merch.isVisible === 'boolean') window.isMerchSectionVisible = data.merch.isVisible;
-              if (typeof data.merch.description === 'string') window.merchSectionDescription = data.merch.description;
-              changed = true;
-            }
-            if (data.buzon) {
-              if (typeof data.buzon.isVisible === 'boolean') window.isBuzonSectionVisible = data.buzon.isVisible;
-              if (Array.isArray(data.buzon.hiddenCommentIds)) window.hiddenCommentIds = data.buzon.hiddenCommentIds;
-              changed = true;
-            }
+          const data = snap.data();
+          const fingerprint = JSON.stringify({
+            pLen: Array.isArray(data.posts) ? data.posts.length : 0,
+            gKeys: data.galleries ? Object.keys(data.galleries) : [],
+            liveVis: data.live?.isVisible,
+            merchVis: data.merch?.isVisible,
+            buzonVis: data.buzon?.isVisible
+          });
 
-            if (changed) {
-              try {
-                localStorage.setItem('blutu_live_site_data', JSON.stringify({
-                  posts: window.postsData,
-                  galleries: window.galleriesData,
-                  galleryOrder: window.galleryOrder,
-                  live: {
-                    buttons: window.liveButtonsData,
-                    isVisible: window.isLiveSectionVisible,
-                    description: window.liveSectionDescription
-                  },
-                  merch: {
-                    items: window.merchItemsData,
-                    categories: window.merchCategories,
-                    cartConfig: window.cartConfig,
-                    isVisible: window.isMerchSectionVisible,
-                    description: window.merchSectionDescription
-                  },
-                  buzon: {
-                    isVisible: window.isBuzonSectionVisible,
-                    hiddenCommentIds: window.hiddenCommentIds
-                  },
-                  updatedAt: Date.now()
-                }));
-              } catch (e) {}
+          if (fingerprint === lastKnownSiteDataFingerprint) {
+            return;
+          }
+          lastKnownSiteDataFingerprint = fingerprint;
 
-              // Re-renderizar el DOM en tiempo real si el usuario no está escribiendo activamente
-              const activeEl = document.activeElement;
-              const isTyping = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
-              if (!isTyping) {
-                if (typeof window.applyAllSectionsChangesToDOM === 'function') {
-                  window.applyAllSectionsChangesToDOM();
-                }
-              }
+          if (data.posts && Array.isArray(data.posts)) {
+            const cleanIncoming = deduplicatePosts(data.posts);
+            if (typeof window.reconcileAndMergePosts === 'function') {
+              window.reconcileAndMergePosts(cleanIncoming);
+            } else {
+              window.postsData = cleanIncoming;
+              postsData = cleanIncoming;
             }
-          } else {
-            // Primer arranque: si aún no existe documento en la base de datos, guardar el contenido inicial silenciosamente
-            persistSiteDataInRealtime(true);
+          }
+          if (data.galleries && typeof data.galleries === 'object') {
+            window.galleriesData = data.galleries;
+          }
+          if (data.galleryOrder && Array.isArray(data.galleryOrder)) {
+            window.galleryOrder = data.galleryOrder;
+          }
+          if (data.live) {
+            if (Array.isArray(data.live.buttons)) window.liveButtonsData = data.live.buttons;
+            if (typeof data.live.isVisible === 'boolean') window.isLiveSectionVisible = data.live.isVisible;
+            if (typeof data.live.description === 'string') window.liveSectionDescription = data.live.description;
+          }
+          if (data.merch) {
+            if (Array.isArray(data.merch.items)) window.merchItemsData = data.merch.items;
+            if (Array.isArray(data.merch.categories)) window.merchCategories = data.merch.categories;
+            if (data.merch.cartConfig && typeof data.merch.cartConfig === 'object') {
+              window.cartConfig = { ...window.cartConfig, ...data.merch.cartConfig };
+            }
+            if (typeof data.merch.isVisible === 'boolean') window.isMerchSectionVisible = data.merch.isVisible;
+            if (typeof data.merch.description === 'string') window.merchSectionDescription = data.merch.description;
+          }
+          const buzonOrMuro = data.muro || data.buzon;
+          if (buzonOrMuro) {
+            if (typeof buzonOrMuro.isVisible === 'boolean') window.isBuzonSectionVisible = buzonOrMuro.isVisible;
+            if (Array.isArray(buzonOrMuro.hiddenCommentIds)) window.hiddenCommentIds = buzonOrMuro.hiddenCommentIds;
+          }
+
+          try {
+            localStorage.setItem('blutu_live_site_data', JSON.stringify({
+              posts: window.postsData,
+              galleries: window.galleriesData,
+              galleryOrder: window.galleryOrder,
+              live: {
+                buttons: window.liveButtonsData,
+                isVisible: window.isLiveSectionVisible,
+                description: window.liveSectionDescription
+              },
+              merch: {
+                items: window.merchItemsData,
+                categories: window.merchCategories,
+                cartConfig: window.cartConfig,
+                isVisible: window.isMerchSectionVisible,
+                description: window.merchSectionDescription
+              },
+              buzon: {
+                isVisible: window.isBuzonSectionVisible,
+                hiddenCommentIds: window.hiddenCommentIds
+              },
+              updatedAt: Date.now()
+            }));
+          } catch (e) {}
+
+          const activeEl = document.activeElement;
+          const isTyping = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
+          if (!isTyping && typeof window.applyAllSectionsChangesToDOM === 'function') {
+            window.applyAllSectionsChangesToDOM();
           }
         }, (err) => {
           console.warn('Realtime sync listener notice:', err);
