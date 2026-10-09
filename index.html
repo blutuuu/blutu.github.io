@@ -6083,12 +6083,10 @@
         if (storedDel) deletedIds = JSON.parse(storedDel);
       } catch(e) {}
       if (!Array.isArray(deletedIds) || deletedIds.length === 0) return false;
-      const normTitle = normalizePostStr(p.title);
-      const normId = normalizePostStr(p.id);
-      const normTD = normalizePostStr((p.title || '') + (p.dateIso || ''));
+      const pid = String(p.id || '').trim().toLowerCase();
       return deletedIds.some(del => {
-        const normDel = normalizePostStr(del);
-        return normDel && (normDel === normTitle || normDel === normId || normDel === normTD || String(del).trim() === String(p.id).trim());
+        const d = String(del || '').trim().toLowerCase();
+        return d && d === pid;
       });
     }
 
@@ -6102,20 +6100,26 @@
 
         if (existingIndex >= 0) {
           const ex = result[existingIndex];
+          const exTime = ex.updatedAt ? new Date(ex.updatedAt).getTime() : 0;
+          const pTime = p.updatedAt ? new Date(p.updatedAt).getTime() : 0;
+          const preferP = pTime >= exTime;
+          const newer = preferP ? p : ex;
+          const older = preferP ? ex : p;
+
           result[existingIndex] = {
-            ...ex,
-            ...p,
-            id: ex.id || p.id || ('post_' + Date.now()),
-            title: (ex.title && ex.title.trim()) || p.title || '',
-            date: (ex.date && ex.date.trim()) || p.date || '',
-            dateIso: (ex.dateIso && ex.dateIso.trim()) || p.dateIso || '',
-            content: (p.content && p.content.length > (ex.content || '').length) ? p.content : (ex.content || p.content || ''),
-            preview: (p.preview && p.preview.trim()) ? p.preview : (ex.preview || ''),
-            image: (p.image && p.image.trim()) ? p.image : (ex.image || ''),
-            imageCaption: (p.imageCaption && p.imageCaption.trim()) ? p.imageCaption : (ex.imageCaption || ''),
-            imageFit: p.imageFit || ex.imageFit || 'cover-center',
-            imageAura: p.imageAura || ex.imageAura || '',
-            hidden: typeof p.hidden === 'boolean' ? p.hidden : !!ex.hidden
+            ...older,
+            ...newer,
+            id: newer.id || older.id || ('post_' + Date.now()),
+            title: (newer.title && newer.title.trim()) || older.title || '',
+            date: (newer.date && newer.date.trim()) || older.date || '',
+            dateIso: (newer.dateIso && newer.dateIso.trim()) || older.dateIso || '',
+            content: (typeof newer.content === 'string' && newer.content.trim()) ? newer.content : (older.content || ''),
+            preview: (typeof newer.preview === 'string' && newer.preview.trim()) ? newer.preview : (older.preview || ''),
+            image: (typeof newer.image === 'string') ? newer.image : (older.image || ''),
+            imageCaption: (typeof newer.imageCaption === 'string') ? newer.imageCaption : (older.imageCaption || ''),
+            imageFit: newer.imageFit || older.imageFit || 'cover-center',
+            imageAura: newer.imageAura || older.imageAura || '',
+            hidden: typeof newer.hidden === 'boolean' ? newer.hidden : (typeof older.hidden === 'boolean' ? older.hidden : false)
           };
         } else {
           result.push({
@@ -6138,8 +6142,8 @@
       const cleanCurrent = deduplicatePosts(current).filter(p => !isDeletedPost(p));
       const cleanIncoming = deduplicatePosts(incomingPosts).filter(p => !isDeletedPost(p));
 
-      // Fusión estricta sin duplicaciones
-      const merged = deduplicatePosts([...cleanCurrent, ...cleanIncoming])
+      // Fusión priorizando la versión entrante (bóveda o cloud)
+      const merged = deduplicatePosts([...cleanIncoming, ...cleanCurrent])
         .sort((a, b) => new Date(b.dateIso || 0) - new Date(a.dateIso || 0));
 
       postsData = merged;
@@ -8800,6 +8804,16 @@
 
       window.postsData = postsData;
 
+      // Asegurar que esta publicación no esté en la lista de eliminados
+      try {
+        let delList = JSON.parse(localStorage.getItem('blutu_deleted_post_ids') || '[]');
+        if (Array.isArray(delList) && delList.length > 0) {
+          const curId = String(postsData[postIndex].id || '').trim().toLowerCase();
+          delList = delList.filter(d => String(d || '').trim().toLowerCase() !== curId);
+          localStorage.setItem('blutu_deleted_post_ids', JSON.stringify(delList));
+        }
+      } catch (e) {}
+
       // 1. Guardar de inmediato en almacenamiento permanente local y caché
       try {
         localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(postsData));
@@ -9380,7 +9394,7 @@
         let delList = [];
         const rawDel = localStorage.getItem('blutu_deleted_post_ids');
         if (rawDel) delList = JSON.parse(rawDel);
-        [delKey, deletedPost.id, deletedPost.title, (deletedPost.title + '_' + deletedPost.dateIso)].forEach(k => {
+        [delKey, deletedPost.id].forEach(k => {
           if (k && !delList.includes(k)) delList.push(k);
         });
         localStorage.setItem('blutu_deleted_post_ids', JSON.stringify(delList));
@@ -14556,7 +14570,10 @@
         window.showToastNotification('💾 Sincronizando cambios en tiempo real...');
       }
 
-      const activePosts = deduplicatePosts(Array.isArray(window.postsData) ? window.postsData : postsData);
+      let activePosts = deduplicatePosts(Array.isArray(window.postsData) ? window.postsData : postsData);
+      if (activePosts.length === 0 && Array.isArray(postsData) && postsData.length > 0) {
+        activePosts = deduplicatePosts(postsData);
+      }
       window.postsData = activePosts;
       postsData = activePosts;
 
@@ -14646,12 +14663,19 @@
           if (!snap.exists()) return;
 
           const data = snap.data();
+          const pFingerprint = Array.isArray(data.posts) 
+            ? data.posts.map(p => `${p.id || ''}:${p.title || ''}:${p.dateIso || ''}:${p.updatedAt || ''}:${(p.content || '').length}`).join('|')
+            : '';
           const fingerprint = JSON.stringify({
+            pFingerprint,
             pLen: Array.isArray(data.posts) ? data.posts.length : 0,
             gKeys: data.galleries ? Object.keys(data.galleries) : [],
             liveVis: data.live?.isVisible,
+            liveButtonsLen: data.live?.buttons?.length || 0,
             merchVis: data.merch?.isVisible,
-            buzonVis: data.buzon?.isVisible
+            merchItemsLen: data.merch?.items?.length || 0,
+            buzonVis: data.buzon?.isVisible || data.muro?.isVisible,
+            updatedAt: data.updatedAt?.seconds || data.updatedAt?.nanoseconds || data.updatedAt || ''
           });
 
           if (fingerprint === lastKnownSiteDataFingerprint) {
@@ -14659,14 +14683,22 @@
           }
           lastKnownSiteDataFingerprint = fingerprint;
 
-          if (data.posts && Array.isArray(data.posts)) {
+          if (data.posts && Array.isArray(data.posts) && data.posts.length > 0) {
             const cleanIncoming = deduplicatePosts(data.posts);
-            if (typeof window.reconcileAndMergePosts === 'function') {
-              window.reconcileAndMergePosts(cleanIncoming);
-            } else {
-              window.postsData = cleanIncoming;
-              postsData = cleanIncoming;
-            }
+            window.postsData = cleanIncoming;
+            postsData = cleanIncoming;
+            try {
+              localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(cleanIncoming));
+              const liveRaw = localStorage.getItem('blutu_live_site_data');
+              if (liveRaw) {
+                const parsedLive = JSON.parse(liveRaw);
+                parsedLive.posts = cleanIncoming;
+                localStorage.setItem('blutu_live_site_data', JSON.stringify(parsedLive));
+              }
+              if (typeof BlutuVault !== 'undefined' && BlutuVault.savePosts) {
+                BlutuVault.savePosts(cleanIncoming);
+              }
+            } catch (e) {}
           }
           if (data.galleries && typeof data.galleries === 'object') {
             window.galleriesData = data.galleries;
