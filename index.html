@@ -20,7 +20,7 @@
   
   <!-- ÍCONO EN LA PESTAÑA DEL NAVEGADOR (FAVICON) -->
   <link rel="icon" type="image/png" href="blutu_logo.png">
-  <link rel="shortcut icon" type="image/x-icon" href="blutu_logo.png">
+  <link rel="shortcut icon" type="image/png" href="blutu_logo.png">
   
   <!-- Tipografías y dominios externos -->
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -40,7 +40,7 @@
   <style>
     :root {
       --bg-color: #050508;
-      --panel-bg: rgba(9, 11, 16, 0.45);
+      --panel-bg: rgba(9, 11, 16, 0.72);
       --accent-blue: #5A74BF;
       --accent-light: #8ca2e6;
       --white: #ffffff;
@@ -90,19 +90,10 @@
       letter-spacing: 2px;
     }
 
-    @keyframes logoGlow {
-      0% { filter: drop-shadow(0 0 3px rgba(90, 116, 191, 0.3)); }
-      20% { filter: drop-shadow(0 0 14px rgba(140, 162, 230, 0.9)) drop-shadow(0 0 24px rgba(90, 116, 191, 0.7)); }
-      40% { filter: drop-shadow(0 0 4px rgba(90, 116, 191, 0.35)); }
-      65% { filter: drop-shadow(0 0 18px rgba(140, 162, 230, 1)) drop-shadow(0 0 30px rgba(90, 116, 191, 0.85)); }
-      85% { filter: drop-shadow(0 0 6px rgba(90, 116, 191, 0.4)); }
-      100% { filter: drop-shadow(0 0 3px rgba(90, 116, 191, 0.3)); }
-    }
-
     @keyframes logoPlaying {
-      0% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(140, 162, 230, 0.8)) drop-shadow(0 0 25px rgba(90, 116, 191, 0.8)); }
-      50% { transform: scale(1.08); filter: drop-shadow(0 0 28px rgba(140, 162, 230, 1)) drop-shadow(0 0 40px rgba(90, 116, 191, 0.95)); }
-      100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(140, 162, 230, 0.8)) drop-shadow(0 0 25px rgba(90, 116, 191, 0.8)); }
+      0% { transform: scale(1); opacity: 0.92; }
+      50% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.92; }
     }
 
     .header-logo {
@@ -112,18 +103,20 @@
       margin: 15px auto 10px auto;
       object-fit: contain;
       cursor: pointer;
-      animation: logoGlow 3.5s infinite ease-in-out;
-      transition: transform 0.3s ease, filter 0.3s ease;
+      filter: drop-shadow(0 0 12px rgba(140, 162, 230, 0.75)) drop-shadow(0 0 22px rgba(90, 116, 191, 0.55));
+      transition: transform 0.3s ease, opacity 0.3s ease;
       user-select: none;
     }
 
     .header-logo:hover {
       transform: scale(1.1);
-      filter: drop-shadow(0 0 16px rgba(140, 162, 230, 0.95)) drop-shadow(0 0 28px rgba(90, 116, 191, 0.75));
     }
 
     .header-logo:active { transform: scale(0.95); }
-    .header-logo.playing { animation: logoPlaying 0.8s infinite ease-in-out; }
+    .header-logo.playing {
+      animation: logoPlaying 0.9s infinite ease-in-out;
+      will-change: transform, opacity;
+    }
 
     header p {
       font-size: 1.75rem;
@@ -239,30 +232,14 @@
       }
     }
 
-    @keyframes sectionSoftAura {
-      0% {
-        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.65), 0 0 18px rgba(140, 162, 230, 0.4), 0 0 38px rgba(90, 116, 191, 0.25);
-      }
-      50% {
-        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.65), 0 0 28px rgba(140, 162, 230, 0.65), 0 0 55px rgba(90, 116, 191, 0.45);
-      }
-      100% {
-        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.65), 0 0 18px rgba(140, 162, 230, 0.4), 0 0 38px rgba(90, 116, 191, 0.25);
-      }
-    }
-
     .gothic-panel {
       background-color: var(--panel-bg);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
       border: 1px solid var(--accent-blue);
       border-radius: 120px 120px 0 0;
       padding: 40px 20px 25px 20px;
-      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3), 0 0 22px rgba(140, 162, 230, 0.65), 0 0 45px rgba(90, 116, 191, 0.45);
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.45), 0 0 22px rgba(140, 162, 230, 0.52), 0 0 42px rgba(90, 116, 191, 0.32);
       position: relative;
-      transition: border-color 0.5s ease, box-shadow 0.5s ease;
-      animation: sectionSoftAura 3.5s infinite ease-in-out;
-      will-change: box-shadow;
+      transition: border-color 0.4s ease;
     }
 
     .gothic-panel::before {
@@ -280,16 +257,12 @@
     .master-tombstone {
       width: 100%;
       background-color: var(--panel-bg) !important;
-      backdrop-filter: blur(2px) !important;
-      -webkit-backdrop-filter: blur(2px) !important;
       border: 1px solid var(--accent-blue);
       border-radius: 130px 130px 24px 24px;
       padding: 55px 28px 35px 28px;
-      box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.35), 0 0 24px rgba(140, 162, 230, 0.65), 0 0 50px rgba(90, 116, 191, 0.4);
+      box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.5), 0 0 24px rgba(140, 162, 230, 0.52), 0 0 46px rgba(90, 116, 191, 0.32);
       position: relative;
-      transition: border-color 0.5s ease, box-shadow 0.5s ease;
-      animation: sectionSoftAura 3.5s infinite ease-in-out;
-      will-change: box-shadow;
+      transition: border-color 0.4s ease;
       box-sizing: border-box;
       margin: 0 auto;
     }
@@ -348,6 +321,50 @@
       padding-bottom: 12px !important;
     }
 
+    .tombstone-section.more-hidden-section {
+      display: none !important;
+    }
+
+    .tombstone-section.is-last-visible-section {
+      border-bottom: none !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 8px !important;
+    }
+
+    .tombstone-section.more-trigger-section .collapsible-header {
+      cursor: pointer;
+    }
+
+    .tombstone-section.more-section-vanishing {
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(-4px) scale(0.985);
+      transition: opacity 0.22s ease, transform 0.22s ease !important;
+    }
+
+    @keyframes moreSectionSequentialReveal {
+      0% {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        transform: translateY(-8px);
+        filter: drop-shadow(0 0 10px rgba(140, 162, 230, 0.45));
+      }
+      100% {
+        opacity: 1;
+        max-height: 90px;
+        transform: translateY(0);
+        filter: none;
+      }
+    }
+
+    .tombstone-section.more-sequential-reveal {
+      overflow: hidden;
+      animation: moreSectionSequentialReveal 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
     .tombstone-section.is-collapsed .collapsible-header h2 {
       border-bottom: 1px solid transparent !important;
       padding-bottom: 0 !important;
@@ -367,6 +384,24 @@
       padding-bottom: 0 !important;
       pointer-events: none !important;
       visibility: hidden;
+      content-visibility: hidden;
+    }
+
+    .is-collapsed .collapsible-body *,
+    .is-collapsed .collapsible-body *::before,
+    .is-collapsed .collapsible-body *::after,
+    body.page-is-hidden *,
+    body.page-is-hidden *::before,
+    body.page-is-hidden *::after {
+      animation-play-state: paused !important;
+    }
+
+    @media (max-width: 768px) {
+      .comments-form-card,
+      .floating-cart-btn {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
     }
 
     .tombstone-section.music-btn-animating {
@@ -552,26 +587,27 @@
     .letterboxd-btn-single i { font-size: 1.1rem; margin-right: 8px; color: #00e054; }
     .letterboxd-btn-single:hover { filter: brightness(1.25); transform: scale(1.02); box-shadow: 0 0 14px rgba(0, 224, 84, 0.6); }
 
-    /* OVERLAY ANIMACIÓN "LEER" CON LOGO PARPADEANTE */
+    /* OVERLAY ANIMACIÓN "LEER" CON LOGO PARPADEANTE (INACTIVO EN REPOSO PARA CERO CONSUMO GPU) */
     .read-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(3, 3, 6, 0.95);
-      backdrop-filter: blur(10px);
+      background-color: rgba(3, 3, 6, 0.96);
       z-index: 99999999;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
-      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s ease;
     }
 
     .read-overlay.active {
       opacity: 1;
+      visibility: visible;
       pointer-events: auto;
     }
 
@@ -580,7 +616,7 @@
       align-items: center;
       justify-content: center;
       transform: scale(0.85);
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .read-overlay.active .read-overlay-content {
@@ -592,16 +628,21 @@
       height: auto;
       object-fit: contain;
       user-select: none;
+      filter: drop-shadow(0 0 22px rgba(140, 162, 230, 0.9)) drop-shadow(0 0 42px rgba(0, 162, 255, 0.65));
+      animation: none;
+    }
+
+    .read-overlay.active .read-overlay-logo {
       animation: logoCenterGlowPulse 0.35s infinite alternate ease-in-out;
     }
 
     @keyframes logoCenterGlowPulse {
       0% {
-        filter: drop-shadow(0 0 12px rgba(140, 162, 230, 0.7)) drop-shadow(0 0 25px rgba(90, 116, 191, 0.6));
-        transform: scale(0.98);
+        opacity: 0.78;
+        transform: scale(0.96);
       }
       100% {
-        filter: drop-shadow(0 0 35px rgba(140, 162, 230, 1)) drop-shadow(0 0 65px rgba(90, 116, 191, 0.95)) drop-shadow(0 0 95px #00a2ff);
+        opacity: 1;
         transform: scale(1.08);
       }
     }
@@ -1824,27 +1865,14 @@
       animation: modalFadeIn 0.2s ease;
     }
 
-    @keyframes gallerySoftAura {
-      0% {
-        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 18px var(--active-gallery-color, rgba(140, 162, 230, 0.4)), 0 0 38px var(--active-gallery-color, rgba(90, 116, 191, 0.25));
-      }
-      50% {
-        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 28px var(--active-gallery-color, rgba(140, 162, 230, 0.65)), 0 0 55px var(--active-gallery-color, rgba(90, 116, 191, 0.45));
-      }
-      100% {
-        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 18px var(--active-gallery-color, rgba(140, 162, 230, 0.4)), 0 0 38px var(--active-gallery-color, rgba(90, 116, 191, 0.25));
-      }
-    }
-
     /* ESTILOS DE GALERÍAS Y PESTAÑAS DINÁMICAS POR COLOR */
     .gallery-panel {
       grid-column: 1 / -1;
       margin-top: 10px;
       border-color: var(--active-gallery-color, var(--accent-blue));
-      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 22px var(--active-gallery-color, rgba(140, 162, 230, 0.65)), 0 0 45px var(--active-gallery-color, rgba(90, 116, 191, 0.45));
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 22px var(--active-gallery-color, rgba(140, 162, 230, 0.55)), 0 0 42px var(--active-gallery-color, rgba(90, 116, 191, 0.35));
       position: relative;
-      transition: border-color 0.5s ease, box-shadow 0.5s ease;
-      animation: gallerySoftAura 3.5s infinite ease-in-out;
+      transition: border-color 0.4s ease;
     }
 
     .gallery-tabs {
@@ -1950,13 +1978,18 @@
       box-shadow: none;
       background: transparent;
       padding: 6px 0;
-      transition: transform 0.5s ease, filter 0.5s ease; 
-      filter: drop-shadow(0 0 14px var(--item-aura-color, var(--active-gallery-color, rgba(90, 116, 191, 0.65))));
+      transition: transform 0.4s ease; 
+      filter: drop-shadow(0 0 10px var(--item-aura-color, var(--active-gallery-color, rgba(90, 116, 191, 0.6))));
+    }
+
+    @media (max-width: 768px) {
+      .gallery-item img {
+        filter: drop-shadow(0 0 6px var(--item-aura-color, var(--active-gallery-color, rgba(90, 116, 191, 0.55))));
+      }
     }
     
     .gallery-item:hover img { 
       transform: scale(1.05); 
-      filter: drop-shadow(0 0 22px var(--item-aura-color, var(--active-gallery-color, rgba(90, 116, 191, 0.95))));
     }
 
     .gallery-item:hover img.cropped-yt-thumb {
@@ -3518,13 +3551,14 @@
       font-size: 0.75rem;
       font-family: sans-serif;
       font-weight: bold;
-      animation: liveBadgePulse 1.5s infinite ease-in-out;
+      text-shadow: 0 0 6px rgba(255, 51, 51, 0.6);
+      animation: liveBadgePulse 1.8s infinite ease-in-out;
     }
 
     @keyframes liveBadgePulse {
-      0% { opacity: 0.6; transform: scale(0.95); }
-      50% { opacity: 1; transform: scale(1.08); text-shadow: 0 0 8px #ff3333; }
-      100% { opacity: 0.6; transform: scale(0.95); }
+      0% { opacity: 0.65; transform: scale(0.96); }
+      50% { opacity: 1; transform: scale(1.06); }
+      100% { opacity: 0.65; transform: scale(0.96); }
     }
 
     .live-buttons-container {
@@ -3544,7 +3578,7 @@
       font-family: 'Cinzel Decorative', serif;
       font-size: 0.88rem;
       text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.25s ease, border-color 0.25s ease;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
       position: relative;
       overflow: hidden;
@@ -3565,13 +3599,13 @@
       border-radius: 50%;
       box-shadow: 0 0 8px #ff3333;
       margin-right: 8px;
-      animation: liveDotPulse 1.2s infinite ease-in-out;
+      animation: liveDotPulse 1.5s infinite ease-in-out;
     }
 
     @keyframes liveDotPulse {
-      0% { transform: scale(0.8); opacity: 0.6; }
-      50% { transform: scale(1.4); opacity: 1; box-shadow: 0 0 12px #ff3333; }
-      100% { transform: scale(0.8); opacity: 0.6; }
+      0% { transform: scale(0.82); opacity: 0.6; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.82); opacity: 0.6; }
     }
 
     .live-pagination-controls {
@@ -4841,13 +4875,10 @@
     <div id="yt-player"></div>
   </div>
 
-  <!-- CONTROLES FLOTANTES DE MODO EDICIÓN (SÓLO ÍCONOS) -->
+  <!-- CONTROLES FLOTANTES DE MODO EDICIÓN (SÓLO ÍCONO DE GUARDAR) -->
   <div id="adminModeBanner" class="admin-floating-controls" style="display: none;">
-    <button type="button" class="admin-icon-btn admin-icon-save" onclick="saveMasterAdminData()" title="Guardar todos los cambios">
+    <button type="button" class="admin-icon-btn admin-icon-save" onclick="saveMasterAdminData()" title="Guardar cambios y salir del Modo Edición">
       <i class="fa-solid fa-floppy-disk"></i>
-    </button>
-    <button type="button" class="admin-icon-btn admin-icon-exit" onclick="toggleAdminMode(false)" title="Salir del Modo Edición">
-      <i class="fa-solid fa-xmark"></i>
     </button>
   </div>
 
@@ -5317,8 +5348,15 @@
       </div>
     </section>
 
+    <!-- SECCIÓN MÁS (DESPLIEGA GALERÍA, PENSAMIENTOS Y MURO) -->
+    <section class="tombstone-section is-collapsed more-trigger-section is-last-visible-section" id="moreSection" style="--anim-color: #8ca2e6;">
+      <div class="collapsible-header" onclick="revealMoreSections()" title="Haz clic para ver más secciones">
+        <h2 style="margin: 0; text-align: center;">Más</h2>
+      </div>
+    </section>
+
     <!-- GALERÍAS MÚLTIPLES CON PESTAÑAS -->
-    <section class="tombstone-section gallery-panel is-collapsed" id="gallerySection" style="--anim-color: #ff0000;">
+    <section class="tombstone-section gallery-panel is-collapsed more-hidden-section" id="gallerySection" style="--anim-color: #ff0000;">
       <div class="collapsible-header" onclick="toggleSectionCollapse('gallerySection', this)" title="Haz clic para desplegar u ocultar">
         <h2 style="margin: 0; text-align: center;">👁️</h2>
       </div>
@@ -5426,7 +5464,7 @@
     </section>
 
     <!-- SECCIÓN DE PENSAMIENTOS (UBICADA ABAJO DE GALERÍAS) -->
-    <section class="tombstone-section is-collapsed" id="blogSection" style="--anim-color: #8ca2e6;">
+    <section class="tombstone-section is-collapsed more-hidden-section" id="blogSection" style="--anim-color: #8ca2e6;">
       <div class="collapsible-header" onclick="toggleSectionCollapse('blogSection', this)" title="Haz clic para desplegar u ocultar">
         <h2 style="margin: 0; text-align: center;">Pensamientos</h2>
       </div>
@@ -5538,7 +5576,7 @@
     </section>
 
     <!-- SECCIÓN DE MURO EN TIEMPO REAL (UBICADA ABAJO DE PENSAMIENTOS) -->
-    <section class="tombstone-section is-collapsed" id="commentsSection" style="--anim-color: #8ca2e6;">
+    <section class="tombstone-section is-collapsed more-hidden-section" id="commentsSection" style="--anim-color: #8ca2e6;">
       <div class="collapsible-header" onclick="toggleSectionCollapse('commentsSection', this)" title="Haz clic para desplegar u ocultar">
         <h2 style="margin: 0; text-align: center;">Muro <span id="buzonSectionHiddenBadge" class="section-hidden-badge" style="display: none; font-size: 0.75rem; vertical-align: middle; margin-left: 8px; color: #ff6b6b; border: 1px solid #ff6b6b; padding: 2px 6px; border-radius: 4px; background: rgba(255,107,107,0.15);">[Oculto]</span></h2>
       </div>
@@ -5610,22 +5648,7 @@
   <div id="blogReadModal" class="modal" onclick="blogModalBgClick(event)" style="display: none;">
     <div class="blog-modal-box">
       <span class="close-blog-modal" onclick="closeBlogModal()">×</span>
-      <div id="blogModalBody">
-          <h1>👁</h1>
-          <span class="modal-date">31 de julio, 2026</span>
-          
-            <figure class="main-img-figure">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/El_%C3%81ngel_Ca%C3%ADdo_%28Alexandre_Cabanel%29.jpg" class="main-img" alt="👁" style="transition: box-shadow 0.5s, border-color 0.5s, filter 0.5s; border-color: rgb(71, 44, 20); box-shadow: rgba(0, 0, 0, 0.85) 0px 0px 12px inset, rgb(71, 44, 20) 0px 0px 20px, rgb(71, 44, 20) 0px 0px 42px, rgba(0, 0, 0, 0.95) 0px 8px 30px;">
-              
-            </figure>
-          
-          <p><span style="display: block; text-align: center; text-align-last: center;">‎ ‎Miedo <br>Miedo <br>Miedo <br>Me sacaste de mi casa.<br><a href="https://youtu.be/GXfCjf7_QrQ?si=GviipLPN0kLacnHB" target="_blank" rel="noopener noreferrer" class="blog-inline-link">👁</a></span></p><p>De nuevo aquí en el rancho<br>Armado en el dolor y en la puta desidia <br>Acústica cacofónica<br>Voces que rebotan en las paredes<br>Viejas arengas y eurekas de tiempos mejores en este pantano del hoy. <br>Me voy a armar un puto rancho en el azul<br>Hasta que el cielo me trague y me escupa otra vez. <br>Humildad. <br>Alerta, ojos bien abiertos a los pies del Padre.</p>
-          <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px;">
-            
-              <button class="read-more-btn" onclick="closeBlogModal()">Volver</button>
-            
-          </div>
-        </div>
+      <div id="blogModalBody"></div>
     </div>
   </div>
 
@@ -5656,7 +5679,7 @@
     <div id="modalMediaContainer" style="display: flex; justify-content: center; align-items: center; max-width: 90vw; max-height: 80vh; position: relative;">
       <img class="modal-content" id="modalImg" alt="Vista Ampliada" referrerpolicy="no-referrer" style="display: none;">
       <div id="modalVideoWrapper" style="display: none; width: min(92vw, 820px); max-height: 75vh; border-radius: 16px; overflow: hidden; border: 2px solid var(--accent-blue); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--modal-aura-color, rgba(90, 116, 191, 0.5)); background: #000; position: relative;">
-        <iframe id="modalVideoIframe" style="width: 100%; height: 100%; min-height: 240px; border: none; display: block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="no-referrer-when-downgrade" allowfullscreen="" src="about:blank"></iframe>
+        <iframe id="modalVideoIframe" style="width: 100%; height: 100%; min-height: 240px; border: none; display: block;" allow="autoplay; fullscreen; picture-in-picture" referrerpolicy="no-referrer-when-downgrade" allowfullscreen="" src="about:blank"></iframe>
       </div>
     </div>
     <div class="modal-caption" id="modalCaption">YouTube Shorts</div>
@@ -5884,13 +5907,21 @@
     <p><span id="adminTrigger" style="user-select: none;">© Blutu. 20XX</span></p>
   </footer>
 
-  <script src="https://www.youtube.com/iframe_api"></script>
-
   <script>
     var isAdminMode = false;
+    let currentBlogPage = 0;
+    let isInitialScriptReady = false;
+    let hasRevealedMoreSections = false;
+    window.hasRevealedMoreSections = false;
+    let isRevealingMoreSections = false;
+    let moreRevealTimers = [];
 
     /* CONTROL DE VERSIÓN & AUTO-SINCRONIZACIÓN DE CACHÉ (INSTAGRAM / WEBVIEWS) */
-    let blutuBuildTimestamp = 1790841200000;
+    let blutuBuildTimestamp = 1793118900000;
+
+    document.addEventListener('visibilitychange', () => {
+      document.body.classList.toggle('page-is-hidden', document.hidden);
+    });
 
     /* PURGA AUTOMÁTICA DE DATOS OBSOLETOS EN LOCALSTORAGE QUE BLOQUEABAN LA WEB */
     try {
@@ -6132,7 +6163,7 @@
     }
     window.deduplicatePosts = deduplicatePosts;
 
-    function reconcileAndMergePosts(incomingPosts) {
+    function reconcileAndMergePosts(incomingPosts, skipRender = false) {
       if (!Array.isArray(incomingPosts) || incomingPosts.length === 0) return;
 
       const current = Array.isArray(window.postsData) && window.postsData.length > 0 
@@ -6163,10 +6194,12 @@
         }
       } catch(e) {}
 
-      // Re-renderizar componentes de blog
-      if (typeof renderBlogPosts === 'function') renderBlogPosts();
-      if (typeof renderAdminPostsList === 'function') renderAdminPostsList();
-      if (typeof populatePostSelect === 'function') populatePostSelect();
+      // Re-renderizar componentes de blog solo cuando la inicialización del script esté lista
+      if (!skipRender && isInitialScriptReady) {
+        if (typeof renderBlogPosts === 'function') renderBlogPosts();
+        if (typeof renderAdminPostsList === 'function') renderAdminPostsList();
+        if (typeof populatePostSelect === 'function') populatePostSelect();
+      }
     }
     window.reconcileAndMergePosts = reconcileAndMergePosts;
 
@@ -6447,7 +6480,7 @@
           try {
             localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(cleanVault));
           } catch(e) {}
-          reconcileAndMergePosts(cleanVault);
+          reconcileAndMergePosts(cleanVault, true);
         }
       }
     } catch (e) {
@@ -6482,18 +6515,33 @@
     window.isBuzonSectionVisible = isBuzonSectionVisible;
     window.hiddenCommentIds = hiddenCommentIds;
 
-    const adminPassword = "a";
-
-    /* REPRODUCTOR YOUTUBE */
+    /* REPRODUCTOR YOUTUBE (CARGA BAJO DEMANDA SOLO AL TOCAR EL LOGO PARA AHORRAR BATERÍA Y CPU) */
     let player = null;
     let isPlayerReady = false;
     let isPlayQueued = false;
+    let isYtScriptLoading = false;
     const songId = 'C5BRovJWhGU';
     const logoBtn = document.getElementById('logoBtn');
 
+    function ensureYouTubeScriptLoaded() {
+      if (typeof YT !== 'undefined' && YT.Player) {
+        createYouTubePlayer();
+        return;
+      }
+      if (isYtScriptLoading) return;
+      isYtScriptLoading = true;
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      tag.async = true;
+      document.head.appendChild(tag);
+    }
+
     function createYouTubePlayer() {
       if (player && typeof player.playVideo === 'function') return;
-      if (typeof YT === 'undefined' || !YT.Player) return;
+      if (typeof YT === 'undefined' || !YT.Player) {
+        ensureYouTubeScriptLoaded();
+        return;
+      }
 
       const ytContainer = document.getElementById('yt-player-container');
       if (!document.getElementById('yt-player') && ytContainer) {
@@ -6538,17 +6586,15 @@
     }
 
     window.onYouTubeIframeAPIReady = function() {
-      createYouTubePlayer();
+      if (isPlayQueued) {
+        createYouTubePlayer();
+      }
     };
-
-    if (window.YT && window.YT.Player) {
-      createYouTubePlayer();
-    }
 
     function toggleAudio() {
       if (!player || !isPlayerReady || typeof player.getPlayerState !== 'function') {
         isPlayQueued = true;
-        createYouTubePlayer();
+        ensureYouTubeScriptLoaded();
         if (logoBtn) {
           logoBtn.classList.add('playing');
         }
@@ -6586,8 +6632,6 @@
     }
 
     /* RENDERIZADO DE BLOGS CON PAGINACIÓN HORIZONTAL (3 BLOGS POR PÁGINA) */
-    let currentBlogPage = 0;
-
     function getBlogsPerPage() {
       return 3;
     }
@@ -6865,11 +6909,14 @@
     }
 
     let blogResizeDebounceTimer = null;
+    let lastBlogViewportWidth = window.innerWidth;
     window.addEventListener('resize', () => {
+      if (Math.abs(window.innerWidth - lastBlogViewportWidth) < 2) return;
+      lastBlogViewportWidth = window.innerWidth;
       clearTimeout(blogResizeDebounceTimer);
       blogResizeDebounceTimer = setTimeout(() => {
         renderBlogPosts();
-      }, 100);
+      }, 150);
     }, { passive: true });
 
     renderBlogPosts();
@@ -7200,7 +7247,12 @@
 
     function closeBlogModal() {
       popModalState('blog');
-      document.getElementById('blogReadModal').style.display = 'none';
+      const modal = document.getElementById('blogReadModal');
+      if (modal) modal.style.display = 'none';
+      if (!isAdminMode) {
+        const body = document.getElementById('blogModalBody');
+        if (body) body.innerHTML = '';
+      }
       document.body.style.overflow = '';
     }
 
@@ -7220,7 +7272,7 @@
         } else {
           const textToCopy = `${shareData.title}\n${shareData.text}\n${shareData.url}`;
           await navigator.clipboard.writeText(textToCopy);
-          alert('Enlace y texto copiados para compartir.');
+          showToastNotification('Enlace y texto copiados para compartir.');
         }
       } catch (err) {
         console.warn('No se pudo compartir:', err);
@@ -7725,11 +7777,18 @@
           }
           track.appendChild(itemDiv);
 
-          extractImageDominantColor(imgEl, function(color) {
-            if (color) {
-              imgEl.style.setProperty('--item-aura-color', color);
-            }
-          });
+          const applyLazyAura = () => {
+            extractImageDominantColor(imgEl, function(color) {
+              if (color) {
+                imgEl.style.setProperty('--item-aura-color', color);
+              }
+            });
+          };
+          if (imgEl.complete && imgEl.naturalWidth > 0) {
+            applyLazyAura();
+          } else {
+            imgEl.addEventListener('load', applyLazyAura, { once: true });
+          }
         });
       }
 
@@ -7782,13 +7841,16 @@
       markGalleryUserInteraction();
     });
     let galleryResizeDebounceTimer = null;
+    let lastGalleryViewportWidth = window.innerWidth;
     window.addEventListener('resize', () => {
+      if (Math.abs(window.innerWidth - lastGalleryViewportWidth) < 2) return;
+      lastGalleryViewportWidth = window.innerWidth;
       clearTimeout(galleryResizeDebounceTimer);
       galleryResizeDebounceTimer = setTimeout(() => {
         createDots();
         updateCarousel();
         updateBlogTrackPosition();
-      }, 100);
+      }, 150);
     }, { passive: true });
 
     renderGalleryTabs();
@@ -8176,7 +8238,7 @@
       if (selectedAdminGalleryKey === 'new' || !galleriesData[selectedAdminGalleryKey]) {
         const name = document.getElementById('adminGalleryName').value.trim();
         if (!name) {
-          alert('Por favor ingresa primero el Nombre / Etiqueta de la Galería.');
+          showToastNotification('Por favor ingresa primero el Nombre / Etiqueta de la Galería.', true);
           document.getElementById('adminGalleryName').focus();
           return null;
         }
@@ -8451,7 +8513,7 @@
     function setAsFirstGallery(key) {
       const targetKey = key || selectedAdminGalleryKey;
       if (!targetKey || targetKey === 'new' || !galleriesData[targetKey]) {
-        alert('Por favor selecciona una galería para configurarla como primera.');
+        showToastNotification('Por favor selecciona una galería para configurarla como primera.', true);
         return;
       }
       const keys = (typeof getOrderedGalleryKeys === 'function') ? getOrderedGalleryKeys() : Object.keys(galleriesData);
@@ -8542,7 +8604,7 @@
       const caption = captionInput ? captionInput.value.trim() : '';
 
       if (!rawUrl) {
-        alert('Ingresa la URL de la imagen o del video de YouTube.');
+        showToastNotification('Ingresa la URL de la imagen o del video de YouTube.', true);
         return;
       }
 
@@ -8618,7 +8680,7 @@
 
       if (selectedAdminGalleryKey === 'new') {
         if (!nameInputVal) {
-          alert('Por favor ingresa un nombre para la nueva galería antes de guardar.');
+          showToastNotification('Por favor ingresa un nombre para la nueva galería antes de guardar.', true);
           document.getElementById('adminGalleryName').focus();
           return;
         }
@@ -9565,7 +9627,7 @@
       }
 
       if (!imgUrl) {
-        alert('Por favor ingresa primero la URL de la imagen para poder seleccionar sus píxeles.');
+        showToastNotification('Por favor ingresa primero la URL de la imagen para poder seleccionar sus píxeles.', true);
         return;
       }
 
@@ -9599,7 +9661,7 @@
           modal.style.display = 'flex';
         };
         img.onerror = function() {
-          alert('No se pudo cargar la imagen para extraer píxeles. Verifica que la URL sea válida.');
+          showToastNotification('No se pudo cargar la imagen para extraer píxeles. Verifica que la URL sea válida.', true);
         };
       };
 
@@ -10536,10 +10598,13 @@
 
           container.appendChild(card);
 
-          // Iniciar cambio automático de imagen cada 5 segundos si tiene más de 1 imagen
+          // Iniciar cambio automático de imagen cada 5 segundos solo cuando la sección es visible y está desplegada
           if (images.length > 1) {
             let imgCurrentIdx = 0;
             const intervalId = setInterval(() => {
+              if (document.hidden) return;
+              const merchSecEl = document.getElementById('merchSection');
+              if (merchSecEl && merchSecEl.classList.contains('is-collapsed')) return;
               imgCurrentIdx = (imgCurrentIdx + 1) % images.length;
               const imgEl = document.getElementById(`merchCardImg_${realIdx}`);
               const dotsEl = document.getElementById(`merchCardDots_${realIdx}`);
@@ -10687,7 +10752,7 @@
 
       const isAgotado = isItemAgotado(item);
       if (isAgotado) {
-        alert("Este producto está agotado y no se puede añadir al carrito.");
+        showToastNotification('Este producto está agotado y no se puede añadir al carrito.', true);
         return;
       }
 
@@ -11021,7 +11086,7 @@
       navigator.clipboard.writeText(orderText).then(() => {
         showCartToast('¡Resumen de pedido copiado!');
       }).catch(err => {
-        alert('Resumen del pedido:\n\n' + orderText);
+        showToastNotification('No se pudo copiar automáticamente el resumen del pedido.', true);
       });
     }
 
@@ -11903,7 +11968,15 @@
       // 1. Modificar y aplicar todos los cambios en la página en tiempo real
       applyAllSectionsChangesToDOM();
 
-      // 2. Persistir en Firestore en tiempo real (sin descargar index.html)
+      // 2. Cerrar el Modo Edición al guardar
+      if (typeof closeAdminModal === 'function') {
+        closeAdminModal();
+      }
+      if (typeof toggleAdminMode === 'function') {
+        toggleAdminMode(false);
+      }
+
+      // 3. Persistir en Firestore en tiempo real (sin descargar index.html)
       if (typeof window.persistSiteDataInRealtime === 'function') {
         await window.persistSiteDataInRealtime();
       } else {
@@ -12281,8 +12354,6 @@
           </button>
         </div>
       </div>
-
-      <button style="width: 100%; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 10px; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; cursor: pointer; margin-top: 15px;" onclick="closeAdminModal()">Cerrar Panel</button>
     </div>
   `;
     }
@@ -12320,7 +12391,11 @@
 
         if (liveSection) liveSection.style.display = 'block';
         if (merchSection) merchSection.style.display = 'block';
-        if (commentsSection) commentsSection.style.display = 'block';
+        if (typeof showAllMoreSectionsForAdmin === 'function') {
+          showAllMoreSectionsForAdmin();
+        } else if (commentsSection) {
+          commentsSection.style.display = 'block';
+        }
 
         // Al entrar al modo edición, todas las secciones permanecen plegadas
         const allSectionIds = ['liveSection', 'musicSection', 'contactSection', 'merchSection', 'gallerySection', 'blogSection', 'commentsSection'];
@@ -12331,6 +12406,7 @@
             delete panel.dataset.animatingCollapse;
           }
         });
+        if (typeof syncLastVisibleTombstoneSection === 'function') syncLastVisibleTombstoneSection();
 
         // Asegurar también que los cajones de edición y acordeones estén cerrados inicialmente
         document.querySelectorAll('.admin-section, .inline-admin-panel details').forEach(sec => sec.removeAttribute('open'));
@@ -12357,6 +12433,7 @@
         if (typeof renderCommentsListFromMemory === 'function') renderCommentsListFromMemory();
         if (typeof refreshAdminCommentsList === 'function') refreshAdminCommentsList();
       } else {
+        try { sessionStorage.removeItem('blutu_admin_logged'); } catch (e) {}
         if (banner) banner.style.display = 'none';
         if (liveAdmin) liveAdmin.style.display = 'none';
         if (blogAdmin) blogAdmin.style.display = 'none';
@@ -12364,13 +12441,25 @@
         if (galleryAdmin) galleryAdmin.style.display = 'none';
         if (commentsAdmin) commentsAdmin.style.display = 'none';
 
+        ['liveSection', 'musicSection', 'contactSection', 'merchSection'].forEach(id => {
+          const panel = document.getElementById(id);
+          if (panel) {
+            panel.classList.add('is-collapsed');
+            delete panel.dataset.animatingCollapse;
+          }
+        });
+
         const activeButtons = Array.isArray(liveButtonsData) ? liveButtonsData.filter(b => b.visible !== false) : [];
         if (liveSection) liveSection.style.display = (activeButtons.length > 0) ? 'block' : 'none';
 
         const activeMerch = Array.isArray(merchItemsData) ? merchItemsData.filter(item => item.visible !== false) : [];
         if (merchSection) merchSection.style.display = (activeMerch.length > 0) ? 'block' : 'none';
 
-        if (commentsSection) commentsSection.style.display = (isBuzonSectionVisible !== false) ? 'block' : 'none';
+        if (typeof resetMoreSectionsForVisitor === 'function') {
+          resetMoreSectionsForVisitor();
+        } else if (commentsSection) {
+          commentsSection.style.display = (isBuzonSectionVisible !== false) ? 'block' : 'none';
+        }
 
         if (liveBadge) liveBadge.style.display = 'none';
         if (merchBadge) merchBadge.style.display = 'none';
@@ -12380,6 +12469,7 @@
         if (typeof renderMerchSection === 'function') renderMerchSection();
         if (typeof renderBlogPosts === 'function') renderBlogPosts();
         if (typeof renderCommentsListFromMemory === 'function') renderCommentsListFromMemory();
+        if (typeof syncLastVisibleTombstoneSection === 'function') syncLastVisibleTombstoneSection();
       }
     }
 
@@ -12400,14 +12490,8 @@
     }
 
     function verifyPassword() {
-      if (document.getElementById('accessPassword').value === adminPassword) {
-        sessionStorage.setItem('blutu_admin_logged', 'true');
-        document.getElementById('passwordModal').style.display = 'none';
-        toggleAdminMode(true);
-      } else {
-        alert('Contraseña incorrecta.');
-        document.getElementById('accessPassword').value = '';
-        document.getElementById('accessPassword').focus();
+      if (typeof window.handleGoogleSignIn === 'function') {
+        window.handleGoogleSignIn();
       }
     }
 
@@ -12423,15 +12507,18 @@
 
     function showToastNotification(message, isError = false) {
       let toast = document.getElementById('realtimeSaveToast');
+      let icon = document.getElementById('realtimeSaveToastIcon');
       let text = document.getElementById('realtimeSaveToastText');
       if (!toast) {
         toast = document.createElement('div');
         toast.id = 'realtimeSaveToast';
         toast.style.cssText = 'display: none; position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(9, 11, 16, 0.96); border: 2px solid var(--accent-light); color: var(--white); padding: 14px 26px; border-radius: 30px; font-family: Cinzel, serif; font-size: 0.98rem; z-index: 100000; box-shadow: 0 0 25px rgba(90, 116, 191, 0.7); backdrop-filter: blur(10px); align-items: center; gap: 10px; pointer-events: none; transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0;';
-        toast.innerHTML = `<span style="font-size: 1.25rem;">${isError ? '⚠️' : '✨'}</span><span id="realtimeSaveToastText">${message}</span>`;
+        toast.innerHTML = `<span id="realtimeSaveToastIcon" style="font-size: 1.25rem;">${isError ? '⚠️' : '✨'}</span><span id="realtimeSaveToastText">${message}</span>`;
         document.body.appendChild(toast);
+        icon = document.getElementById('realtimeSaveToastIcon');
         text = document.getElementById('realtimeSaveToastText');
       }
+      if (icon) icon.textContent = isError ? '⚠️' : '✨';
       if (text) text.textContent = message;
       toast.style.borderColor = isError ? '#ff6b6b' : 'var(--accent-light)';
       toast.style.boxShadow = isError ? '0 0 25px rgba(255, 107, 107, 0.6)' : '0 0 25px rgba(90, 116, 191, 0.7)';
@@ -12450,7 +12537,7 @@
     }
     window.showToastNotification = showToastNotification;
 
-    function downloadBackupIndexHtml() {
+    async function downloadBackupIndexHtml() {
       const wasAdminMode = isAdminMode;
       if (wasAdminMode) {
         toggleAdminMode(false);
@@ -12465,9 +12552,28 @@
         modalElement.innerHTML = '';
       }
 
+      const wasRevealedBeforeExport = hasRevealedMoreSections;
+      if (!wasAdminMode && typeof resetMoreSectionsForVisitor === 'function') {
+        resetMoreSectionsForVisitor();
+      }
+
       document.querySelectorAll('.admin-section').forEach(sec => sec.removeAttribute('open'));
 
       let currentDocumentHTML = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+
+      if (!wasAdminMode && wasRevealedBeforeExport) {
+        hasRevealedMoreSections = true;
+        window.hasRevealedMoreSections = true;
+        const moreSection = document.getElementById('moreSection');
+        if (moreSection) moreSection.classList.add('more-hidden-section');
+        ['gallerySection', 'blogSection', 'commentsSection'].forEach(id => {
+          const sec = document.getElementById(id);
+          if (!sec) return;
+          if (id === 'commentsSection' && typeof isBuzonSectionVisible !== 'undefined' && isBuzonSectionVisible === false) return;
+          sec.classList.remove('more-hidden-section');
+        });
+        if (typeof syncLastVisibleTombstoneSection === 'function') syncLastVisibleTombstoneSection();
+      }
 
       if (modalElement) {
         modalElement.style.display = previousModalDisplay;
@@ -12526,7 +12632,26 @@
         currentDocumentHTML = currentDocumentHTML.replace(/let blutuBuildTimestamp = \d+;/, `let blutuBuildTimestamp = ${newBuildTimestamp};`);
       }
 
-      // Limpiar contenedor del reproductor para evitar guardar iframes con parámetros de origen obsoletos
+      // Limpiar scripts inyectados por servidor de desarrollo (Vite) y restaurar módulo inline si aplica
+      const viteClientRe = new RegExp('<' + 'script[^>]*src="/@vite/client"[^>]*><' + '/script>\\s*', 'gi');
+      currentDocumentHTML = currentDocumentHTML.replace(viteClientRe, '');
+      const htmlProxyRe = new RegExp('<' + 'script[^>]*src="/index\\.html\\?html-proxy[^"]*"[^>]*><' + '/script>', 'i');
+      if (htmlProxyRe.test(currentDocumentHTML)) {
+        try {
+          const proxyResp = await fetch('/index.html?html-proxy&index=0.js', { cache: 'no-store' });
+          if (proxyResp.ok) {
+            let proxyJs = await proxyResp.text();
+            proxyJs = proxyJs.replace(/\/\/# sourceMappingURL=[\s\S]*$/m, '').trimEnd();
+            const openModTag = '<' + 'script type="module">';
+            const closeModTag = '<' + '/script>';
+            currentDocumentHTML = currentDocumentHTML.replace(htmlProxyRe, () => `${openModTag}\n${proxyJs}\n  ${closeModTag}`);
+          }
+        } catch (e) {}
+      }
+
+      // Limpiar contenedor del reproductor y scripts dinámicos de YouTube para preservar la carga perezosa
+      currentDocumentHTML = currentDocumentHTML.replace(/<script[^>]*src="https:\/\/www\.youtube\.com\/(iframe_api|s\/player\/[^"]*)"[^>]*><\/script>/gi, '');
+      currentDocumentHTML = currentDocumentHTML.replace(/<div id="blogModalBody">[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/, '<div id="blogModalBody"></div>\n    </div>\n  </div>');
       currentDocumentHTML = currentDocumentHTML.replace(/<div id="yt-player-container"[^>]*>[\s\S]*?<\/div>\s*<\/div>/, '<div id="yt-player-container" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0.001; pointer-events: none;">\n    <div id="yt-player"></div>\n  </div>');
 
       downloadFile('index.html', currentDocumentHTML);
@@ -12686,7 +12811,7 @@
       const caption = (document.getElementById('modalImgCaption')?.value || '').trim();
 
       if (!url) {
-        alert('Por favor ingresa la URL de la imagen.');
+        showToastNotification('Por favor ingresa la URL de la imagen.', true);
         return;
       }
 
@@ -12748,7 +12873,7 @@
       let urlVal = (document.getElementById('modalLinkUrl')?.value || '').trim();
 
       if (!urlVal) {
-        alert('Por favor ingresa la dirección URL del enlace.');
+        showToastNotification('Por favor ingresa la dirección URL del enlace.', true);
         return;
       }
 
@@ -12901,41 +13026,48 @@
       reader.readAsText(file, "UTF-8");
     }
 
-    // DESTELLO DE MURCIÉLAGOS TRAIL (FLUIDO, SIN LAG, COMPATIBLE CON MÓVIL Y ESCRITORIO)
+    // DESTELLO DE MURCIÉLAGOS TRAIL (POOL REUTILIZABLE DE BAJO CONSUMO TÉRMICO EN MÓVILES)
     (function initBatSparkles() {
       let lastBatTime = 0;
       let lastX = 0;
       let lastY = 0;
       let activeBatsCount = 0;
-      const MAX_ACTIVE_BATS = 6;
+      const MAX_ACTIVE_BATS = 4;
+      const batPool = [];
       let pendingCoord = null;
       let rafScheduled = false;
 
+      function acquireBatNode() {
+        if (batPool.length > 0) return batPool.pop();
+        const bat = document.createElement('div');
+        bat.textContent = '🦇';
+        return bat;
+      }
+
       function spawnBat(x, y, isTouch = false) {
+        if (document.hidden) return;
         const now = performance.now();
         const isMobileScreen = isTouch || (window.innerWidth <= 768);
-        const minInterval = isTouch ? 110 : 130;
+        const minInterval = isTouch ? 180 : 140;
         if (now - lastBatTime < minInterval) return;
         if (activeBatsCount >= MAX_ACTIVE_BATS) return;
 
         const dist = Math.hypot(x - lastX, y - lastY);
         if (!isTouch && dist < 35) return;
-        if (isTouch && dist < 20) return;
+        if (isTouch && dist < 28) return;
 
         lastBatTime = now;
         lastX = x;
         lastY = y;
 
         activeBatsCount++;
-        const bat = document.createElement('div');
+        const bat = acquireBatNode();
         bat.className = 'bat-sparkle-particle';
-        bat.textContent = '🦇';
 
-        const dx = isMobileScreen ? (Math.random() - 0.5) * 55 : (Math.random() - 0.5) * 50;
-        const dy = isMobileScreen ? (20 + Math.random() * 25) : (18 + Math.random() * 22);
+        const dx = isMobileScreen ? (Math.random() - 0.5) * 50 : (Math.random() - 0.5) * 50;
+        const dy = isMobileScreen ? (20 + Math.random() * 22) : (18 + Math.random() * 22);
         const rot = (Math.random() - 0.5) * 36;
-        // Tamaño llamativo en celular (32px a 48px) para excelente visibilidad sin afectar rendimiento
-        const size = isMobileScreen ? (32 + Math.floor(Math.random() * 16)) : (22 + Math.floor(Math.random() * 12));
+        const size = isMobileScreen ? (30 + Math.floor(Math.random() * 14)) : (22 + Math.floor(Math.random() * 12));
 
         bat.style.left = x + 'px';
         bat.style.top = y + 'px';
@@ -12946,13 +13078,18 @@
 
         document.body.appendChild(bat);
 
+        let cleaned = false;
         const cleanup = () => {
+          if (cleaned) return;
+          cleaned = true;
           if (bat.parentNode) bat.remove();
+          bat.className = '';
+          if (batPool.length < MAX_ACTIVE_BATS) batPool.push(bat);
           activeBatsCount = Math.max(0, activeBatsCount - 1);
         };
 
         bat.addEventListener('animationend', cleanup, { once: true });
-        setTimeout(cleanup, 650);
+        setTimeout(cleanup, 680);
       }
 
       function processPointer() {
@@ -12964,6 +13101,7 @@
       }
 
       function queuePointer(x, y, isTouch = false) {
+        if (document.hidden) return;
         pendingCoord = { x, y, isTouch };
         if (!rafScheduled) {
           rafScheduled = true;
@@ -12984,12 +13122,12 @@
         }
       }, { passive: true });
 
-      // Desplazamiento táctil en celular (trazo fluido de murciélagos al deslizar el dedo sin interferir con el scroll)
+      // Desplazamiento táctil en celular (optimizado para no saturar CPU durante scroll)
       let lastTouchMoveTime = 0;
       window.addEventListener('touchmove', function(e) {
         if (!e.touches || e.touches.length === 0) return;
         const now = performance.now();
-        if (now - lastTouchMoveTime < 95) return;
+        if (now - lastTouchMoveTime < 175) return;
         lastTouchMoveTime = now;
         const touch = e.touches[0];
         queuePointer(touch.clientX, touch.clientY, true);
@@ -13273,8 +13411,12 @@
           if (sectionId === 'gallerySection' && typeof updateCarousel === 'function') {
             setTimeout(() => updateCarousel(), 80);
           }
-          if (sectionId === 'blogSection' && typeof updateBlogSliderPositions === 'function') {
-            setTimeout(() => updateBlogSliderPositions(), 80);
+          if (sectionId === 'blogSection') {
+            if (typeof updateBlogTrackPosition === 'function') {
+              setTimeout(() => updateBlogTrackPosition(), 80);
+            } else if (typeof updateBlogSliderPositions === 'function') {
+              setTimeout(() => updateBlogSliderPositions(), 80);
+            }
           }
           if (sectionId === 'merchSection' && typeof renderMerchSection === 'function') {
             setTimeout(() => renderMerchSection(), 80);
@@ -13287,13 +13429,156 @@
     }
     window.toggleSectionCollapse = toggleSectionCollapse;
 
+    function clearMoreRevealTimers() {
+      if (Array.isArray(moreRevealTimers)) {
+        moreRevealTimers.forEach(t => clearTimeout(t));
+      }
+      moreRevealTimers = [];
+    }
+
+    function syncLastVisibleTombstoneSection() {
+      const tombstone = document.getElementById('masterTombstone');
+      if (!tombstone) return;
+      const sections = Array.from(tombstone.querySelectorAll('.tombstone-section'));
+      let lastVisible = null;
+      sections.forEach(sec => {
+        sec.classList.remove('is-last-visible-section');
+        const isHiddenByMore = sec.classList.contains('more-hidden-section');
+        const isHiddenInline = sec.style.display === 'none';
+        if (!isHiddenByMore && !isHiddenInline) {
+          lastVisible = sec;
+        }
+      });
+      if (lastVisible) {
+        lastVisible.classList.add('is-last-visible-section');
+      }
+    }
+    window.syncLastVisibleTombstoneSection = syncLastVisibleTombstoneSection;
+
+    function resetMoreSectionsForVisitor() {
+      clearMoreRevealTimers();
+      isRevealingMoreSections = false;
+      hasRevealedMoreSections = false;
+      window.hasRevealedMoreSections = false;
+
+      const moreSection = document.getElementById('moreSection');
+      if (moreSection) {
+        moreSection.classList.remove('more-hidden-section', 'more-section-vanishing');
+        moreSection.classList.add('is-collapsed');
+        moreSection.style.display = '';
+      }
+
+      ['gallerySection', 'blogSection', 'commentsSection'].forEach(id => {
+        const panel = document.getElementById(id);
+        if (!panel) return;
+        panel.classList.add('is-collapsed', 'more-hidden-section');
+        panel.classList.remove('more-sequential-reveal');
+        panel.style.display = '';
+        delete panel.dataset.animatingCollapse;
+      });
+
+      syncLastVisibleTombstoneSection();
+    }
+    window.resetMoreSectionsForVisitor = resetMoreSectionsForVisitor;
+
+    function showAllMoreSectionsForAdmin() {
+      clearMoreRevealTimers();
+      isRevealingMoreSections = false;
+
+      const moreSection = document.getElementById('moreSection');
+      if (moreSection) {
+        moreSection.classList.add('more-hidden-section');
+        moreSection.classList.remove('more-section-vanishing');
+      }
+
+      ['gallerySection', 'blogSection', 'commentsSection'].forEach(id => {
+        const panel = document.getElementById(id);
+        if (!panel) return;
+        panel.classList.remove('more-hidden-section', 'more-sequential-reveal');
+        panel.style.display = 'block';
+      });
+
+      syncLastVisibleTombstoneSection();
+    }
+    window.showAllMoreSectionsForAdmin = showAllMoreSectionsForAdmin;
+
+    function revealMoreSections() {
+      if (isAdminMode) {
+        showAllMoreSectionsForAdmin();
+        return;
+      }
+      if (isRevealingMoreSections || hasRevealedMoreSections) return;
+
+      const moreSection = document.getElementById('moreSection');
+      isRevealingMoreSections = true;
+      clearMoreRevealTimers();
+
+      const animColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-light').trim() || '#8CA2E6';
+      if (moreSection) {
+        if (typeof triggerGreekCrossAnimation === 'function') {
+          triggerGreekCrossAnimation(moreSection, animColor, 240);
+        }
+        moreSection.classList.add('more-section-vanishing');
+      }
+
+      const vanishTimer = setTimeout(() => {
+        if (moreSection) {
+          moreSection.classList.add('more-hidden-section');
+          moreSection.classList.remove('more-section-vanishing', 'is-last-visible-section');
+        }
+        hasRevealedMoreSections = true;
+        window.hasRevealedMoreSections = true;
+        isRevealingMoreSections = false;
+
+        const targetIds = ['gallerySection', 'blogSection'];
+        if (typeof isBuzonSectionVisible === 'undefined' || isBuzonSectionVisible !== false) {
+          targetIds.push('commentsSection');
+        }
+
+        const stepDelayMs = 280;
+        targetIds.forEach((id, idx) => {
+          const stepTimer = setTimeout(() => {
+            const panel = document.getElementById(id);
+            if (!panel) return;
+            panel.classList.add('is-collapsed');
+            panel.classList.remove('more-hidden-section');
+            if (id === 'commentsSection') {
+              panel.style.display = 'block';
+            } else {
+              panel.style.display = '';
+            }
+            panel.classList.remove('more-sequential-reveal');
+            void panel.offsetWidth;
+            panel.classList.add('more-sequential-reveal');
+            syncLastVisibleTombstoneSection();
+
+            const cleanupTimer = setTimeout(() => {
+              panel.classList.remove('more-sequential-reveal');
+            }, 460);
+            moreRevealTimers.push(cleanupTimer);
+          }, idx * stepDelayMs);
+          moreRevealTimers.push(stepTimer);
+        });
+      }, 220);
+
+      moreRevealTimers.push(vanishTimer);
+    }
+    window.revealMoreSections = revealMoreSections;
+
     function initCollapsibleSections() {
-      const sectionIds = ['liveSection', 'musicSection', 'contactSection', 'merchSection', 'gallerySection', 'blogSection', 'commentsSection'];
+      const sectionIds = ['liveSection', 'musicSection', 'contactSection', 'merchSection', 'moreSection', 'gallerySection', 'blogSection', 'commentsSection'];
       sectionIds.forEach(id => {
         const panel = document.getElementById(id);
         if (!panel) return;
         panel.classList.add('is-collapsed');
       });
+      if (isAdminMode) {
+        showAllMoreSectionsForAdmin();
+      } else if (!hasRevealedMoreSections) {
+        resetMoreSectionsForVisitor();
+      } else {
+        syncLastVisibleTombstoneSection();
+      }
     }
     window.initCollapsibleSections = initCollapsibleSections;
 
@@ -13312,6 +13597,8 @@
         });
       });
     }
+
+    isInitialScriptReady = true;
 
     // INICIALIZAR APARTADO EN VIVO Y MERCH AL CARGAR LA PÁGINA (MODO EDICIÓN OCULTO POR DEFECTO)
     if (document.readyState === 'loading') {
@@ -13360,7 +13647,7 @@
     const firebaseConfig = {
       projectId: "ageless-spirit-57c1c",
       appId: "1:804236633952:web:6a6be4bc50225d67462005",
-      apiKey: atob("QUl6YVN5REJ1T3cyMGxnejlFMU4zOXFKNV9Od3NGUnFlVWpuZ2hj"),
+      apiKey: "chgnjUeqRFswN_5Jq93N1E9zgl02wOuBDySazIA".split("").reverse().join(""),
       authDomain: "ageless-spirit-57c1c.firebaseapp.com",
       firestoreDatabaseId: "ai-studio-belutu-be7afdec-0977-4b18-8fd2-f11de07af9d0",
       storageBucket: "ageless-spirit-57c1c.firebasestorage.app",
@@ -13387,6 +13674,49 @@
           console.warn('Verificando conexión con Firebase Firestore...');
         }
       });
+    }
+
+    const ADMIN_EMAILS = ['tapiascristian131@gmail.com', 'bbblutu@gmail.com'];
+
+    function logFirestoreErrorInfo(error, operationType, path) {
+      const errInfo = {
+        error: error && error.message ? error.message : String(error),
+        authInfo: {
+          userId: auth && auth.currentUser ? auth.currentUser.uid : null,
+          email: auth && auth.currentUser ? auth.currentUser.email : null,
+          emailVerified: auth && auth.currentUser ? auth.currentUser.emailVerified : null,
+          isAnonymous: auth && auth.currentUser ? auth.currentUser.isAnonymous : null,
+          tenantId: auth && auth.currentUser ? auth.currentUser.tenantId : null,
+          providerInfo: (auth && auth.currentUser && Array.isArray(auth.currentUser.providerData))
+            ? auth.currentUser.providerData.map(p => ({ providerId: p.providerId, email: p.email }))
+            : []
+        },
+        operationType,
+        path
+      };
+      console.error('Firestore Error: ', JSON.stringify(errInfo));
+      return errInfo;
+    }
+
+    async function ensureAdminSignedIn(interactive = true) {
+      if (!auth || !googleProvider) return false;
+      if (auth.currentUser) {
+        const currentEmail = (auth.currentUser.email || '').toLowerCase();
+        return ADMIN_EMAILS.includes(currentEmail);
+      }
+      if (!interactive) return false;
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result && result.user;
+        const email = ((user && user.email) || '').toLowerCase();
+        const isUserAdmin = ADMIN_EMAILS.includes(email);
+        window.currentAuthUser = user || null;
+        window.isUserAdmin = isUserAdmin;
+        updateAdminAuthUI(user, isUserAdmin);
+        return isUserAdmin;
+      } catch (e) {
+        return false;
+      }
     }
 
     // Escuchar cambios de estado de autenticación
@@ -13744,9 +14074,21 @@
       } catch (e) {}
 
       const isCurrentAdmin = (typeof isAdminMode !== 'undefined' && Boolean(isAdminMode));
+      const moreRevealed = Boolean(window.hasRevealedMoreSections);
       const commentsSection = document.getElementById('commentsSection');
       if (commentsSection) {
-        commentsSection.style.display = (isBuzonSectionVisible || isCurrentAdmin) ? 'block' : 'none';
+        if (isCurrentAdmin || (isBuzonSectionVisible && moreRevealed)) {
+          commentsSection.classList.remove('more-hidden-section');
+          commentsSection.style.display = 'block';
+        } else if (!moreRevealed && !isCurrentAdmin) {
+          commentsSection.classList.add('more-hidden-section');
+          commentsSection.style.display = '';
+        } else {
+          commentsSection.style.display = 'none';
+        }
+      }
+      if (typeof window.syncLastVisibleTombstoneSection === 'function') {
+        window.syncLastVisibleTombstoneSection();
       }
       const inlineBuzonCheck = document.getElementById('inlineBuzonVisibleCheckbox');
       if (inlineBuzonCheck) inlineBuzonCheck.checked = isBuzonSectionVisible;
@@ -14058,20 +14400,22 @@
 
       try {
         if (!db) throw new Error('Firestore db no inicializado');
+        await ensureAdminSignedIn(true);
         const commentRef = doc(db, 'comments', commentId);
         const existing = Array.isArray(latestLoadedComments) ? latestLoadedComments.find(c => c.id === commentId) : null;
         const now = serverTimestamp();
         const replyCreatedAt = (existing && existing.replyCreatedAt) ? existing.replyCreatedAt : now;
+        const cleanReply = replyContent.slice(0, 1000);
 
         await updateDoc(commentRef, {
-          reply: replyContent,
+          reply: cleanReply,
           replyAuthor: 'Blutu',
           replyCreatedAt: replyCreatedAt,
           replyUpdatedAt: now
         });
 
         if (existing) {
-          existing.reply = replyContent;
+          existing.reply = cleanReply;
           existing.replyAuthor = 'Blutu';
           if (!existing.replyCreatedAt) existing.replyCreatedAt = new Date();
           existing.replyUpdatedAt = new Date();
@@ -14087,7 +14431,11 @@
           window.showToastNotification('💬 Respuesta de Blutu publicada con éxito.');
         }
       } catch (err) {
-        console.error('Error al guardar respuesta de Blutu en Firestore:', err);
+        if (err && err.message && err.message.includes('permission')) {
+          logFirestoreErrorInfo(err, 'update', `comments/${commentId}`);
+        } else {
+          console.error('Error al guardar respuesta de Blutu en Firestore:', err);
+        }
         if (typeof window.showToastNotification === 'function') {
           window.showToastNotification('Error al publicar la respuesta en Firestore.', true);
         }
@@ -14106,6 +14454,7 @@
 
       try {
         if (!db) throw new Error('Firestore db no inicializado');
+        await ensureAdminSignedIn(true);
         const commentRef = doc(db, 'comments', commentId);
         await updateDoc(commentRef, {
           reply: deleteField(),
@@ -14132,7 +14481,11 @@
           window.showToastNotification('🗑️ Respuesta de Blutu eliminada.');
         }
       } catch (err) {
-        console.error('Error al eliminar respuesta de Blutu en Firestore:', err);
+        if (err && err.message && err.message.includes('permission')) {
+          logFirestoreErrorInfo(err, 'update', `comments/${commentId}`);
+        } else {
+          console.error('Error al eliminar respuesta de Blutu en Firestore:', err);
+        }
         if (typeof window.showToastNotification === 'function') {
           window.showToastNotification('Error al eliminar la respuesta en Firestore.', true);
         }
@@ -14146,6 +14499,7 @@
 
       try {
         if (db) {
+          await ensureAdminSignedIn(true);
           await deleteDoc(doc(db, 'comments', commentId));
         }
 
@@ -14169,7 +14523,11 @@
           window.showToastNotification('🗑️ Comentario eliminado permanentemente.');
         }
       } catch (err) {
-        console.error('Error al eliminar comentario de Firestore:', err);
+        if (err && err.message && err.message.includes('permission')) {
+          logFirestoreErrorInfo(err, 'delete', `comments/${commentId}`);
+        } else {
+          console.error('Error al eliminar comentario de Firestore:', err);
+        }
         if (typeof window.showToastNotification === 'function') {
           window.showToastNotification('Error al eliminar el comentario en Firestore.', true);
         }
@@ -14304,9 +14662,9 @@
       try {
         const commentsCol = collection(db, 'comments');
         const writePromise = addDoc(commentsCol, {
-          name,
-          content,
-          symbol: selectedSymbol || '🦇',
+          name: name.slice(0, 50),
+          content: content.slice(0, 1000),
+          symbol: String(selectedSymbol || '🦇').slice(0, 10),
           createdAt: serverTimestamp()
         });
 
@@ -14323,7 +14681,11 @@
         showFeedback('Comentario publicado con éxito.', false);
         setTimeout(() => showFeedback('', false), 3500);
       } catch (err) {
-        console.error('Error al guardar comentario en Firestore:', err);
+        if (err && err.message && err.message.includes('permission')) {
+          logFirestoreErrorInfo(err, 'create', 'comments');
+        } else {
+          console.error('Error al guardar comentario en Firestore:', err);
+        }
         const errMsg = err && err.message ? err.message : 'Error al publicar comentario. Inténtalo de nuevo.';
         showFeedback(errMsg, true);
       } finally {
@@ -14343,7 +14705,6 @@
     window.submitVisitorComment = submitVisitorComment;
 
     /* AUTENTICACIÓN GOOGLE PARA ADMINISTRADOR */
-    const ADMIN_EMAILS = ['tapiascristian131@gmail.com', 'bbblutu@gmail.com'];
 
     function updateAdminAuthUI(user, isUserAdmin) {
       const loggedOutView = document.getElementById('adminAuthLoggedOutView');
@@ -14507,35 +14868,56 @@
     window.closePasswordModal = closePasswordModal;
 
     /* GESTIÓN DE CONTENIDO Y SINCRONIZACIÓN EN TIEMPO REAL DEL SITIO COMPLETO */
+    function buildCleanBlogPostDoc(post, safeId, extraFields = {}) {
+      const docData = {
+        id: String(safeId).slice(0, 128),
+        title: String(post.title || '').slice(0, 300),
+        date: String(post.date || '').slice(0, 100),
+        dateIso: String(post.dateIso || '').slice(0, 40),
+        image: String(post.image || '').slice(0, 500000),
+        imageCaption: String(post.imageCaption || '').slice(0, 500),
+        imageFit: String(post.imageFit || 'cover-center').slice(0, 50),
+        imageAura: String(post.imageAura || '').slice(0, 50),
+        hidden: Boolean(post.hidden),
+        preview: String(post.preview || '').slice(0, 2000),
+        content: String(post.content || '').slice(0, 500000),
+        updatedAt: serverTimestamp(),
+        ...extraFields
+      };
+      return docData;
+    }
+
     async function persistSingleBlogPostToCloud(post) {
       if (!db || !post) return false;
       try {
-        const safeId = String(post.id || (post.title + '_' + (post.dateIso || ''))).trim()
+        const rawSlug = String(post.id || (post.title + '_' + (post.dateIso || ''))).trim()
           .toLowerCase()
           .replace(/[^a-z0-9_-]/g, '_')
-          .substring(0, 50) + '_' + (post.dateIso || 'date');
+          .replace(/^_+|_+$/g, '') || 'post';
+        const dateSuffix = String(post.dateIso || 'date').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const safeId = (rawSlug.substring(0, 50) + '_' + dateSuffix).slice(0, 128);
 
         const postDocRef = doc(db, 'blog_posts', safeId);
-        await setDoc(postDocRef, {
-          ...post,
-          id: safeId,
+        await setDoc(postDocRef, buildCleanBlogPostDoc(post, safeId, {
           permanentAnchor: true,
-          updatedAt: serverTimestamp()
-        }, { merge: true });
+          isArchived: false
+        }));
 
         // Guardar respaldo adicional en blog_backups
         try {
           const backupRef = doc(db, 'blog_backups', 'latest_posts_backup');
           await setDoc(backupRef, {
-            posts: Array.isArray(window.postsData) ? window.postsData : [],
+            posts: (Array.isArray(window.postsData) ? window.postsData : []).slice(0, 500),
             updatedAt: serverTimestamp(),
             lastPostSaved: safeId
-          }, { merge: true });
+          });
         } catch(e) {}
 
         return true;
       } catch (err) {
-        console.warn('Error guardando publicación en blog_posts collection:', err);
+        if (err && err.message && err.message.includes('permission')) {
+          logFirestoreErrorInfo(err, 'write', 'blog_posts');
+        }
         return false;
       }
     }
@@ -14544,22 +14926,25 @@
     async function archiveSingleBlogPostInCloud(post) {
       if (!db || !post) return false;
       try {
-        const safeId = String(post.id || (post.title + '_' + (post.dateIso || ''))).trim()
+        await ensureAdminSignedIn(false);
+        const rawSlug = String(post.id || (post.title + '_' + (post.dateIso || ''))).trim()
           .toLowerCase()
           .replace(/[^a-z0-9_-]/g, '_')
-          .substring(0, 50) + '_' + (post.dateIso || 'date');
+          .replace(/^_+|_+$/g, '') || 'post';
+        const dateSuffix = String(post.dateIso || 'date').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const safeId = (rawSlug.substring(0, 50) + '_' + dateSuffix).slice(0, 128);
 
         const postDocRef = doc(db, 'blog_posts', safeId);
-        await setDoc(postDocRef, {
-          ...post,
-          id: safeId,
+        await setDoc(postDocRef, buildCleanBlogPostDoc(post, safeId, {
           isArchived: true,
           hidden: true,
           archivedAt: serverTimestamp()
-        }, { merge: true });
+        }));
         return true;
       } catch(err) {
-        console.warn('Error archivando publicación en cloud:', err);
+        if (err && err.message && err.message.includes('permission')) {
+          logFirestoreErrorInfo(err, 'write', 'blog_posts');
+        }
         return false;
       }
     }
@@ -14570,9 +14955,9 @@
         window.showToastNotification('💾 Sincronizando cambios en tiempo real...');
       }
 
-      let activePosts = deduplicatePosts(Array.isArray(window.postsData) ? window.postsData : postsData);
+      let activePosts = deduplicatePosts(Array.isArray(window.postsData) ? window.postsData : postsData).slice(0, 500);
       if (activePosts.length === 0 && Array.isArray(postsData) && postsData.length > 0) {
-        activePosts = deduplicatePosts(postsData);
+        activePosts = deduplicatePosts(postsData).slice(0, 500);
       }
       window.postsData = activePosts;
       postsData = activePosts;
@@ -14580,7 +14965,7 @@
       const payload = {
         posts: activePosts,
         galleries: (window.galleriesData && typeof window.galleriesData === 'object') ? window.galleriesData : {},
-        galleryOrder: (typeof getOrderedGalleryKeys === 'function') ? getOrderedGalleryKeys() : ['fotos', 'julianaqudateotroda'],
+        galleryOrder: ((typeof getOrderedGalleryKeys === 'function') ? getOrderedGalleryKeys() : ['fotos', 'julianaqudateotroda']).slice(0, 50),
         live: {
           buttons: Array.isArray(window.liveButtonsData) ? window.liveButtonsData : [],
           isVisible: !!window.isLiveSectionVisible,
@@ -14625,6 +15010,8 @@
       }
 
       try {
+        await ensureAdminSignedIn(!silent);
+
         // Guardar documento principal de sitio
         await setDoc(doc(db, 'site_data', 'main'), payload);
 
@@ -14640,11 +15027,15 @@
         }
         return true;
       } catch (err) {
-        console.error('Error guardando datos en Firestore:', err);
+        const isPerm = err && err.message && err.message.includes('permission');
+        if (isPerm) {
+          logFirestoreErrorInfo(err, 'write', 'site_data/main');
+        } else {
+          console.error('Error guardando datos en Firestore:', err);
+        }
         if (!silent && typeof window.showToastNotification === 'function') {
-          const isPerm = err && err.message && err.message.includes('permission');
           const errMsg = isPerm
-            ? '⛔ Permiso denegado: solo tapiascristian131@gmail.com puede modificar la página.'
+            ? '⛔ Permiso denegado: inicia sesión con Google como administrador para guardar en la nube.'
             : '⚠️ Guardado localmente. Error al sincronizar con Firestore.';
           window.showToastNotification(errMsg, true);
         }
