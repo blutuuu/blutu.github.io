@@ -1766,6 +1766,345 @@
 
     .close-blog-modal:hover { color: var(--accent-light); }
 
+    /* EDICIÓN INTEGRADA EN VIVO DE PENSAMIENTOS (WYSIWYG DIRECTO SIN CAJAS DE FORMULARIO) */
+    .blog-modal-box p[data-blutu-center="true"] {
+      text-align: center;
+      text-align-last: center;
+    }
+
+    .blog-modal-box p[data-blutu-center="true"]::first-letter,
+    .blog-modal-box p:empty::first-letter {
+      float: none;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
+      line-height: inherit;
+      margin: 0;
+    }
+
+    .wysiwyg-blog-toolbar {
+      position: sticky;
+      top: -28px;
+      z-index: 120;
+      margin: -24px -12px 22px -12px;
+      padding: 8px 12px;
+      background: rgba(9, 11, 16, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(90, 116, 191, 0.55);
+      border-radius: 22px 22px 10px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.78), 0 0 14px rgba(90, 116, 191, 0.22);
+    }
+
+    .wysiwyg-tool-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .wysiwyg-tool-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(90, 116, 191, 0.4);
+      color: var(--accent-light);
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .wysiwyg-tool-btn:hover {
+      background: rgba(90, 116, 191, 0.3);
+      color: var(--white);
+      border-color: var(--accent-light);
+      box-shadow: 0 0 10px rgba(90, 116, 191, 0.45);
+    }
+
+    .wysiwyg-tool-btn.is-primary {
+      background: var(--accent-blue);
+      color: #fff;
+      border-color: var(--accent-light);
+      font-weight: 700;
+    }
+
+    .wysiwyg-tool-btn.is-danger {
+      background: rgba(180, 50, 50, 0.22);
+      color: #ff9999;
+      border-color: rgba(255, 77, 77, 0.55);
+    }
+
+    .wysiwyg-tool-btn.is-danger:hover {
+      background: rgba(200, 50, 50, 0.55);
+      color: #fff;
+    }
+
+    #blogLiveTitle[contenteditable="true"] {
+      outline: none;
+      cursor: text;
+      border-bottom: 1px dashed transparent;
+      padding: 2px 8px;
+      border-radius: 6px;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+      min-height: 1.2em;
+    }
+
+    #blogLiveTitle[contenteditable="true"]:hover,
+    #blogLiveTitle[contenteditable="true"]:focus {
+      border-bottom-color: rgba(140, 162, 230, 0.55);
+      background: rgba(90, 116, 191, 0.06);
+    }
+
+    #blogLiveTitle[contenteditable="true"]:empty::before {
+      content: attr(data-placeholder);
+      color: rgba(140, 162, 230, 0.42);
+      font-style: italic;
+      pointer-events: none;
+    }
+
+    .modal-date-editable {
+      position: relative;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 2px 10px;
+      border-radius: 6px;
+      border: 1px dashed transparent;
+      transition: all 0.2s ease;
+    }
+
+    .modal-date-editable:hover {
+      border-color: rgba(140, 162, 230, 0.5);
+      background: rgba(90, 116, 191, 0.08);
+      color: var(--accent-light);
+    }
+
+    .modal-date-native-picker {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .cover-img-placeholder-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 auto 24px auto;
+      padding: 10px 20px;
+      background: rgba(90, 116, 191, 0.06);
+      border: 1px dashed rgba(90, 116, 191, 0.45);
+      border-radius: 24px 24px 8px 8px;
+      color: rgba(140, 162, 230, 0.8);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .cover-img-placeholder-btn:hover {
+      background: rgba(90, 116, 191, 0.18);
+      border-color: var(--accent-light);
+      color: var(--white);
+      box-shadow: 0 0 14px rgba(90, 116, 191, 0.35);
+    }
+
+    .figure-floating-actions {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+      padding: 4px 10px;
+      background: rgba(9, 11, 16, 0.88);
+      border: 1px solid rgba(90, 116, 191, 0.55);
+      border-radius: 8px;
+      opacity: 0.25;
+      transition: opacity 0.22s ease;
+    }
+
+    .main-img-figure:hover .figure-floating-actions,
+    .main-img-figure:focus-within .figure-floating-actions,
+    .blutu-editable-figure:hover .figure-floating-actions,
+    .blutu-editable-figure:focus-within .figure-floating-actions {
+      opacity: 1;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .figure-floating-actions {
+        opacity: 0.92;
+      }
+    }
+
+    .figure-floating-actions button {
+      background: rgba(90, 116, 191, 0.2);
+      border: 1px solid rgba(90, 116, 191, 0.45);
+      color: var(--accent-light);
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .figure-floating-actions button:hover {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
+    .figure-floating-actions button.is-remove {
+      background: rgba(180, 50, 50, 0.25);
+      border-color: rgba(255, 77, 77, 0.5);
+      color: #ff9999;
+    }
+
+    .main-img-caption[contenteditable="true"],
+    .inline-img-caption[contenteditable="true"] {
+      outline: none;
+      cursor: text;
+      min-height: 1.3em;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border-bottom: 1px dashed transparent;
+      display: inline-block;
+      min-width: 140px;
+      transition: all 0.2s ease;
+    }
+
+    .main-img-caption[contenteditable="true"]:empty:not(:focus),
+    .inline-img-caption[contenteditable="true"]:empty:not(:focus) {
+      opacity: 0;
+      max-height: 0;
+      min-height: 0;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      display: block;
+    }
+
+    .main-img-figure:hover .main-img-caption[contenteditable="true"]:empty,
+    .blutu-editable-figure:hover .inline-img-caption[contenteditable="true"]:empty,
+    .main-img-caption[contenteditable="true"]:focus,
+    .inline-img-caption[contenteditable="true"]:focus {
+      opacity: 1;
+      max-height: 120px;
+      min-height: 1.3em;
+      padding: 2px 8px;
+      margin-top: 6px;
+      display: inline-block;
+      border-bottom-color: rgba(140, 162, 230, 0.45);
+    }
+
+    .main-img-caption[contenteditable="true"]:empty::before,
+    .inline-img-caption[contenteditable="true"]:empty::before {
+      content: attr(data-placeholder);
+      color: rgba(140, 162, 230, 0.45);
+      font-style: italic;
+      pointer-events: none;
+    }
+
+    .blog-editable-body {
+      outline: none;
+      min-height: 160px;
+      cursor: text;
+      padding: 2px 0 12px 0;
+      border-radius: 6px;
+    }
+
+    .blog-editable-body[data-is-empty="true"] p:first-child::before {
+      content: attr(data-placeholder);
+      color: rgba(140, 162, 230, 0.42);
+      font-style: italic;
+      pointer-events: none;
+    }
+
+    .blog-card-editable-title[contenteditable="true"],
+    .blog-card-editable-preview[contenteditable="true"] {
+      outline: none;
+      cursor: text;
+      border-radius: 4px;
+      border-bottom: 1px dashed transparent;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .blog-card-editable-title[contenteditable="true"]:hover,
+    .blog-card-editable-title[contenteditable="true"]:focus,
+    .blog-card-editable-preview[contenteditable="true"]:hover,
+    .blog-card-editable-preview[contenteditable="true"]:focus {
+      border-bottom-color: rgba(140, 162, 230, 0.55);
+      background: rgba(90, 116, 191, 0.08);
+    }
+
+    .blog-card-editable-title[contenteditable="true"]:empty::before,
+    .blog-card-editable-preview[contenteditable="true"]:empty::before {
+      content: attr(data-placeholder);
+      color: rgba(140, 162, 230, 0.45);
+      font-style: italic;
+      pointer-events: none;
+    }
+
+    .blog-thumb-admin-wrap {
+      position: relative;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .blog-thumb-fit-badge {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(9, 11, 16, 0.85);
+      border: 1px solid rgba(90, 116, 191, 0.65);
+      color: var(--accent-light);
+      font-size: 0.68rem;
+      padding: 2px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 3;
+      transition: all 0.2s ease;
+    }
+
+    .blog-thumb-fit-badge:hover {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
+    @media (max-width: 550px) {
+      .wysiwyg-blog-toolbar {
+        top: -16px;
+        margin: -14px -6px 16px -6px;
+        padding: 6px 8px;
+        gap: 5px;
+      }
+      .wysiwyg-tool-btn {
+        padding: 5px 7px;
+        font-size: 0.74rem;
+      }
+    }
+
     /* ESTILOS DE MODAL OPCIONES DE CORREO */
     .email-modal-overlay {
       display: none;
@@ -3225,11 +3564,6 @@
         .admin-format-bar-sticky {
           top: 30px;
           padding: 4px 6px;
-        }
-
-        #modalEditContent {
-          min-height: 160px !important;
-          max-height: 40vh !important;
         }
       }
     }
@@ -5470,10 +5804,10 @@
       </div>
       <div class="collapsible-body" id="blogSectionBody">
         <!-- BARRA DE GESTIÓN DE PENSAMIENTOS DENTRO DE LA SECCIÓN (MODO EDICIÓN) -->
-        <div id="inlineBlogAdmin" class="inline-admin-panel" style="display: none; margin-bottom: 15px; margin-top: 5px; padding: 10px 14px;">
-          <div class="inline-admin-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0;">
-            <span>⚙️ Gestión de Pensamientos</span>
-            <button type="button" class="admin-btn" onclick="createNewBlogInModal()" title="Crear Nueva Publicación" style="background: var(--accent-blue); color: #fff; border: none; padding: 6px 14px; cursor: pointer; border-radius: 4px; font-weight: bold; font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;">
+        <div id="inlineBlogAdmin" class="inline-admin-panel" style="display: none; margin-bottom: 12px; margin-top: 4px; padding: 8px 14px; background: rgba(9, 11, 16, 0.65);">
+          <div class="inline-admin-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0; gap: 10px; flex-wrap: wrap;">
+            <span style="font-size: 0.85rem; color: var(--text-muted); font-family: 'Cormorant Garamond', serif; font-style: italic;">Edita textos directamente sobre las tarjetas o abre cualquier publicación para editarla en vivo.</span>
+            <button type="button" class="read-more-btn" onclick="createNewBlogInModal()" title="Crear Nueva Publicación" style="padding: 5px 14px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px;">
               ➕ Nueva Publicación
             </button>
           </div>
@@ -5701,32 +6035,45 @@
   <div id="insertImageModal" class="modal" onclick="if(event.target===this) closeInsertImageModal()" style="display: none; z-index: 100000;">
     <div class="blog-modal-box" style="max-width: 500px; padding: 25px;">
       <span class="close-blog-modal" onclick="closeInsertImageModal()">×</span>
-      <h2 style="font-size: 1.5rem; margin-bottom: 15px; border-bottom: 1px solid var(--accent-blue); padding-bottom: 8px; color: var(--white);">🖼️ Insertar Imagen en el Contenido</h2>
+      <h2 id="insertImageModalTitle" style="font-size: 1.5rem; margin-bottom: 15px; border-bottom: 1px solid var(--accent-blue); padding-bottom: 8px; color: var(--white);">🖼️ Insertar Imagen</h2>
       
       <div class="admin-form-group" style="margin-bottom: 15px;">
-        <label style="color: var(--accent-light); font-size: 1rem; display: block; margin-bottom: 5px;">URL de la Imagen (requerido):</label>
+        <label style="color: var(--accent-light); font-size: 1rem; display: block; margin-bottom: 5px;">URL de la Imagen:</label>
         <input type="text" id="modalImgUrl" placeholder="Ej: https://ejemplo.com/imagen.jpg" style="width: 100%; padding: 10px; background: #050508; border: 1px solid var(--accent-blue); color: #fff; font-size: 1rem;">
       </div>
 
       <div class="admin-form-group" style="margin-bottom: 15px;">
-        <label style="color: var(--accent-light); font-size: 1rem; display: block; margin-bottom: 5px;">Título o Pie de Foto (Opcional):</label>
+        <label style="color: var(--accent-light); font-size: 1rem; display: block; margin-bottom: 5px;">Pie de Foto (Opcional):</label>
         <input type="text" id="modalImgCaption" placeholder="Ej: La joven en el lecho de muerte, 1840" style="width: 100%; padding: 10px; background: #050508; border: 1px solid var(--accent-blue); color: #fff; font-size: 1rem;">
+      </div>
+
+      <div id="modalImgFitGroup" class="admin-form-group" style="margin-bottom: 15px; display: none;">
+        <label style="color: var(--accent-light); font-size: 1rem; display: block; margin-bottom: 5px;">Encuadre en la Tarjeta:</label>
+        <select id="modalImgFit" style="width: 100%; padding: 10px; background: #050508; border: 1px solid var(--accent-blue); color: #fff; font-size: 1rem;">
+          <option value="cover-center">Cover - Centro</option>
+          <option value="cover-top">Cover - Arriba</option>
+          <option value="cover-bottom">Cover - Abajo</option>
+          <option value="contain">Completa (Contain)</option>
+        </select>
       </div>
 
       <div class="admin-form-group" style="margin-bottom: 20px;">
         <label style="color: var(--accent-light); font-size: 1rem; display: block; margin-bottom: 5px;">Color de Aura de la Imagen (Opcional):</label>
         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
           <input type="color" id="modalImgAuraPicker" value="#5a74bf" oninput="document.getElementById('modalImgAura').value = this.value" style="width: 42px; height: 38px; padding: 2px; background: #050508; border: 1px solid var(--accent-blue); cursor: pointer; border-radius: 4px;">
-          <input type="text" id="modalImgAura" placeholder="Ej: #5A74BF (dejar vacío para auto)" style="flex: 1; padding: 10px; background: #050508; border: 1px solid var(--accent-blue); color: #fff; font-size: 1rem;" oninput="if(this.value.startsWith('#')) document.getElementById('modalImgAuraPicker').value = this.value">
+          <input type="text" id="modalImgAura" placeholder="Ej: #5A74BF (vacío = auto)" style="flex: 1; padding: 10px; background: #050508; border: 1px solid var(--accent-blue); color: #fff; font-size: 1rem;" oninput="if(this.value.startsWith('#')) document.getElementById('modalImgAuraPicker').value = this.value">
           <button type="button" class="admin-btn" onclick="pickPixelColorForAura('modalImgAura', 'modalImgAuraPicker', 'modalImgUrl')" title="Tomar color de un píxel de la imagen con la pipeta/cuentagotas" style="background: rgba(90, 116, 191, 0.2); border: 1px solid var(--accent-blue); color: var(--accent-light); padding: 8px 12px; border-radius: 4px; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: bold; white-space: nowrap;">
             🧪 Pipeta Píxel
           </button>
         </div>
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 12px;">
-        <button type="button" class="admin-btn" onclick="closeInsertImageModal()" style="background: rgba(255,255,255,0.1); color: #ccc;">Cancelar</button>
-        <button type="button" class="admin-btn" onclick="confirmInsertImageModal()" style="background: var(--accent-blue); color: #fff; font-weight: bold;">Insertar Imagen</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <button type="button" id="modalImgRemoveBtn" class="admin-btn" onclick="removeImageFromInsertModal()" style="display: none; background: rgba(180, 50, 50, 0.25); border: 1px solid #ff4d4d; color: #ff9999;">🗑️ Quitar</button>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-left: auto;">
+          <button type="button" class="admin-btn" onclick="closeInsertImageModal()" style="background: rgba(255,255,255,0.1); color: #ccc;">Cancelar</button>
+          <button type="button" id="modalImgConfirmBtn" class="admin-btn" onclick="confirmInsertImageModal()" style="background: var(--accent-blue); color: #fff; font-weight: bold;">Insertar Imagen</button>
+        </div>
       </div>
     </div>
   </div>
@@ -5778,9 +6125,12 @@
         <input type="text" id="modalLinkUrl" placeholder="Ej: https://open.spotify.com/..." style="width: 100%; padding: 10px; background: #050508; border: 1px solid var(--accent-blue); color: #fff; font-size: 1rem;">
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 12px;">
-        <button type="button" class="admin-btn" onclick="closeInsertLinkModal()" style="background: rgba(255,255,255,0.1); color: #ccc;">Cancelar</button>
-        <button type="button" class="admin-btn" onclick="confirmInsertLinkModal()" style="background: var(--accent-blue); color: #fff; font-weight: bold;">Insertar Enlace</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <button type="button" id="modalLinkRemoveBtn" class="admin-btn" onclick="removeLinkFromInsertModal()" style="display: none; background: rgba(180, 50, 50, 0.25); border: 1px solid #ff4d4d; color: #ff9999;">🔗 Quitar Enlace</button>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-left: auto;">
+          <button type="button" class="admin-btn" onclick="closeInsertLinkModal()" style="background: rgba(255,255,255,0.1); color: #ccc;">Cancelar</button>
+          <button type="button" class="admin-btn" onclick="confirmInsertLinkModal()" style="background: var(--accent-blue); color: #fff; font-weight: bold;">Aplicar Enlace</button>
+        </div>
       </div>
     </div>
   </div>
@@ -5825,9 +6175,12 @@
         <div id="modalColorPreviewText" style="font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: #8CA2E6; word-break: break-word;">Ejemplo de texto con color</div>
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 12px;">
-        <button type="button" class="admin-btn" onclick="closeInsertColorModal()" style="background: rgba(255,255,255,0.1); color: #ccc;">Cancelar</button>
-        <button type="button" class="admin-btn" onclick="confirmInsertColorModal()" style="background: var(--accent-blue); color: #fff; font-weight: bold;">Aplicar Color</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <button type="button" id="modalColorRemoveBtn" class="admin-btn" onclick="removeColorFromInsertModal()" style="display: none; background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: var(--accent-light);">Quitar Color</button>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-left: auto;">
+          <button type="button" class="admin-btn" onclick="closeInsertColorModal()" style="background: rgba(255,255,255,0.1); color: #ccc;">Cancelar</button>
+          <button type="button" class="admin-btn" onclick="confirmInsertColorModal()" style="background: var(--accent-blue); color: #fff; font-weight: bold;">Aplicar Color</button>
+        </div>
       </div>
     </div>
   </div>
@@ -6091,17 +6444,26 @@
 
     function arePostsIdentical(a, b) {
       if (!a || !b) return false;
+      const idA = String(a.id || '').trim().toLowerCase();
+      const idB = String(b.id || '').trim().toLowerCase();
       // 1. Coincidencia directa de ID
-      if (a.id && b.id && String(a.id).trim().toLowerCase() === String(b.id).trim().toLowerCase()) return true;
+      if (idA && idB) {
+        if (idA === idB) return true;
+        // Dos publicaciones distintas con IDs generados (post_...) no deben colisionar si aún están vacías
+        if (idA.startsWith('post_') && idB.startsWith('post_')) return false;
+      }
+      const titleA = String(a.title || '').trim();
+      const titleB = String(b.title || '').trim();
+      if (!titleA || !titleB) return false;
       // 2. Coincidencia exacta de Título (insensible a mayúsculas/espacios)
-      if (a.title && b.title && String(a.title).trim().toLowerCase() === String(b.title).trim().toLowerCase()) return true;
+      if (titleA.toLowerCase() === titleB.toLowerCase()) return true;
       // 3. Coincidencia por slug normalizado sin acentos ni puntuación
-      const slugA = normalizePostStr(a.title || a.id);
-      const slugB = normalizePostStr(b.title || b.id);
+      const slugA = normalizePostStr(titleA);
+      const slugB = normalizePostStr(titleB);
       if (slugA && slugB && slugA === slugB) return true;
-      // 4. Coincidencia por combinación de título + fecha
-      const tdA = normalizePostStr((a.title || '') + (a.dateIso || ''));
-      const tdB = normalizePostStr((b.title || '') + (b.dateIso || ''));
+      // 4. Coincidencia por combinación de título + fecha (solo cuando ambos tienen título)
+      const tdA = normalizePostStr(titleA + (a.dateIso || ''));
+      const tdB = normalizePostStr(titleB + (b.dateIso || ''));
       if (tdA && tdB && tdA === tdB) return true;
       return false;
     }
@@ -6626,9 +6988,28 @@
       logoBtn.addEventListener('click', toggleAudio);
     }
 
-    function toggleManualPreviewBox() {
-      const isChecked = document.getElementById('manualPreviewToggle').checked;
-      document.getElementById('manualPreviewContainer').style.display = isChecked ? 'block' : 'none';
+    function escapeHtmlText(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function computeAutoPostPreview(contentStr) {
+      if (!contentStr) return '';
+      let previewText = String(contentStr)
+        .replace(/\[img:\s*[^\]]+\]/gi, '')
+        .replace(/\[\/?center\]/gi, '')
+        .replace(/\[center:\s*([^\]]+)\]/gi, '$1')
+        .replace(/^#\s+/gm, '')
+        .replace(/\*\*(.*?)\*\*/g, '$1')
+        .replace(/\[color:\s*[^|]+\|([^\]]+)\]/gi, '$1')
+        .replace(/\[link:\s*[^|]+\|([^\]]+)\]/gi, '$2')
+        .replace(/\[([^\]]+)\]\(([^\s\)]+)\)/gi, '$1')
+        .trim();
+      if (previewText.length > 120) previewText = previewText.substring(0, 120) + '...';
+      return previewText;
     }
 
     /* RENDERIZADO DE BLOGS CON PAGINACIÓN HORIZONTAL (3 BLOGS POR PÁGINA) */
@@ -6639,6 +7020,13 @@
     function getVisibleBlogPosts() {
       const source = deduplicatePosts(Array.isArray(window.postsData) ? window.postsData : postsData);
       return (typeof isAdminMode !== 'undefined' && isAdminMode) ? source : source.filter(post => !post.hidden);
+    }
+
+    function getFitCssForPost(fitVal) {
+      if (fitVal === 'contain') return 'object-fit: contain; background: #050508;';
+      if (fitVal === 'cover-top') return 'object-fit: cover; object-position: center top;';
+      if (fitVal === 'cover-bottom') return 'object-fit: cover; object-position: center bottom;';
+      return 'object-fit: cover; object-position: center center;';
     }
 
     function renderBlogPosts() {
@@ -6661,7 +7049,6 @@
       if (currentBlogPage >= totalPages) currentBlogPage = totalPages - 1;
       if (currentBlogPage < 0) currentBlogPage = 0;
 
-      // Crear páginas/diapositivas según la cantidad de blogs por página
       for (let page = 0; page < totalPages; page++) {
         const slideDiv = document.createElement('div');
         slideDiv.className = 'blog-slide';
@@ -6670,67 +7057,83 @@
 
         pagePosts.forEach((post, postIdxInPage) => {
           const globalPostIndex = page * perPage + postIdxInPage;
-          let previewText = post.preview && post.preview.trim() !== "" 
-            ? post.preview 
-            : post.content.replace(/\[img:\s*[^\]]+\]/gi, '').replace(/^#\s+/gm, '').replace(/\*\*(.*?)\*\*/g, '$1').replace(/\[color:\s*[^|]+\|([^\]]+)\]/gi, '$1').replace(/\[link:\s*[^|]+\|([^\]]+)\]/gi, '$2').replace(/\[([^\]]+)\]\(([^\s\)]+)\)/gi, '$1');
+          const previewText = (post.preview && post.preview.trim() !== '')
+            ? post.preview
+            : computeAutoPostPreview(post.content || '');
 
-          if (!post.preview && previewText.length > 120) previewText = previewText.substring(0, 120) + '...';
+          const fitStyle = getFitCssForPost(post.imageFit || 'cover-center');
 
-          let fitStyle = '';
-          const fitVal = post.imageFit || 'cover-center';
-          
-          if (fitVal === 'contain') {
-            fitStyle = 'object-fit: contain; background: #050508;';
-          } else if (fitVal === 'cover-top') {
-            fitStyle = 'object-fit: cover; object-position: center top;';
-          } else if (fitVal === 'cover-bottom') {
-            fitStyle = 'object-fit: cover; object-position: center bottom;';
-          } else {
-            fitStyle = 'object-fit: cover; object-position: center center;';
-          }
-
-          const thumbHTML = post.image ? `<img src="${post.image}" alt="${post.title}" class="blog-thumb" loading="lazy" decoding="async" style="${fitStyle}">` : '';
           let realIndex = postsData.indexOf(post);
           if (realIndex === -1) {
-            realIndex = postsData.findIndex(p => p.title === post.title && p.dateIso === post.dateIso);
+            realIndex = postsData.findIndex(p => (post.id && p.id === post.id) || (p.title === post.title && p.dateIso === post.dateIso));
+          }
+
+          let thumbHTML = '';
+          if (post.image) {
+            if (isAdminMode) {
+              thumbHTML = `
+                <div class="blog-thumb-admin-wrap" onclick="event.stopPropagation()">
+                  <img src="${escapeHtmlAttr(post.image)}" alt="${escapeHtmlAttr(post.title || '')}" class="blog-thumb" loading="lazy" decoding="async" style="${fitStyle}" onclick="openBlogModal(${realIndex})">
+                  <button type="button" class="blog-thumb-fit-badge" onclick="event.stopPropagation(); cycleCardImageFit(${realIndex}, this)" title="Cambiar encuadre de miniatura">📐</button>
+                </div>
+              `;
+            } else {
+              thumbHTML = `<img src="${escapeHtmlAttr(post.image)}" alt="${escapeHtmlAttr(post.title || '')}" class="blog-thumb" loading="lazy" decoding="async" style="${fitStyle}">`;
+            }
           }
 
           const article = document.createElement('article');
           const isEvenPreview = globalPostIndex % 2 === 1;
           article.className = `blog-article ${isEvenPreview ? 'even-preview' : 'odd-preview'}`;
           article.onclick = function(e) {
-            if (!e.target.closest('button')) {
+            if (e.target.closest('button') || e.target.closest('input') || e.target.closest('[contenteditable="true"]')) {
+              return;
+            }
+            if (isAdminMode) {
+              openBlogModal(realIndex);
+            } else {
               triggerLeerAnimationAndOpen(realIndex);
             }
           };
 
           const isHidden = !!post.hidden;
-          const adminActionBtns = isAdminMode ? `
-            <div style="display: flex; gap: 4px; align-items: center; flex-wrap: wrap;">
-              <button type="button" class="read-more-btn" style="padding: 4px 8px; font-size: 0.78rem; background: rgba(90, 116, 191, 0.25); border: 1px solid var(--accent-blue); color: var(--accent-light);" onclick="event.stopPropagation(); editPostFromCard(${realIndex})">✏️ Editar</button>
-              <button type="button" class="read-more-btn" style="padding: 4px 8px; font-size: 0.78rem; background: ${isHidden ? 'rgba(90,116,191,0.3)' : 'rgba(200,150,50,0.3)'}; border: 1px solid ${isHidden ? 'var(--accent-blue)' : '#cca333'}; color: ${isHidden ? 'var(--accent-light)' : '#ffd280'};" onclick="event.stopPropagation(); toggleModalPostVisibility(${realIndex}, event)">${isHidden ? '👁️ Mostrar' : '👁️‍🗨️ Ocultar'}</button>
-              <button type="button" class="read-more-btn btn-delete-post" style="padding: 4px 8px; font-size: 0.78rem;" onclick="event.stopPropagation(); deleteModalPost(${realIndex})">🗑️ Eliminar</button>
-            </div>
-          ` : '';
 
-          const mainCardBtn = isAdminMode ? `
-            <button class="read-more-btn" style="background: rgba(90, 116, 191, 0.2); border: 1px solid var(--accent-blue); color: var(--accent-light);" onclick="event.stopPropagation(); triggerLeerAnimationAndOpen(${realIndex}, true)">👁️ Vista previa</button>
-          ` : `
-            <button class="read-more-btn" onclick="triggerLeerAnimationAndOpen(${realIndex})">Leer ➔</button>
-          `;
-
-          article.innerHTML = `
-            ${thumbHTML}
-            <div class="blog-content">
-              <h3>${post.title} ${post.hidden ? '<span style="font-size: 0.75rem; color: #ff6666; font-family: sans-serif; vertical-align: middle;">[Oculto]</span>' : ''}</h3>
-              <span class="date">${post.date}</span>
-              <p>${previewText}</p>
-              <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap;">
-                ${mainCardBtn}
-                ${adminActionBtns}
+          if (isAdminMode) {
+            article.innerHTML = `
+              ${thumbHTML}
+              <div class="blog-content">
+                <div style="display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;">
+                  <h3 class="blog-card-editable-title" contenteditable="true" spellcheck="true" data-placeholder="Título..." title="Haz clic para editar el título directamente" onclick="event.stopPropagation()" oninput="handleCardInlineTitleInput(${realIndex}, this)" onpaste="handlePlainTextPaste(event)" onkeydown="if(event.key==='Enter'){event.preventDefault(); this.blur();}" style="margin-bottom: 2px;">${escapeHtmlText(post.title || '')}</h3>
+                  ${isHidden ? '<span style="font-size: 0.72rem; color: #ff6666; font-family: sans-serif;">[Oculto]</span>' : ''}
+                </div>
+                <span class="date modal-date-editable" title="Haz clic para cambiar la fecha" onclick="event.stopPropagation()" style="margin-bottom: 6px; padding-left: 0;">
+                  <span>${escapeHtmlText(post.date || '')}</span>
+                  <input type="date" class="modal-date-native-picker" value="${escapeHtmlAttr(post.dateIso || '')}" onchange="handleCardInlineDateChange(${realIndex}, this.value)" onclick="event.stopPropagation(); if(this.showPicker){try{this.showPicker();}catch(err){}}">
+                </span>
+                <p class="blog-card-editable-preview" contenteditable="true" spellcheck="true" data-placeholder="Resumen corto (vacío = automático)..." title="Haz clic para editar el resumen de la tarjeta" onclick="event.stopPropagation()" oninput="handleCardInlinePreviewInput(${realIndex}, this)" onblur="handleCardInlinePreviewBlur(${realIndex}, this)" onpaste="handlePlainTextPaste(event)">${escapeHtmlText(previewText)}</p>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap;">
+                  <button type="button" class="read-more-btn" onclick="event.stopPropagation(); openBlogModal(${realIndex})">Leer ➔</button>
+                  <div style="display: flex; gap: 5px; align-items: center; flex-wrap: wrap;">
+                    <button type="button" class="read-more-btn" style="padding: 4px 9px; font-size: 0.75rem; background: ${isHidden ? 'rgba(90,116,191,0.3)' : 'rgba(200,150,50,0.22)'}; border: 1px solid ${isHidden ? 'var(--accent-blue)' : '#cca333'}; color: ${isHidden ? 'var(--accent-light)' : '#ffd280'};" onclick="event.stopPropagation(); toggleModalPostVisibility(${realIndex}, event)" title="${isHidden ? 'Mostrar a visitantes' : 'Ocultar a visitantes'}">${isHidden ? '👁️ Mostrar' : '👁️‍🗨️ Ocultar'}</button>
+                    <button type="button" class="read-more-btn btn-delete-post" style="padding: 4px 9px; font-size: 0.75rem;" onclick="event.stopPropagation(); deleteModalPost(${realIndex})" title="Eliminar publicación">🗑️</button>
+                  </div>
+                </div>
               </div>
-            </div>
-          `;
+            `;
+          } else {
+            article.innerHTML = `
+              ${thumbHTML}
+              <div class="blog-content">
+                <h3>${post.title}</h3>
+                <span class="date">${post.date}</span>
+                <p>${previewText}</p>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap;">
+                  <button class="read-more-btn" onclick="triggerLeerAnimationAndOpen(${realIndex})">Leer ➔</button>
+                </div>
+              </div>
+            `;
+          }
+
           slideDiv.appendChild(article);
         });
 
@@ -6817,6 +7220,7 @@
       // Gestos táctiles móviles
       blogSliderWrapper.addEventListener('touchstart', (e) => {
         if (e.touches.length > 1) return;
+        if (e.target.closest('[contenteditable="true"]') || e.target.closest('button') || e.target.closest('input') || e.target.closest('select')) return;
         const track = getTrack();
         blogTouchStartX = e.touches[0].clientX;
         blogTouchCurrentX = blogTouchStartX;
@@ -6859,7 +7263,7 @@
       // Arrastre con ratón en PC / Escritorio
       blogSliderWrapper.addEventListener('mousedown', (e) => {
         if (e.button !== 0) return;
-        if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('select') || e.target.closest('textarea')) return;
+        if (e.target.closest('[contenteditable="true"]') || e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('select') || e.target.closest('textarea')) return;
         const track = getTrack();
         isBlogPointerDown = true;
         blogPointerStartX = e.clientX;
@@ -6915,13 +7319,15 @@
       lastBlogViewportWidth = window.innerWidth;
       clearTimeout(blogResizeDebounceTimer);
       blogResizeDebounceTimer = setTimeout(() => {
+        const activeEl = document.activeElement;
+        if (activeEl && activeEl.isContentEditable) return;
         renderBlogPosts();
       }, 150);
     }, { passive: true });
 
     renderBlogPosts();
 
-    /* FUNCIONES PARA MODAL DE LECTURA DE BLOG CON ANIMACIÓN DE OVERLAY */
+    /* FUNCIONES PARA MODAL DE LECTURA Y EDICIÓN INTEGRADA DE BLOG */
     let currentBlogIndex = null;
     let isReadOverlayAnimating = false;
 
@@ -6936,10 +7342,8 @@
         return;
       }
 
-      // 1. Oscurecer la pantalla y activar el logo en el centro con brillo parpadeante (Fade-in 0.5s)
       overlay.classList.add('active');
 
-      // 2. A los 0.5s (500ms) abrir la publicación completa y ocultar el overlay
       setTimeout(() => {
         openBlogModal(postIndex, forcePreview);
         overlay.classList.remove('active');
@@ -6978,9 +7382,13 @@
       }
       activeModalHistoryName = null;
 
-      // 1. Cerrar modal de lectura de Pensamientos (Blog)
+      // 1. Cerrar modal de lectura/edición de Pensamientos (Blog)
       const blogModal = document.getElementById('blogReadModal');
       if (blogModal && blogModal.style.display !== 'none') {
+        if (isAdminMode && typeof syncLiveBlogModalToMemory === 'function') {
+          syncLiveBlogModalToMemory(true);
+          renderBlogPosts();
+        }
         blogModal.style.display = 'none';
         document.body.style.overflow = '';
       }
@@ -7013,176 +7421,238 @@
       }
     });
 
+    function buildEditableInlineFigureHTML(url, caption, auraColor) {
+      const safeUrl = escapeHtmlAttr(url || '');
+      const safeAura = escapeHtmlAttr(auraColor || '');
+      const auraAttr = safeAura ? `data-aura="${safeAura}"` : '';
+      return `<figure class="inline-img-figure blutu-editable-figure" contenteditable="false" data-img-url="${safeUrl}" data-aura="${safeAura}">
+        <div class="figure-floating-actions" contenteditable="false">
+          <button type="button" onmousedown="event.preventDefault()" onclick="openBlogImageModal('edit-inline', this.closest('.blutu-editable-figure'))" title="Editar imagen o color de aura">🖼️ Imagen / 🧪 Aura</button>
+          <button type="button" onmousedown="event.preventDefault()" onclick="moveInlineFigureBlock(this, -1)" title="Mover arriba">⬆️</button>
+          <button type="button" onmousedown="event.preventDefault()" onclick="moveInlineFigureBlock(this, 1)" title="Mover abajo">⬇️</button>
+          <button type="button" class="is-remove" onmousedown="event.preventDefault()" onclick="removeInlineFigureBlock(this)" title="Quitar imagen">🗑️</button>
+        </div>
+        <img src="${safeUrl}" class="inline-img" ${auraAttr} alt="${escapeHtmlAttr(caption || 'Imagen en contenido')}">
+        <figcaption class="inline-img-caption" contenteditable="true" spellcheck="true" data-placeholder="Pie de foto (opcional)..." oninput="syncLiveBlogModalToMemory()" onpaste="handlePlainTextPaste(event)" onkeydown="if(event.key==='Enter'){event.preventDefault(); this.blur();}">${escapeHtmlText(caption || '')}</figcaption>
+      </figure>`;
+    }
+
+    function renderBlogArticleBodyHTML(rawContent, editableMode = false) {
+      function parseImgToken(rawMatch) {
+        const inner = rawMatch.replace(/^\[img:\s*/i, '').replace(/\]$/, '').trim();
+        const parts = inner.split('|');
+        const url = parts[0] ? parts[0].trim() : '';
+        const caption = parts.length > 1 ? parts[1].trim() : '';
+        const auraColor = parts.length > 2 ? parts[2].trim() : '';
+        return { url, caption, auraColor };
+      }
+
+      function renderVisitorImageTag(rawMatch) {
+        const { url, caption, auraColor } = parseImgToken(rawMatch);
+        const auraAttr = auraColor ? `data-aura="${escapeHtmlAttr(auraColor)}"` : '';
+        if (caption) {
+          return `<figure class="inline-img-figure"><img src="${escapeHtmlAttr(url)}" class="inline-img" ${auraAttr} alt="${escapeHtmlAttr(caption)}"><figcaption class="inline-img-caption">${escapeHtmlText(caption)}</figcaption></figure>`;
+        }
+        return `<img src="${escapeHtmlAttr(url)}" class="inline-img" ${auraAttr} alt="Imagen en contenido">`;
+      }
+
+      const contentStr = String(rawContent || '');
+      if (!contentStr.trim()) {
+        return editableMode ? '<p><br></p>' : '';
+      }
+
+      const blocks = [];
+      let lastEndedWithFigure = false;
+      const paragraphs = contentStr.split('\n\n');
+
+      paragraphs.forEach(p => {
+        const trimmedPara = p.trim();
+        if (!trimmedPara) return;
+
+        // Dividir limpiamente alrededor de cualquier etiqueta [img:...]
+        const segments = trimmedPara.split(/(\[img:\s*[^\]]+\])/gi);
+        segments.forEach(seg => {
+          const text = seg.trim();
+          if (!text) return;
+
+          if (/^\[img:\s*[^\]]+\]$/i.test(text)) {
+            if (editableMode) {
+              const { url, caption, auraColor } = parseImgToken(text);
+              blocks.push(buildEditableInlineFigureHTML(url, caption, auraColor));
+              lastEndedWithFigure = true;
+            } else {
+              blocks.push(renderVisitorImageTag(text));
+            }
+            return;
+          }
+
+          lastEndedWithFigure = false;
+
+          if (text.startsWith('# ')) {
+            let subRaw = text.substring(2).trim();
+            const centerSubMatch = subRaw.match(/^\[center\]([\s\S]*)\[\/center\]$/i);
+            if (centerSubMatch && !/\[\/center\]/i.test(centerSubMatch[1])) {
+              blocks.push(`<h2 data-blutu-center="true" style="text-align: center;">${formatPostInlineText(centerSubMatch[1].trim())}</h2>`);
+            } else {
+              blocks.push(`<h2>${formatPostInlineText(subRaw)}</h2>`);
+            }
+            return;
+          }
+
+          const wholeCenterMatch = text.match(/^\[center\]([\s\S]*)\[\/center\]$/i);
+          if (wholeCenterMatch && !/\[\/center\]/i.test(wholeCenterMatch[1])) {
+            const innerCentered = wholeCenterMatch[1];
+            blocks.push(`<p data-blutu-center="true">${formatPostInlineText(innerCentered).replace(/\n/g, '<br>')}</p>`);
+            return;
+          }
+
+          blocks.push(`<p>${formatPostInlineText(text).replace(/\n/g, '<br>')}</p>`);
+        });
+      });
+
+      if (editableMode) {
+        if (blocks.length === 0) {
+          blocks.push('<p><br></p>');
+        } else if (lastEndedWithFigure) {
+          blocks.push('<p data-trailing-guard="true"><br></p>');
+        }
+      }
+
+      return blocks.join('');
+    }
+
+    function renderLiveCoverSectionHTML(post) {
+      const hasImg = !!(post && post.image && post.image.trim());
+      if (hasImg) {
+        const auraAttr = post.imageAura ? `data-aura="${escapeHtmlAttr(post.imageAura)}"` : '';
+        return `
+          <figure class="main-img-figure" id="blogLiveCoverFigure">
+            <div class="figure-floating-actions" contenteditable="false">
+              <button type="button" onmousedown="event.preventDefault()" onclick="openBlogImageModal('cover')" title="Cambiar imagen de portada, encuadre o aura">🖼️ Portada / 🧪 Aura</button>
+              <button type="button" class="is-remove" onmousedown="event.preventDefault()" onclick="removeLiveCoverImage()" title="Quitar imagen de portada">🗑️ Quitar</button>
+            </div>
+            <img src="${escapeHtmlAttr(post.image)}" id="blogLiveMainImg" class="main-img" ${auraAttr} alt="${escapeHtmlAttr(post.title || 'Portada')}">
+            <figcaption id="blogLiveMainCaption" class="main-img-caption" contenteditable="true" spellcheck="true" data-placeholder="Añadir pie de foto..." oninput="syncLiveBlogModalToMemory()" onpaste="handlePlainTextPaste(event)" onkeydown="if(event.key==='Enter'){event.preventDefault(); this.blur();}">${escapeHtmlText(post.imageCaption || '')}</figcaption>
+          </figure>
+        `;
+      }
+      return `
+        <div id="blogLiveCoverPlaceholderWrap" style="text-align: center;">
+          <button type="button" class="cover-img-placeholder-btn" onmousedown="event.preventDefault()" onclick="openBlogImageModal('cover')">
+            🖼️ + Añadir imagen de portada
+          </button>
+        </div>
+      `;
+    }
+
+    function applyLiveBlogImagesAura(containerEl, post) {
+      if (!containerEl) return;
+      const blogImgs = containerEl.querySelectorAll('img.main-img, img.inline-img');
+      blogImgs.forEach(img => {
+        img.style.transition = 'box-shadow 0.5s ease, border-color 0.5s ease, filter 0.5s ease';
+        const customAura = img.getAttribute('data-aura') || (img.classList.contains('main-img') && post && post.imageAura ? post.imageAura : null);
+
+        const applyAuraStyle = (auraColor) => {
+          if (!auraColor) return;
+          const softGlow = auraColor.replace(/rgba?\(([^)]+)\)/, (m, p) => {
+            const parts = p.split(',').map(s => s.trim());
+            if (parts.length >= 3) {
+              return `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, 0.35)`;
+            }
+            return auraColor;
+          });
+          img.style.borderColor = auraColor;
+          img.style.boxShadow = `inset 0 0 12px rgba(0, 0, 0, 0.85), 0 0 20px ${auraColor}, 0 0 42px ${softGlow}, 0 8px 30px rgba(0, 0, 0, 0.95)`;
+        };
+
+        if (customAura && customAura.trim() !== '') {
+          applyAuraStyle(customAura.trim());
+        } else {
+          img.style.borderColor = '';
+          img.style.boxShadow = '';
+          const updateImageAura = () => {
+            extractImageDominantColor(img, function(color) {
+              if (color) applyAuraStyle(color);
+            });
+          };
+          updateImageAura();
+          if (!img.complete) {
+            img.addEventListener('load', updateImageAura, { once: true });
+          }
+        }
+      });
+    }
+
     function openBlogModal(postIndex, forcePreview = false) {
       const post = postsData[postIndex];
       if (!post) return;
 
       currentBlogIndex = postIndex;
       const modalBody = document.getElementById('blogModalBody');
+      if (!modalBody) return;
 
       if (isAdminMode && !forcePreview) {
         const isHidden = !!post.hidden;
-        const hasImg = !!(post.image && post.image.trim());
+        const bodyHTML = renderBlogArticleBodyHTML(post.content || '', true);
+        const isEmptyBody = !(post.content && post.content.trim());
+
         modalBody.innerHTML = `
-          <!-- Barra superior de controles unificada y fija (Sticky) -->
-          <div class="mobile-edit-sticky-bar">
-            <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-              <button type="button" class="admin-btn" onclick="saveModalPost(${postIndex})" style="padding: 6px 14px; font-size: 0.88rem; background: var(--accent-blue); color: #fff; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                💾 Guardar
+          <div class="wysiwyg-blog-toolbar" contenteditable="false">
+            <div class="wysiwyg-tool-group">
+              <button type="button" class="wysiwyg-tool-btn" onmousedown="event.preventDefault()" onclick="applyBlogInlineFormat('bold')" title="Negrita"><strong>B</strong></button>
+              <button type="button" class="wysiwyg-tool-btn" onmousedown="event.preventDefault()" onclick="applyBlogInlineFormat('subtitle')" title="Subtítulo">H</button>
+              <button type="button" class="wysiwyg-tool-btn" onmousedown="event.preventDefault()" onclick="applyBlogInlineFormat('center')" title="Centrar párrafo">↔</button>
+              <button type="button" class="wysiwyg-tool-btn" onmousedown="event.preventDefault()" onclick="applyBlogInlineFormat('color')" title="Color de texto">🎨</button>
+              <button type="button" class="wysiwyg-tool-btn" onmousedown="event.preventDefault()" onclick="applyBlogInlineFormat('link')" title="Insertar o editar enlace">🔗</button>
+              <button type="button" class="wysiwyg-tool-btn" onmousedown="event.preventDefault()" onclick="applyBlogInlineFormat('img')" title="Insertar imagen en el texto">🖼️ Imagen</button>
+            </div>
+            <div class="wysiwyg-tool-group">
+              <button type="button" class="wysiwyg-tool-btn" id="blogLiveVisBtn" onmousedown="event.preventDefault()" onclick="toggleModalPostVisibility(${postIndex}, event)" style="background: ${isHidden ? 'rgba(90,116,191,0.3)' : 'rgba(200,150,50,0.22)'}; color: ${isHidden ? 'var(--accent-light)' : '#ffd280'}; border-color: ${isHidden ? 'var(--accent-blue)' : '#cca333'};" title="Alternar visibilidad">
+                ${isHidden ? '👁️ Oculto' : '👁️‍🗨️ Visible'}
               </button>
-            </div>
-            <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-              <label style="cursor: pointer; padding: 6px 10px; background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.8rem; color: var(--accent-light); margin: 0;">
-                📁 .txt
-                <input type="file" accept=".txt" style="display: none;" onchange="handleModalTxtUpload(event, ${postIndex})">
-              </label>
-              <button type="button" class="read-more-btn" onclick="closeBlogModal()" title="Cerrar Editor" style="padding: 6px 12px; font-size: 0.82rem; font-weight: bold;">✕</button>
+              <button type="button" class="wysiwyg-tool-btn is-danger" onmousedown="event.preventDefault()" onclick="deleteModalPost(${postIndex})" title="Eliminar publicación">🗑️</button>
+              <button type="button" class="wysiwyg-tool-btn is-primary" onmousedown="event.preventDefault()" onclick="finishInlineBlogEdit()" title="Aplicar y volver">✓ Listo</button>
             </div>
           </div>
 
-          <!-- Título del Blog Editable -->
-          <div style="text-align: center; margin-bottom: 8px;">
-            <input type="text" id="modalEditTitle" value="${escapeHtmlAttr(post.title || '')}" placeholder="Escribe el Título del Blog..." 
-              style="width: 100%; text-align: center; font-family: 'Cinzel Decorative', serif; font-size: 1.5rem; background: transparent; border: 1px dashed transparent; color: var(--white); padding: 4px; outline: none; border-radius: 6px; transition: border 0.2s;"
-              onfocus="this.style.borderColor='var(--accent-blue)'" onblur="this.style.borderColor='transparent'" title="Haz clic para editar el título">
+          <h1 id="blogLiveTitle" contenteditable="true" spellcheck="true" data-placeholder="Título del pensamiento..." oninput="syncLiveBlogModalToMemory()" onpaste="handlePlainTextPaste(event)" onkeydown="handleLiveBlogTitleKeydown(event)">${escapeHtmlText(post.title || '')}</h1>
+
+          <div style="text-align: center; margin-bottom: 22px;">
+            <span class="modal-date modal-date-editable" style="margin-bottom: 0;" title="Haz clic para cambiar la fecha">
+              <span id="blogLiveDateText">${escapeHtmlText(post.date || formatIsoToSpanishDate(post.dateIso || ''))}</span>
+              <input type="date" id="blogLiveDateIso" class="modal-date-native-picker" value="${escapeHtmlAttr(post.dateIso || '')}" onchange="handleLiveBlogDateChange(this.value)" onclick="if(this.showPicker){try{this.showPicker();}catch(err){}}">
+            </span>
           </div>
 
-          <!-- Fecha de Publicación Editable -->
-          <div style="display: flex; justify-content: center; align-items: center; gap: 6px; margin-bottom: 12px;">
-            <span class="modal-date" style="margin-bottom: 0; font-size: 0.85rem;">📅 Fecha:</span>
-            <input type="date" id="modalEditDateIso" value="${post.dateIso || ''}" 
-              style="background: rgba(5,5,8,0.6); border: 1px dashed var(--accent-blue); color: var(--white); font-family: inherit; font-size: 0.85rem; padding: 3px 8px; border-radius: 4px; outline: none; cursor: pointer;">
+          <div id="blogLiveCoverContainer">
+            ${renderLiveCoverSectionHTML(post)}
           </div>
 
-          <!-- Imagen Principal en Acordeón Desplegable -->
-          <details style="margin-bottom: 12px; background: rgba(5,5,8,0.6); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px;">
-            <summary style="cursor: pointer; color: var(--accent-light); font-size: 0.88rem; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
-              <span>🖼️ Imagen Principal y Opciones</span>
-              <span style="font-size: 0.78rem; opacity: 0.7; font-weight: normal;">(Haz clic para desplegar)</span>
-            </summary>
-            <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-              <div id="modalEditMainImgContainer" style="text-align: center;">
-                ${hasImg ? `<img id="modalEditMainImgPreview" src="${escapeHtmlAttr(post.image)}" alt="Imagen Principal" style="max-height: 120px; width: auto; object-fit: cover; border-radius: 6px; margin: 0 auto; display: block;">` : `<div id="modalEditMainImgPreview" style="display:none;"></div>`}
-              </div>
-              
-              <input type="text" id="modalEditImageCaption" value="${escapeHtmlAttr(post.imageCaption || '')}" placeholder="✍️ Pie de foto..." style="width: 100%; text-align: center; background: transparent; border: none; border-bottom: 1px dashed var(--accent-blue); color: var(--accent-light); font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1rem; padding: 4px; outline: none;">
-              
-              <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="font-size: 0.8rem; color: var(--text-muted); flex-shrink: 0;">URL Imagen:</span>
-                <input type="text" id="modalEditImage" value="${escapeHtmlAttr(post.image || '')}" placeholder="https://..." oninput="updateModalMainImgPreview(this.value); if(window.updateMainImgAuraRealtime) updateMainImgAuraRealtime(document.getElementById('modalEditImageAura')?.value || '');" style="flex: 1; background: #050508; border: 1px solid var(--border-color); color: #fff; padding: 4px 8px; font-size: 0.82rem; border-radius: 4px;">
-              </div>
-
-              <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted);">
-                <span>Ajuste en tarjeta:</span>
-                <select id="modalEditImageFit" style="background: #050508; border: 1px solid var(--border-color); color: #fff; padding: 3px 6px; font-size: 0.8rem; border-radius: 4px;">
-                  <option value="cover-center" ${post.imageFit === 'cover-center' ? 'selected' : ''}>Cover - Centro</option>
-                  <option value="cover-top" ${post.imageFit === 'cover-top' ? 'selected' : ''}>Cover - Arriba</option>
-                  <option value="cover-bottom" ${post.imageFit === 'cover-bottom' ? 'selected' : ''}>Cover - Abajo</option>
-                  <option value="contain" ${post.imageFit === 'contain' ? 'selected' : ''}>Contain (Completa)</option>
-                </select>
-              </div>
-
-              <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; flex-wrap: wrap;">
-                <span>Color Aura de la Imagen (Tiempo Real):</span>
-                <div style="display: flex; align-items: center; gap: 6px;">
-                  <input type="color" id="modalEditImageAuraPicker" value="${post.imageAura || '#5a74bf'}" oninput="document.getElementById('modalEditImageAura').value = this.value; if(window.updateMainImgAuraRealtime) updateMainImgAuraRealtime(this.value);" style="width: 28px; height: 28px; padding: 0; border: 1px solid var(--border-color); background: transparent; cursor: pointer; border-radius: 4px;">
-                  <input type="text" id="modalEditImageAura" value="${escapeHtmlAttr(post.imageAura || '')}" placeholder="Auto (#5A74BF)" style="width: 90px; background: #050508; border: 1px solid var(--border-color); color: #fff; padding: 3px 6px; font-size: 0.8rem; border-radius: 4px;" oninput="if(this.value.startsWith('#')) document.getElementById('modalEditImageAuraPicker').value = this.value; if(window.updateMainImgAuraRealtime) updateMainImgAuraRealtime(this.value);">
-                  <button type="button" class="admin-btn" onclick="pickPixelColorForAura('modalEditImageAura', 'modalEditImageAuraPicker', 'modalEditImage')" title="Tomar color de un píxel de la imagen con la pipeta/cuentagotas" style="background: rgba(90, 116, 191, 0.2); border: 1px solid var(--accent-blue); color: var(--accent-light); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: bold; white-space: nowrap;">
-                    🧪 Pipeta Píxel
-                  </button>
-                </div>
-              </div>
-            </div>
-          </details>
-
-          <!-- Resumen Opcional Desplegable -->
-          <details style="margin: 0 0 12px 0; background: rgba(90, 116, 191, 0.08); border: 1px solid rgba(90, 116, 191, 0.25); border-radius: 8px; padding: 8px 12px;">
-            <summary style="cursor: pointer; color: var(--accent-light); font-size: 0.88rem; font-weight: bold;">📝 Resumen de la Tarjeta (Opcional)</summary>
-            <textarea id="modalEditPreview" rows="2" placeholder="Escribe el resumen corto..." style="width: 100%; background: transparent; border: none; border-top: 1px dashed rgba(90,116,191,0.3); margin-top: 6px; padding-top: 6px; color: var(--white); font-family: inherit; font-size: 0.9rem; resize: vertical; outline: none;">${escapeHtmlAttr(post.preview || '')}</textarea>
-          </details>
-
-          <!-- Contenido del Artículo directo con Barra de Formato Fija -->
-          <div style="margin-bottom: 12px;">
-            <div class="admin-format-bar-sticky">
-              <div style="display: flex; justify-content: space-between; align-items: center; gap: 4px; flex-wrap: wrap;">
-                <span style="font-size: 0.82rem; color: var(--accent-light); font-family: 'Cormorant Garamond', serif; font-weight: bold;">✍️ Formato:</span>
-                <div class="admin-format-bar" style="margin: 0;">
-                  <button type="button" onclick="insertFormat('modalEditContent', 'bold')" title="Negrilla"><strong>B</strong></button>
-                  <button type="button" onclick="insertFormat('modalEditContent', 'subtitle')" title="Subtítulo">H</button>
-                  <button type="button" onclick="insertFormat('modalEditContent', 'center')" title="Centrar">↔️ Centrar</button>
-                  <button type="button" onclick="insertFormat('modalEditContent', 'color')" title="Color de Texto">🎨 Color</button>
-                  <button type="button" onclick="insertFormat('modalEditContent', 'link')" title="Insertar Enlace">🔗 Enlace</button>
-                  <button type="button" onclick="insertFormat('modalEditContent', 'img')" title="Insertar Imagen">🖼️ Imagen</button>
-                </div>
-              </div>
-            </div>
-            <textarea id="modalEditContent" rows="12" placeholder="Escribe tu artículo aquí..." oninput="renderModalInsertedImages()" style="width: 100%; background: #050508; border: 1px solid var(--accent-blue); color: var(--white); padding: 10px; font-family: 'Cormorant Garamond', serif, system-ui; font-size: 1.05rem; line-height: 1.6; border-radius: 8px; outline: none; min-height: 180px; max-height: 42vh; resize: vertical;">${escapeHtmlAttr(post.content || '')}</textarea>
+          <div id="blogEditableBody" class="blog-editable-body" contenteditable="true" spellcheck="true" data-is-empty="${isEmptyBody ? 'true' : 'false'}" data-placeholder="Escribe aquí...">
+            ${bodyHTML}
           </div>
 
-          <!-- Lista de Imágenes Insertadas en el Contenido para Edición Individual -->
-          <div id="modalInsertedImagesWrapper" style="margin-bottom: 12px; background: rgba(10, 12, 18, 0.7); border: 1px solid rgba(90, 116, 191, 0.4); border-radius: 8px; padding: 10px 12px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
-              <span style="font-size: 0.88rem; font-weight: bold; color: var(--accent-light);">
-                🖼️ Imágenes Insertadas (<span id="insertedImagesCount">0</span>) <span style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted); margin-left: 6px;">(⋮⋮ Arrastra las tarjetas para reordenar)</span>
-              </span>
-              <button type="button" class="admin-btn" onclick="insertFormat('modalEditContent', 'img')" style="padding: 4px 10px; font-size: 0.8rem; background: var(--accent-blue); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                ➕ Insertar Nueva Imagen
-              </button>
-            </div>
-            <div id="insertedImagesListContainer" style="display: flex; flex-direction: column; gap: 10px;">
-              <!-- Renderizado dinámicamente por renderModalInsertedImages() -->
-            </div>
+          <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px;">
+            <button type="button" class="read-more-btn" onclick="finishInlineBlogEdit()">Volver</button>
           </div>
         `;
+
+        setupLiveBlogEditableBodyEvents();
       } else {
-        function renderImageTag(rawMatch) {
-          const inner = rawMatch.replace(/^\[img:\s*/i, '').replace(/\]$/, '').trim();
-          const parts = inner.split('|');
-          const url = parts[0].trim();
-          const caption = parts.length > 1 ? parts[1].trim() : '';
-          const auraColor = parts.length > 2 ? parts[2].trim() : '';
-
-          const auraAttr = auraColor ? `data-aura="${escapeHtmlAttr(auraColor)}"` : '';
-
-          if (caption) {
-            const safeCaption = caption.replace(/"/g, '&quot;');
-            return `<figure class="inline-img-figure"><img src="${url}" class="inline-img" ${auraAttr} alt="${safeCaption}"><figcaption class="inline-img-caption">${caption}</figcaption></figure>`;
-          } else {
-            return `<img src="${url}" class="inline-img" ${auraAttr} alt="Imagen en contenido">`;
-          }
-        }
-
-        const paragraphs = post.content.split('\n\n');
-        const formattedContentHTML = paragraphs.map(p => {
-          let text = p.trim();
-          if (!text) return '';
-          if (/^\[img:\s*[^\]]+\]$/i.test(text)) {
-            return renderImageTag(text);
-          }
-          text = text.replace(/\[img:\s*([^\]]+)\]/gi, (match) => `</p>${renderImageTag(match)}<p>`);
-          if (text.startsWith('# ')) {
-            return `<h2>${formatPostInlineText(text.substring(2).trim())}</h2>`;
-          }
-          return `<p>${formatPostInlineText(text).replace(/\n/g, '<br>')}</p>`;
-        }).join('').replace(/<p>\s*<\/p>/gi, '');
+        const formattedContentHTML = renderBlogArticleBodyHTML(post.content || '', false);
 
         modalBody.innerHTML = `
           <h1>${post.title}</h1>
           <span class="modal-date">${post.date}</span>
           ${post.image ? `
             <figure class="main-img-figure">
-              <img src="${post.image}" class="main-img" alt="${post.title}">
-              ${post.imageCaption ? `<figcaption class="main-img-caption">${post.imageCaption}</figcaption>` : ''}
+              <img src="${escapeHtmlAttr(post.image)}" class="main-img" ${post.imageAura ? `data-aura="${escapeHtmlAttr(post.imageAura)}"` : ''} alt="${escapeHtmlAttr(post.title || '')}">
+              ${post.imageCaption ? `<figcaption class="main-img-caption">${escapeHtmlText(post.imageCaption)}</figcaption>` : ''}
             </figure>
           ` : ''}
           ${formattedContentHTML}
           <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px;">
-            ${isAdminMode ? `
-              <button class="read-more-btn" onclick="openBlogModal(${postIndex}, false)">✏️ Volver a Editar</button>
-              <button class="read-more-btn" onclick="closeBlogModal()">Volver</button>
-            ` : `
-              <button class="read-more-btn" onclick="closeBlogModal()">Volver</button>
-            `}
+            <button class="read-more-btn" onclick="closeBlogModal()">Volver</button>
           </div>
         `;
       }
@@ -7190,69 +7660,33 @@
       document.getElementById('blogReadModal').style.display = 'flex';
       document.body.style.overflow = 'hidden';
       pushModalState('blog');
-      const modalBox = document.querySelector('.blog-modal-box');
+      const modalBox = document.querySelector('#blogReadModal .blog-modal-box');
       if (modalBox) modalBox.scrollTop = 0;
 
-      if (isAdminMode && !forcePreview) {
-        if (typeof renderModalInsertedImages === 'function') {
-          renderModalInsertedImages();
-        }
-        if (post.imageAura && window.updateMainImgAuraRealtime) {
-          setTimeout(() => updateMainImgAuraRealtime(post.imageAura), 50);
-        }
-      } else {
-        const applyAuraToBlogImages = () => {
-          const blogImgs = modalBody.querySelectorAll('img');
-          blogImgs.forEach(img => {
-            img.style.transition = 'box-shadow 0.5s ease, border-color 0.5s ease, filter 0.5s ease';
-            
-            const customAura = img.getAttribute('data-aura') || (img.classList.contains('main-img') && post.imageAura ? post.imageAura : null);
+      setTimeout(() => applyLiveBlogImagesAura(modalBody, post), 50);
+      setTimeout(() => applyLiveBlogImagesAura(modalBody, post), 350);
 
-            const applyAuraStyle = (auraColor) => {
-              if (!auraColor) return;
-              const softGlow = auraColor.replace(/rgba?\(([^)]+)\)/, (m, p) => {
-                const parts = p.split(',').map(s => s.trim());
-                if (parts.length >= 3) {
-                  return `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, 0.35)`;
-                }
-                return auraColor;
-              });
-              img.style.borderColor = auraColor;
-              img.style.boxShadow = `inset 0 0 12px rgba(0, 0, 0, 0.85), 0 0 20px ${auraColor}, 0 0 42px ${softGlow}, 0 8px 30px rgba(0, 0, 0, 0.95)`;
-            };
-
-            if (customAura && customAura.trim() !== '') {
-              applyAuraStyle(customAura.trim());
-            } else {
-              const updateImageAura = () => {
-                extractImageDominantColor(img, function(color) {
-                  if (color) {
-                    applyAuraStyle(color);
-                  }
-                });
-              };
-
-              updateImageAura();
-              if (!img.complete) {
-                img.addEventListener('load', updateImageAura, { once: true });
-              }
-            }
-          });
-        };
-
-        setTimeout(applyAuraToBlogImages, 50);
-        setTimeout(applyAuraToBlogImages, 350);
+      if (isAdminMode && !forcePreview && !(post.title && post.title.trim()) && !(post.content && post.content.trim())) {
+        setTimeout(() => {
+          const titleEl = document.getElementById('blogLiveTitle');
+          if (titleEl) titleEl.focus();
+        }, 80);
       }
     }
 
-    function closeBlogModal() {
-      popModalState('blog');
+    function closeBlogModal(skipSync = false) {
       const modal = document.getElementById('blogReadModal');
-      if (modal) modal.style.display = 'none';
-      if (!isAdminMode) {
-        const body = document.getElementById('blogModalBody');
-        if (body) body.innerHTML = '';
+      const wasOpen = modal && modal.style.display !== 'none';
+      if (!skipSync && wasOpen && isAdminMode && typeof syncLiveBlogModalToMemory === 'function') {
+        syncLiveBlogModalToMemory(true);
+        if (typeof renderBlogPosts === 'function') renderBlogPosts();
+        if (typeof renderAdminPostsList === 'function') renderAdminPostsList();
       }
+      currentBlogIndex = null;
+      popModalState('blog');
+      if (modal) modal.style.display = 'none';
+      const body = document.getElementById('blogModalBody');
+      if (body) body.innerHTML = '';
       document.body.style.overflow = '';
     }
 
@@ -8800,16 +9234,20 @@
     window.editPostFromCard = editPostFromCard;
 
     function createNewBlogInModal() {
+      if (document.getElementById('blogReadModal')?.style.display === 'flex') {
+        syncLiveBlogModalToMemory(true);
+      }
       const todayIso = new Date().toISOString().split('T')[0];
       const uniqueId = 'post_' + Date.now();
       const newPost = {
         id: uniqueId,
-        title: 'Nueva Publicación',
+        title: '',
         dateIso: todayIso,
         date: formatIsoToSpanishDate(todayIso),
         image: '',
         imageCaption: '',
         imageFit: 'cover-center',
+        imageAura: '',
         hidden: false,
         preview: '',
         content: '',
@@ -8817,66 +9255,197 @@
       };
       postsData.unshift(newPost);
       window.postsData = postsData;
+      currentBlogPage = 0;
       renderBlogPosts();
       renderAdminPostsList();
+      if (typeof populatePostSelect === 'function') populatePostSelect();
       openBlogModal(0);
     }
     window.createNewBlogInModal = createNewBlogInModal;
 
-    function saveModalPost(postIndex) {
-      const titleInput = document.getElementById('modalEditTitle');
-      const dateIsoInput = document.getElementById('modalEditDateIso');
-      const imageInput = document.getElementById('modalEditImage');
-      const captionInput = document.getElementById('modalEditImageCaption');
-      const fitInput = document.getElementById('modalEditImageFit');
-      const auraInput = document.getElementById('modalEditImageAura');
-      const previewInput = document.getElementById('modalEditPreview');
-      const contentInput = document.getElementById('modalEditContent');
-
-      if (!titleInput || !contentInput) return;
-
-      const title = titleInput.value.trim() || 'Sin Título';
-      const content = contentInput.value.trim();
-      const dateIso = dateIsoInput ? (dateIsoInput.value || new Date().toISOString().split('T')[0]) : new Date().toISOString().split('T')[0];
-      const date = formatIsoToSpanishDate(dateIso);
-      const image = imageInput ? imageInput.value.trim() : '';
-      const imageCaption = captionInput ? captionInput.value.trim() : '';
-      const imageFit = fitInput ? fitInput.value : 'cover-center';
-      const imageAura = auraInput ? auraInput.value.trim() : '';
-      const preview = previewInput ? previewInput.value.trim() : '';
-
-      if (!postsData[postIndex]) {
-        postsData[postIndex] = {};
+    function normalizeCssColorToHex(colorStr) {
+      if (!colorStr) return '';
+      const trimmed = String(colorStr).trim();
+      if (trimmed.startsWith('#')) return trimmed;
+      const rgbMatch = trimmed.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+      if (rgbMatch) {
+        const r = parseInt(rgbMatch[1], 10).toString(16).padStart(2, '0');
+        const g = parseInt(rgbMatch[2], 10).toString(16).padStart(2, '0');
+        const b = parseInt(rgbMatch[3], 10).toString(16).padStart(2, '0');
+        return `#${r}${g}${b}`.toUpperCase();
       }
+      return trimmed;
+    }
 
-      if (!postsData[postIndex].id) {
-        postsData[postIndex].id = 'post_' + Date.now();
+    function serializeFigureElementToTag(figEl) {
+      if (!figEl) return '';
+      const imgEl = figEl.tagName === 'IMG' ? figEl : figEl.querySelector('img');
+      const url = (figEl.getAttribute('data-img-url') || (imgEl ? imgEl.getAttribute('src') : '') || '').trim();
+      if (!url) return '';
+      const captionEl = figEl.tagName === 'IMG' ? null : figEl.querySelector('figcaption');
+      const caption = captionEl ? (captionEl.innerText || '').replace(/\r?\n/g, ' ').trim() : '';
+      const aura = (figEl.getAttribute('data-aura') || (imgEl ? imgEl.getAttribute('data-aura') : '') || '').trim();
+
+      if (aura) {
+        return `[img:${url} | ${caption} | ${aura}]`;
       }
+      if (caption) {
+        return `[img:${url} | ${caption}]`;
+      }
+      return `[img:${url}|]`;
+    }
 
-      postsData[postIndex].title = title;
-      postsData[postIndex].dateIso = dateIso;
-      postsData[postIndex].date = date;
-      postsData[postIndex].image = image;
-      postsData[postIndex].imageCaption = imageCaption;
-      postsData[postIndex].imageFit = imageFit;
-      postsData[postIndex].imageAura = imageAura;
-      postsData[postIndex].preview = preview;
-      postsData[postIndex].content = content;
-      postsData[postIndex].updatedAt = new Date().toISOString();
+    function serializeInlineDomNodes(parentNode) {
+      let out = '';
+      if (!parentNode || !parentNode.childNodes) return out;
 
-      window.postsData = postsData;
-
-      // Asegurar que esta publicación no esté en la lista de eliminados
-      try {
-        let delList = JSON.parse(localStorage.getItem('blutu_deleted_post_ids') || '[]');
-        if (Array.isArray(delList) && delList.length > 0) {
-          const curId = String(postsData[postIndex].id || '').trim().toLowerCase();
-          delList = delList.filter(d => String(d || '').trim().toLowerCase() !== curId);
-          localStorage.setItem('blutu_deleted_post_ids', JSON.stringify(delList));
+      parentNode.childNodes.forEach(node => {
+        if (node.nodeType === 3) { // TEXT_NODE
+          out += (node.nodeValue || '').replace(/\u00A0/g, ' ');
+          return;
         }
-      } catch (e) {}
+        if (node.nodeType !== 1) return; // ELEMENT_NODE only
 
-      // 1. Guardar de inmediato en almacenamiento permanente local y caché
+        const el = node;
+        const tag = el.tagName.toUpperCase();
+
+        if (el.classList && el.classList.contains('figure-floating-actions')) return;
+
+        if (tag === 'BR') {
+          out += '\n';
+          return;
+        }
+
+        if (tag === 'FIGURE' || (tag === 'IMG' && el.classList.contains('inline-img'))) {
+          const figTag = serializeFigureElementToTag(el);
+          if (figTag) out += `\n\n${figTag}\n\n`;
+          return;
+        }
+
+        if (tag === 'STRONG' || tag === 'B') {
+          const inner = serializeInlineDomNodes(el);
+          if (!inner.trim()) {
+            out += inner;
+          } else {
+            const lead = (inner.match(/^\s*/) || [''])[0];
+            const trail = (inner.match(/\s*$/) || [''])[0];
+            out += `${lead}**${inner.trim()}**${trail}`;
+          }
+          return;
+        }
+
+        if (tag === 'A') {
+          const href = (el.getAttribute('href') || '').trim();
+          const inner = serializeInlineDomNodes(el).replace(/\r?\n/g, ' ').trim();
+          if (href) {
+            out += `[${inner || href}](${href})`;
+          } else {
+            out += inner;
+          }
+          return;
+        }
+
+        if (tag === 'SPAN' || tag === 'FONT') {
+          const isCenter = el.getAttribute('data-blutu-center') === 'true' || (el.style && el.style.textAlign === 'center');
+          const rawColor = el.getAttribute('data-blutu-color') || (el.style && el.style.color ? el.style.color : '') || el.getAttribute('color') || '';
+          const inner = serializeInlineDomNodes(el);
+          if (!inner) return;
+
+          let res = inner;
+          if (rawColor) {
+            const hex = normalizeCssColorToHex(rawColor);
+            if (hex) res = `[color:${hex}|${res}]`;
+          }
+          if (isCenter) {
+            res = `[center]${res}[/center]`;
+          }
+          out += res;
+          return;
+        }
+
+        out += serializeInlineDomNodes(el);
+      });
+
+      return out;
+    }
+
+    function serializeEditableBlogBodyToContent(containerEl) {
+      if (!containerEl) return '';
+      const blocks = [];
+
+      const flushBlockText = (rawStr, isSubtitle, isCentered) => {
+        // Eliminar el único salto final que contenteditable suele colocar con <br> al final del párrafo
+        let cleaned = String(rawStr || '').replace(/\n$/, '');
+        if (!cleaned.trim()) return;
+
+        // Si el bloque contenía [img:...] incrustados, separarlos limpiamente
+        const parts = cleaned.split(/(\[img:\s*[^\]]+\])/gi);
+        parts.forEach(part => {
+          const seg = part.replace(/^\n+|\n+$/g, '');
+          if (!seg.trim()) return;
+          if (/^\[img:\s*[^\]]+\]$/i.test(seg.trim())) {
+            blocks.push(seg.trim());
+            return;
+          }
+          if (isSubtitle) {
+            const subLine = seg.replace(/\r?\n/g, ' ').trim();
+            if (!subLine) return;
+            blocks.push(isCentered ? `# [center]${subLine}[/center]` : `# ${subLine}`);
+          } else {
+            blocks.push(isCentered ? `[center]${seg}[/center]` : seg);
+          }
+        });
+      };
+
+      let inlineBuffer = '';
+      const flushInlineBuffer = () => {
+        if (inlineBuffer.trim()) {
+          flushBlockText(inlineBuffer, false, false);
+        }
+        inlineBuffer = '';
+      };
+
+      Array.from(containerEl.childNodes).forEach(node => {
+        if (node.nodeType === 3) {
+          inlineBuffer += (node.nodeValue || '').replace(/\u00A0/g, ' ');
+          return;
+        }
+        if (node.nodeType !== 1) return;
+
+        const el = node;
+        const tag = el.tagName.toUpperCase();
+
+        if (tag === 'FIGURE' || (tag === 'IMG' && el.classList.contains('inline-img'))) {
+          flushInlineBuffer();
+          const figTag = serializeFigureElementToTag(el);
+          if (figTag) blocks.push(figTag);
+          return;
+        }
+
+        if (tag === 'P' || tag === 'DIV' || tag === 'H2' || tag === 'H1' || tag === 'H3' || tag === 'BLOCKQUOTE') {
+          flushInlineBuffer();
+          const isSubtitle = (tag === 'H2' || tag === 'H1' || tag === 'H3');
+          const isCentered = el.getAttribute('data-blutu-center') === 'true' || (el.style && el.style.textAlign === 'center');
+          const serializedInner = serializeInlineDomNodes(el);
+          flushBlockText(serializedInner, isSubtitle, isCentered);
+          return;
+        }
+
+        if (tag === 'BR') {
+          inlineBuffer += '\n';
+          return;
+        }
+
+        inlineBuffer += serializeInlineDomNodes({ childNodes: [el] });
+      });
+
+      flushInlineBuffer();
+      return blocks.join('\n\n');
+    }
+    window.serializeEditableBlogBodyToContent = serializeEditableBlogBodyToContent;
+
+    function persistPostsToLocalVaults() {
+      window.postsData = postsData;
       try {
         localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(postsData));
         const cachedRaw = localStorage.getItem('blutu_live_site_data');
@@ -8885,445 +9454,280 @@
         cached.updatedAt = Date.now();
         localStorage.setItem('blutu_live_site_data', JSON.stringify(cached));
       } catch (e) {}
-
-      // 2. Guardar en IndexedDB indestructible
       if (typeof BlutuVault !== 'undefined' && BlutuVault.savePosts) {
         BlutuVault.savePosts(postsData);
       }
+    }
 
+    function syncLiveBlogModalToMemory(persistLocal = false) {
+      if (currentBlogIndex === null || currentBlogIndex === undefined || !postsData[currentBlogIndex]) return false;
+      const modal = document.getElementById('blogReadModal');
+      if (!modal || modal.style.display === 'none') return false;
+
+      const titleEl = document.getElementById('blogLiveTitle');
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (!titleEl || !bodyEl) return false;
+
+      const post = postsData[currentBlogIndex];
+      if (!post.id) post.id = 'post_' + Date.now();
+
+      const rawTitle = (titleEl.innerText || '').replace(/\r?\n/g, ' ').trim();
+      post.title = persistLocal ? (rawTitle || 'Sin Título') : rawTitle;
+
+      const dateIsoInput = document.getElementById('blogLiveDateIso');
+      if (dateIsoInput && dateIsoInput.value) {
+        post.dateIso = dateIsoInput.value;
+        post.date = formatIsoToSpanishDate(post.dateIso);
+      } else if (!post.dateIso) {
+        post.dateIso = new Date().toISOString().split('T')[0];
+        post.date = formatIsoToSpanishDate(post.dateIso);
+      }
+
+      const mainCaptionEl = document.getElementById('blogLiveMainCaption');
+      if (mainCaptionEl) {
+        post.imageCaption = (mainCaptionEl.innerText || '').replace(/\r?\n/g, ' ').trim();
+      }
+
+      const serializedContent = serializeEditableBlogBodyToContent(bodyEl);
+      post.content = serializedContent;
+      post.updatedAt = new Date().toISOString();
+
+      bodyEl.setAttribute('data-is-empty', serializedContent.trim() ? 'false' : 'true');
+
+      window.postsData = postsData;
+
+      if (persistLocal) {
+        try {
+          let delList = JSON.parse(localStorage.getItem('blutu_deleted_post_ids') || '[]');
+          if (Array.isArray(delList) && delList.length > 0) {
+            const curId = String(post.id || '').trim().toLowerCase();
+            delList = delList.filter(d => String(d || '').trim().toLowerCase() !== curId);
+            localStorage.setItem('blutu_deleted_post_ids', JSON.stringify(delList));
+          }
+        } catch (e) {}
+        persistPostsToLocalVaults();
+      }
+      return true;
+    }
+    window.syncLiveBlogModalToMemory = syncLiveBlogModalToMemory;
+
+    function finishInlineBlogEdit() {
+      const idx = currentBlogIndex;
+      syncLiveBlogModalToMemory(true);
       renderBlogPosts();
       renderAdminPostsList();
       if (typeof populatePostSelect === 'function') populatePostSelect();
-      closeBlogModal();
-
-      // 3. Persistir en Firestore de forma redundante (colección individual + site_data + backups)
-      if (typeof window.persistSingleBlogPostToCloud === 'function') {
-        window.persistSingleBlogPostToCloud(postsData[postIndex]);
-      }
-      if (typeof window.persistSiteDataInRealtime === 'function') {
-        window.persistSiteDataInRealtime();
-      }
-    }
-    window.saveModalPost = saveModalPost;
-
-    /* FUNCIONALIDAD DE EDICIÓN INDIVIDUAL DE IMÁGENES INSERTADAS EN EL BLOG CON TIEMPO REAL Y CLICK-TO-EDIT */
-    let draggedImgCardIndex = null;
-
-    function updateMainImgAuraRealtime(color) {
-      const mainImg = document.getElementById('modalEditMainImgPreview');
-      if (!mainImg) return;
-      const auraColor = color && color.trim() ? color.trim() : '#5A74BF';
-      mainImg.style.borderColor = auraColor;
-      mainImg.style.boxShadow = `0 0 15px ${auraColor}, 0 0 30px ${auraColor}`;
-    }
-    window.updateMainImgAuraRealtime = updateMainImgAuraRealtime;
-
-    function updateInsertedImgAuraRealtime(index, color) {
-      const auraColor = color && color.trim() ? color.trim() : '#5a74bf';
-      const thumb1 = document.getElementById(`insertedImgThumb_${index}`);
-      const thumb2 = document.getElementById(`insertedImgCardThumb_${index}`);
-      [thumb1, thumb2].forEach(img => {
-        if (img) {
-          img.style.borderColor = auraColor;
-          img.style.boxShadow = `0 0 12px ${auraColor}, 0 0 24px ${auraColor}`;
+      closeBlogModal(true);
+      if (idx !== null && postsData[idx]) {
+        if (typeof window.persistSingleBlogPostToCloud === 'function') {
+          window.persistSingleBlogPostToCloud(postsData[idx]);
         }
-      });
-    }
-    window.updateInsertedImgAuraRealtime = updateInsertedImgAuraRealtime;
-
-    function toggleInsertedImgEditBox(index) {
-      const drawer = document.getElementById(`insertedImgEditDrawer_${index}`);
-      if (!drawer) return;
-      const isHidden = drawer.style.display === 'none' || !drawer.style.display;
-      document.querySelectorAll('.inserted-img-editor-drawer').forEach(d => d.style.display = 'none');
-      drawer.style.display = isHidden ? 'block' : 'none';
-    }
-    window.toggleInsertedImgEditBox = toggleInsertedImgEditBox;
-
-    function renderModalInsertedImages() {
-      const textarea = document.getElementById('modalEditContent');
-      const countEl = document.getElementById('insertedImagesCount');
-      const container = document.getElementById('insertedImagesListContainer');
-
-      if (!textarea || !container) return;
-
-      const text = textarea.value;
-      const imgRegex = /\[img:\s*([^\]]+)\]/gi;
-      const matches = [];
-      let match;
-
-      while ((match = imgRegex.exec(text)) !== null) {
-        const rawMatch = match[0];
-        const inner = match[1].trim();
-        const parts = inner.split('|');
-        const url = parts[0] ? parts[0].trim() : '';
-        const caption = parts.length > 1 ? parts[1].trim() : '';
-        const auraColor = parts.length > 2 ? parts[2].trim() : '';
-
-        matches.push({
-          startIndex: match.index,
-          rawMatch: rawMatch,
-          url: url,
-          caption: caption,
-          auraColor: auraColor
-        });
-      }
-
-      if (countEl) countEl.innerText = matches.length;
-
-      if (matches.length === 0) {
-        container.innerHTML = `
-          <p style="font-size: 0.82rem; color: var(--text-muted); font-style: italic; margin: 4px 0; text-align: center;">
-            No hay imágenes insertadas dentro del texto. Usa el botón "🖼️ Imagen" en la barra de formato para agregar imágenes.
-          </p>
-        `;
-        return;
-      }
-
-      let html = `<div style="font-size: 0.78rem; color: var(--accent-light); margin-bottom: 8px;">👇 <em>Haz clic en cualquier imagen para desplegar u ocultar su menú de edición. Arrastra para reordenar.</em></div>`;
-      html += `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-bottom: 10px;">`;
-
-      matches.forEach((m, i) => {
-        const safeUrl = escapeHtmlAttr(m.url);
-        const safeCaption = escapeHtmlAttr(m.caption);
-        const currentAura = m.auraColor || '#5a74bf';
-
-        html += `
-          <div class="inserted-img-card-compact"
-               id="insertedImgCard_${i}"
-               data-index="${i}"
-               draggable="true"
-               ondragstart="handleImgCardDragStart(event, ${i})"
-               ondragover="handleImgCardDragOver(event, ${i})"
-               ondragleave="handleImgCardDragLeave(event, ${i})"
-               ondrop="handleImgCardDrop(event, ${i})"
-               ondragend="handleImgCardDragEnd(event, ${i})"
-               ontouchstart="handleImgCardTouchStart(event, ${i})"
-               ontouchend="handleImgCardTouchEnd(event, ${i})"
-               onclick="toggleInsertedImgEditBox(${i})"
-               title="Clic para desplegar edición | Arrastra para reordenar"
-               style="position: relative; background: #050508; border: 1px solid var(--border-color); border-radius: 8px; padding: 6px; cursor: pointer; text-align: center; transition: all 0.2s ease;">
-            <div style="position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.75); color: var(--accent-light); font-size: 0.7rem; font-weight: bold; padding: 1px 5px; border-radius: 4px; z-index: 2;">
-              #${i + 1}
-            </div>
-            <div style="position: absolute; top: 4px; right: 4px; background: rgba(90,116,191,0.85); color: #fff; font-size: 0.7rem; padding: 2px 5px; border-radius: 4px; z-index: 2;" title="Editar">
-              ⚙️
-            </div>
-            <div style="width: 100%; aspect-ratio: 1/1; border-radius: 6px; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center;">
-              ${safeUrl ? `<img src="${safeUrl}" id="insertedImgCardThumb_${i}" style="width: 100%; height: 100%; object-fit: cover; transition: all 0.3s ease; border: 2px solid ${currentAura}; box-shadow: 0 0 10px ${currentAura};" onerror="this.style.display='none';" alt="Preview">` : `<span style="font-size: 0.7rem; color: var(--text-muted);">Sin Foto</span>`}
-            </div>
-            <div style="font-size: 0.72rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 4px;">
-              ${safeCaption || 'Clic para editar'}
-            </div>
-          </div>
-        `;
-      });
-
-      html += `</div>`;
-
-      matches.forEach((m, i) => {
-        const safeUrl = escapeHtmlAttr(m.url);
-        const safeCaption = escapeHtmlAttr(m.caption);
-        const safeAura = escapeHtmlAttr(m.auraColor);
-
-        html += `
-          <div class="inserted-img-editor-drawer" id="insertedImgEditDrawer_${i}" style="display: none; background: rgba(10,12,18,0.95); border: 1px solid var(--accent-blue); border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px dashed var(--accent-blue); padding-bottom: 6px;">
-              <strong style="color: var(--accent-light); font-size: 0.88rem;">✏️ Editando Imagen #${i + 1}</strong>
-              <div style="display: flex; gap: 6px;">
-                <button type="button" class="admin-btn" onclick="reorderInsertedImgTags(${i}, ${i - 1})" ${i === 0 ? 'disabled style="opacity:0.35;"' : ''} style="padding: 2px 8px; font-size: 0.75rem;">⬆️ Subir</button>
-                <button type="button" class="admin-btn" onclick="reorderInsertedImgTags(${i}, ${i + 1})" ${i === matches.length - 1 ? 'disabled style="opacity:0.35;"' : ''} style="padding: 2px 8px; font-size: 0.75rem;">⬇️ Bajar</button>
-                <button type="button" class="admin-btn" onclick="deleteInsertedImgTag(${i})" style="padding: 2px 8px; font-size: 0.75rem; background: rgba(255,80,80,0.2); color: #ff6666; border: 1px solid #ff4d4d;">🗑️ Eliminar</button>
-                <button type="button" class="admin-btn" onclick="toggleInsertedImgEditBox(${i})" style="padding: 2px 8px; font-size: 0.75rem; background: rgba(255,255,255,0.1); color: #fff;">✕ Cerrar</button>
-              </div>
-            </div>
-
-            <div style="display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;">
-              <div style="width: 100px; height: 100px; border-radius: 6px; overflow: hidden; background: #000; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative;">
-                ${safeUrl ? `<img src="${safeUrl}" id="insertedImgThumb_${i}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block; transition: all 0.3s ease; border: 2px solid ${m.auraColor || '#5a74bf'}; box-shadow: 0 0 10px ${m.auraColor || '#5a74bf'};" onerror="this.style.display='none';" alt="Vista previa">` : `<span style="font-size: 0.75rem; color: var(--text-muted); text-align: center; padding: 4px;">Sin Imagen</span>`}
-              </div>
-
-              <div style="flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 8px;">
-                <div>
-                  <label style="font-size: 0.78rem; color: var(--text-muted); display: block; margin-bottom: 2px;">URL de la Imagen:</label>
-                  <input type="text" id="insertedImgUrl_${i}" value="${safeUrl}" placeholder="https://..." oninput="updateInsertedImgTagProp(${i})" style="width: 100%; background: #050508; border: 1px solid var(--border-color); color: #fff; padding: 5px 8px; font-size: 0.82rem; border-radius: 4px; outline: none;">
-                </div>
-
-                <div>
-                  <label style="font-size: 0.78rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Pie de foto / Título (Opcional):</label>
-                  <input type="text" id="insertedImgCaption_${i}" value="${safeCaption}" placeholder="Ej: Pie de foto..." oninput="updateInsertedImgTagProp(${i})" style="width: 100%; background: #050508; border: 1px solid var(--border-color); color: #fff; padding: 5px 8px; font-size: 0.82rem; border-radius: 4px; outline: none;">
-                </div>
-
-                <div>
-                  <label style="font-size: 0.78rem; color: var(--text-muted); display: block; margin-bottom: 2px;">Color Aura de la Imagen (Tiempo Real):</label>
-                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                    <input type="color" id="insertedImgAuraPicker_${i}" value="${safeAura || '#5a74bf'}" oninput="document.getElementById('insertedImgAura_${i}').value = this.value; updateInsertedImgTagProp(${i}); updateInsertedImgAuraRealtime(${i}, this.value);" style="width: 28px; height: 28px; padding: 0; border: 1px solid var(--border-color); background: transparent; cursor: pointer; border-radius: 4px;">
-                    <input type="text" id="insertedImgAura_${i}" value="${safeAura}" placeholder="Auto (#5A74BF)" oninput="if(this.value.startsWith('#')) document.getElementById('insertedImgAuraPicker_${i}').value = this.value; updateInsertedImgTagProp(${i}); updateInsertedImgAuraRealtime(${i}, this.value);" style="width: 95px; background: #050508; border: 1px solid var(--border-color); color: #fff; padding: 4px 6px; font-size: 0.82rem; border-radius: 4px; outline: none;">
-                    <button type="button" class="admin-btn" onclick="pickPixelColorForAura('insertedImgAura_${i}', 'insertedImgAuraPicker_${i}', 'insertedImgUrl_${i}')" title="Tomar color de un píxel de esta imagen con la pipeta" style="background: rgba(90, 116, 191, 0.2); border: 1px solid var(--accent-blue); color: var(--accent-light); padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: bold; white-space: nowrap;">
-                      🧪 Pipeta Píxel
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-    window.renderModalInsertedImages = renderModalInsertedImages;
-
-    /* EVENTOS DRAG & DROP PARA LAS TARJETAS DE IMÁGENES */
-    function handleImgCardDragStart(e, index) {
-      draggedImgCardIndex = index;
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', index.toString());
-      const card = document.getElementById(`insertedImgCard_${index}`);
-      if (card) {
-        card.style.opacity = '0.5';
-        card.style.borderColor = 'var(--accent-blue)';
+        if (typeof window.persistSiteDataInRealtime === 'function') {
+          window.persistSiteDataInRealtime(true);
+        }
       }
     }
-    window.handleImgCardDragStart = handleImgCardDragStart;
+    window.finishInlineBlogEdit = finishInlineBlogEdit;
+    window.saveModalPost = finishInlineBlogEdit;
 
-    function handleImgCardDragOver(e, index) {
+    function handlePlainTextPaste(e) {
+      if (!e || !e.clipboardData) return;
       e.preventDefault();
-      if (draggedImgCardIndex === null || draggedImgCardIndex === index) return;
-      e.dataTransfer.dropEffect = 'move';
-      const card = document.getElementById(`insertedImgCard_${index}`);
-      if (card) {
-        card.style.border = '2px dashed var(--accent-blue)';
-        card.style.background = 'rgba(90, 116, 191, 0.2)';
-      }
+      const text = (e.clipboardData.getData('text/plain') || '').replace(/\r?\n/g, ' ');
+      document.execCommand('insertText', false, text);
     }
-    window.handleImgCardDragOver = handleImgCardDragOver;
+    window.handlePlainTextPaste = handlePlainTextPaste;
 
-    function handleImgCardDragLeave(e, index) {
-      const card = document.getElementById(`insertedImgCard_${index}`);
-      if (card && draggedImgCardIndex !== index) {
-        card.style.border = '1px solid var(--border-color)';
-        card.style.background = 'rgba(5,5,8,0.85)';
-      }
-    }
-    window.handleImgCardDragLeave = handleImgCardDragLeave;
-
-    function handleImgCardDrop(e, index) {
-      e.preventDefault();
-      const card = document.getElementById(`insertedImgCard_${index}`);
-      if (card) {
-        card.style.border = '1px solid var(--border-color)';
-        card.style.background = 'rgba(5,5,8,0.85)';
-      }
-      const fromIndex = draggedImgCardIndex !== null ? draggedImgCardIndex : parseInt(e.dataTransfer.getData('text/plain'));
-      if (!isNaN(fromIndex) && fromIndex !== index) {
-        reorderInsertedImgTags(fromIndex, index);
-      }
-      draggedImgCardIndex = null;
-    }
-    window.handleImgCardDrop = handleImgCardDrop;
-
-    function handleImgCardDragEnd(e, index) {
-      const card = document.getElementById(`insertedImgCard_${index}`);
-      if (card) {
-        card.style.opacity = '1';
-        card.style.border = '1px solid var(--border-color)';
-        card.style.background = 'rgba(5,5,8,0.85)';
-      }
-      draggedImgCardIndex = null;
-    }
-    window.handleImgCardDragEnd = handleImgCardDragEnd;
-
-    let touchImgCardStartIdx = null;
-    function handleImgCardTouchStart(e, index) {
-      touchImgCardStartIdx = index;
-    }
-    window.handleImgCardTouchStart = handleImgCardTouchStart;
-
-    function handleImgCardTouchEnd(e, index) {
-      if (touchImgCardStartIdx === null) return;
-      const touch = e.changedTouches[0];
-      const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
-      if (targetEl) {
-        const closestCard = targetEl.closest('.inserted-img-card-compact');
-        if (closestCard) {
-          const dropIndex = parseInt(closestCard.dataset.index, 10);
-          if (!isNaN(dropIndex) && dropIndex !== touchImgCardStartIdx) {
-            reorderInsertedImgTags(touchImgCardStartIdx, dropIndex);
+    function handleLiveBlogTitleKeydown(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const bodyEl = document.getElementById('blogEditableBody');
+        if (bodyEl) {
+          bodyEl.focus();
+          const firstP = bodyEl.querySelector('p, h2');
+          if (firstP && window.getSelection) {
+            const range = document.createRange();
+            range.selectNodeContents(firstP);
+            range.collapse(true);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
           }
         }
       }
-      touchImgCardStartIdx = null;
     }
-    window.handleImgCardTouchEnd = handleImgCardTouchEnd;
+    window.handleLiveBlogTitleKeydown = handleLiveBlogTitleKeydown;
 
-    function reorderInsertedImgTags(dragIndex, dropIndex) {
-      const textarea = document.getElementById('modalEditContent');
-      if (!textarea) return;
-
-      const text = textarea.value;
-      const imgRegex = /\[img:\s*([^\]]+)\]/gi;
-      const matches = [];
-      let match;
-      while ((match = imgRegex.exec(text)) !== null) {
-        matches.push(match[0]);
-      }
-
-      if (dragIndex < 0 || dragIndex >= matches.length || dropIndex < 0 || dropIndex >= matches.length || dragIndex === dropIndex) return;
-
-      const imgRegexPos = /\[img:\s*([^\]]+)\]/gi;
-      let lastIndex = 0;
-      const textSegments = [];
-      let posMatch;
-      while ((posMatch = imgRegexPos.exec(text)) !== null) {
-        textSegments.push(text.substring(lastIndex, posMatch.index));
-        lastIndex = posMatch.index + posMatch[0].length;
-      }
-      textSegments.push(text.substring(lastIndex));
-
-      const [movedTag] = matches.splice(dragIndex, 1);
-      matches.splice(dropIndex, 0, movedTag);
-
-      let newText = textSegments[0];
-      for (let i = 0; i < matches.length; i++) {
-        newText += matches[i] + textSegments[i + 1];
-      }
-
-      textarea.value = newText;
-      renderModalInsertedImages();
+    function handleLiveBlogDateChange(newIso) {
+      if (!newIso || currentBlogIndex === null || !postsData[currentBlogIndex]) return;
+      postsData[currentBlogIndex].dateIso = newIso;
+      postsData[currentBlogIndex].date = formatIsoToSpanishDate(newIso);
+      postsData[currentBlogIndex].updatedAt = new Date().toISOString();
+      const dateTextEl = document.getElementById('blogLiveDateText');
+      if (dateTextEl) dateTextEl.textContent = postsData[currentBlogIndex].date;
+      persistPostsToLocalVaults();
     }
-    window.reorderInsertedImgTags = reorderInsertedImgTags;
+    window.handleLiveBlogDateChange = handleLiveBlogDateChange;
 
-    function updateInsertedImgTagProp(index) {
-      const textarea = document.getElementById('modalEditContent');
-      if (!textarea) return;
+    function handleCardInlineTitleInput(postIndex, el) {
+      if (!postsData[postIndex] || !el) return;
+      postsData[postIndex].title = (el.innerText || '').replace(/\r?\n/g, ' ').trim();
+      postsData[postIndex].updatedAt = new Date().toISOString();
+      persistPostsToLocalVaults();
+    }
+    window.handleCardInlineTitleInput = handleCardInlineTitleInput;
 
-      const urlInput = document.getElementById(`insertedImgUrl_${index}`);
-      const captionInput = document.getElementById(`insertedImgCaption_${index}`);
-      const auraInput = document.getElementById(`insertedImgAura_${index}`);
+    function handleCardInlineDateChange(postIndex, newIso) {
+      if (!postsData[postIndex] || !newIso) return;
+      postsData[postIndex].dateIso = newIso;
+      postsData[postIndex].date = formatIsoToSpanishDate(newIso);
+      postsData[postIndex].updatedAt = new Date().toISOString();
+      persistPostsToLocalVaults();
+      renderBlogPosts();
+      renderAdminPostsList();
+    }
+    window.handleCardInlineDateChange = handleCardInlineDateChange;
 
-      if (!urlInput) return;
+    function handleCardInlinePreviewInput(postIndex, el) {
+      if (!postsData[postIndex] || !el) return;
+      const val = (el.innerText || '').replace(/\r?\n/g, ' ').trim();
+      const autoVal = computeAutoPostPreview(postsData[postIndex].content || '');
+      postsData[postIndex].preview = (val === autoVal) ? '' : val;
+      postsData[postIndex].updatedAt = new Date().toISOString();
+      persistPostsToLocalVaults();
+    }
+    window.handleCardInlinePreviewInput = handleCardInlinePreviewInput;
 
-      const newUrl = urlInput.value.trim();
-      const newCaption = captionInput ? captionInput.value.trim() : '';
-      const newAura = auraInput ? auraInput.value.trim() : '';
+    function handleCardInlinePreviewBlur(postIndex, el) {
+      if (!postsData[postIndex] || !el) return;
+      const val = (el.innerText || '').replace(/\r?\n/g, ' ').trim();
+      if (!val) {
+        postsData[postIndex].preview = '';
+        el.textContent = computeAutoPostPreview(postsData[postIndex].content || '');
+        persistPostsToLocalVaults();
+      }
+    }
+    window.handleCardInlinePreviewBlur = handleCardInlinePreviewBlur;
 
-      const thumb = document.getElementById(`insertedImgThumb_${index}`);
-      if (thumb) {
-        if (newUrl) {
-          thumb.src = newUrl;
-          thumb.style.display = 'block';
-        } else {
-          thumb.style.display = 'none';
+    function cycleCardImageFit(postIndex, btnEl) {
+      if (!postsData[postIndex]) return;
+      const order = ['cover-center', 'cover-top', 'cover-bottom', 'contain'];
+      const labels = {
+        'cover-center': 'Centro',
+        'cover-top': 'Arriba',
+        'cover-bottom': 'Abajo',
+        'contain': 'Completa'
+      };
+      const cur = postsData[postIndex].imageFit || 'cover-center';
+      const next = order[(order.indexOf(cur) + 1) % order.length];
+      postsData[postIndex].imageFit = next;
+      postsData[postIndex].updatedAt = new Date().toISOString();
+      const wrap = btnEl ? btnEl.closest('.blog-thumb-admin-wrap') : null;
+      const img = wrap ? wrap.querySelector('img.blog-thumb') : null;
+      if (img) {
+        img.style.cssText = getFitCssForPost(next);
+      }
+      persistPostsToLocalVaults();
+      if (typeof showToastNotification === 'function') {
+        showToastNotification(`📐 Encuadre de miniatura: ${labels[next]}`);
+      }
+    }
+    window.cycleCardImageFit = cycleCardImageFit;
+
+    function setupLiveBlogEditableBodyEvents() {
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (!bodyEl) return;
+
+      try {
+        document.execCommand('defaultParagraphSeparator', false, 'p');
+      } catch (err) {}
+
+      bodyEl.addEventListener('input', () => {
+        if (!bodyEl.children.length && !(bodyEl.textContent || '').trim()) {
+          bodyEl.innerHTML = '<p><br></p>';
         }
-      }
+        syncLiveBlogModalToMemory(false);
+      });
 
-      const cardThumb = document.getElementById(`insertedImgCardThumb_${index}`);
-      if (cardThumb) {
-        if (newUrl) {
-          cardThumb.src = newUrl;
-          cardThumb.style.display = 'block';
-        } else {
-          cardThumb.style.display = 'none';
+      bodyEl.addEventListener('blur', () => {
+        syncLiveBlogModalToMemory(true);
+      });
+
+      bodyEl.addEventListener('click', (e) => {
+        const anchor = e.target && e.target.closest ? e.target.closest('a') : null;
+        if (anchor && bodyEl.contains(anchor)) {
+          e.preventDefault();
         }
-      }
+      });
 
-      if (typeof updateInsertedImgAuraRealtime === 'function') {
-        updateInsertedImgAuraRealtime(index, newAura);
-      }
+      bodyEl.addEventListener('paste', (e) => {
+        if (!e.clipboardData) return;
+        e.preventDefault();
+        const plain = (e.clipboardData.getData('text/plain') || '').replace(/\r\n/g, '\n');
+        if (!plain) return;
 
-      const text = textarea.value;
-      const imgRegex = /\[img:\s*([^\]]+)\]/gi;
-      const matches = [];
-      let match;
-      while ((match = imgRegex.exec(text)) !== null) {
-        matches.push({
-          rawMatch: match[0],
-          startIndex: match.index
-        });
-      }
-
-      if (!matches[index]) return;
-
-      let newTag = `[img:${newUrl}`;
-      if (newCaption || newAura) {
-        newTag += ` | ${newCaption}`;
-      }
-      if (newAura) {
-        newTag += ` | ${newAura}`;
-      }
-      newTag += `]`;
-
-      const targetMatch = matches[index];
-      const before = text.substring(0, targetMatch.startIndex);
-      const after = text.substring(targetMatch.startIndex + targetMatch.rawMatch.length);
-
-      textarea.value = before + newTag + after;
+        const paras = plain.split(/\n{2,}/);
+        if (paras.length === 1) {
+          const htmlLines = escapeHtmlText(paras[0]).replace(/\n/g, '<br>');
+          document.execCommand('insertHTML', false, htmlLines);
+        } else {
+          const htmlBlocks = paras
+            .map(p => p.trim())
+            .filter(Boolean)
+            .map(p => `<p>${escapeHtmlText(p).replace(/\n/g, '<br>')}</p>`)
+            .join('');
+          document.execCommand('insertHTML', false, htmlBlocks);
+        }
+        syncLiveBlogModalToMemory(false);
+      });
     }
-    window.updateInsertedImgTagProp = updateInsertedImgTagProp;
 
-    function deleteInsertedImgTag(index) {
-      const textarea = document.getElementById('modalEditContent');
-      if (!textarea) return;
-
-      const text = textarea.value;
-      const imgRegex = /\[img:\s*([^\]]+)\]/gi;
-      const matches = [];
-      let match;
-      while ((match = imgRegex.exec(text)) !== null) {
-        matches.push({
-          rawMatch: match[0],
-          startIndex: match.index
-        });
+    function removeLiveCoverImage() {
+      if (currentBlogIndex === null || !postsData[currentBlogIndex]) return;
+      postsData[currentBlogIndex].image = '';
+      postsData[currentBlogIndex].imageCaption = '';
+      postsData[currentBlogIndex].imageAura = '';
+      postsData[currentBlogIndex].updatedAt = new Date().toISOString();
+      const coverContainer = document.getElementById('blogLiveCoverContainer');
+      if (coverContainer) {
+        coverContainer.innerHTML = renderLiveCoverSectionHTML(postsData[currentBlogIndex]);
       }
-
-      if (!matches[index]) return;
-
-      const targetMatch = matches[index];
-      let before = text.substring(0, targetMatch.startIndex);
-      let after = text.substring(targetMatch.startIndex + targetMatch.rawMatch.length);
-
-      textarea.value = before + after;
-      renderModalInsertedImages();
+      persistPostsToLocalVaults();
     }
-    window.deleteInsertedImgTag = deleteInsertedImgTag;
+    window.removeLiveCoverImage = removeLiveCoverImage;
 
-    function moveInsertedImgTag(index, direction) {
-      const textarea = document.getElementById('modalEditContent');
-      if (!textarea) return;
+    function moveInlineFigureBlock(btnEl, direction) {
+      const fig = btnEl ? btnEl.closest('.blutu-editable-figure') : null;
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (!fig || !bodyEl) return;
 
-      const text = textarea.value;
-      const imgRegex = /\[img:\s*([^\]]+)\]/gi;
-      const matches = [];
-      let match;
-      while ((match = imgRegex.exec(text)) !== null) {
-        matches.push({
-          rawMatch: match[0],
-          startIndex: match.index
-        });
+      if (direction < 0 && fig.previousElementSibling) {
+        bodyEl.insertBefore(fig, fig.previousElementSibling);
+      } else if (direction > 0 && fig.nextElementSibling) {
+        bodyEl.insertBefore(fig.nextElementSibling, fig);
       }
-
-      const targetIndex = index + direction;
-      if (index < 0 || index >= matches.length || targetIndex < 0 || targetIndex >= matches.length) return;
-
-      const m1 = matches[index];
-      const m2 = matches[targetIndex];
-
-      if (index < targetIndex) {
-        const part1 = text.substring(0, m1.startIndex);
-        const part2 = text.substring(m1.startIndex + m1.rawMatch.length, m2.startIndex);
-        const part3 = text.substring(m2.startIndex + m2.rawMatch.length);
-        textarea.value = part1 + m2.rawMatch + part2 + m1.rawMatch + part3;
-      } else {
-        const part1 = text.substring(0, m2.startIndex);
-        const part2 = text.substring(m2.startIndex + m2.rawMatch.length, m1.startIndex);
-        const part3 = text.substring(m1.startIndex + m1.rawMatch.length);
-        textarea.value = part1 + m1.rawMatch + part2 + m2.rawMatch + part3;
+      // Garantizar párrafo editable al final si una figura quedó de última
+      if (bodyEl.lastElementChild && bodyEl.lastElementChild.classList.contains('blutu-editable-figure')) {
+        const trailingP = document.createElement('p');
+        trailingP.setAttribute('data-trailing-guard', 'true');
+        trailingP.innerHTML = '<br>';
+        bodyEl.appendChild(trailingP);
       }
-
-      renderModalInsertedImages();
+      syncLiveBlogModalToMemory(true);
     }
-    window.moveInsertedImgTag = moveInsertedImgTag;
+    window.moveInlineFigureBlock = moveInlineFigureBlock;
+
+    function removeInlineFigureBlock(btnEl) {
+      const fig = btnEl ? btnEl.closest('.blutu-editable-figure') : null;
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (!fig || !bodyEl) return;
+      fig.remove();
+      if (!bodyEl.children.length) {
+        bodyEl.innerHTML = '<p><br></p>';
+      }
+      syncLiveBlogModalToMemory(true);
+    }
+    window.removeInlineFigureBlock = removeInlineFigureBlock;
 
     function toggleModalPostVisibility(postIndex, e) {
       if (e && e.stopPropagation) e.stopPropagation();
@@ -9462,7 +9866,13 @@
         localStorage.setItem('blutu_deleted_post_ids', JSON.stringify(delList));
       } catch(e) {}
 
-      // 1. Eliminar del array postsData
+      // 1. Eliminar del array postsData y alinear índice activo del modal
+      const wasOpenDeletedPost = (currentBlogIndex === idx);
+      if (wasOpenDeletedPost) {
+        currentBlogIndex = null;
+      } else if (typeof currentBlogIndex === 'number' && currentBlogIndex > idx) {
+        currentBlogIndex--;
+      }
       postsData.splice(idx, 1);
 
       // 2. Sincronizar referencia global de window
@@ -9488,10 +9898,10 @@
       }
 
       // 4. Re-renderizar todos los componentes visuales
+      if (wasOpenDeletedPost && typeof closeBlogModal === 'function') closeBlogModal(true);
       if (typeof renderBlogPosts === 'function') renderBlogPosts();
       if (typeof renderAdminPostsList === 'function') renderAdminPostsList();
       if (typeof populatePostSelect === 'function') populatePostSelect();
-      if (typeof closeBlogModal === 'function') closeBlogModal();
       if (typeof closeDeletePostConfirmModal === 'function') closeDeletePostConfirmModal();
 
       // 5. Archivar en Firestore (soft-delete seguro, nunca borrado destructivo) y sincronizar sitio
@@ -9531,36 +9941,6 @@
       }
     }
     window.toggleCurrentPostVisibility = toggleCurrentPostVisibility;
-
-    function updateModalMainImgPreview(url) {
-      const container = document.getElementById('modalEditMainImgContainer');
-      if (!container) return;
-      if (url && url.trim()) {
-        container.innerHTML = `<img id="modalEditMainImgPreview" src="${escapeHtmlAttr(url.trim())}" class="main-img" alt="Imagen Principal" style="margin-bottom: 12px;" onerror="this.style.display='none';">`;
-      } else {
-        container.innerHTML = `<div id="modalEditMainImgPreview" style="display:none;"></div>`;
-      }
-    }
-    window.updateModalMainImgPreview = updateModalMainImgPreview;
-
-    function handleModalTxtUpload(event, postIndex) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const contentInput = document.getElementById('modalEditContent');
-        if (contentInput) contentInput.value = e.target.result;
-
-        const titleInput = document.getElementById('modalEditTitle');
-        if (titleInput && (!titleInput.value.trim() || titleInput.value === 'Nueva Publicación')) {
-          let name = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' ');
-          titleInput.value = name.charAt(0).toUpperCase() + name.slice(1);
-        }
-      };
-      reader.readAsText(file, "UTF-8");
-    }
-    window.handleModalTxtUpload = handleModalTxtUpload;
 
     /* FUNCIONALIDAD DE PIPETA / CUENTAGOTAS DE PÍXEL PARA AURA DE IMÁGENES */
     let currentPixelTargetTextId = '';
@@ -9743,6 +10123,9 @@
       renderAdminPostsList();
     }
     function applyCurrentPostToMemory() {
+      if (typeof syncLiveBlogModalToMemory === 'function') {
+        syncLiveBlogModalToMemory(true);
+      }
       return true;
     }
     function saveUnifiedPost() {
@@ -9770,12 +10153,22 @@
       }
 
       if (e.key === "Escape") {
+        const subModals = [
+          { id: 'pixelCanvasModal', close: closePixelCanvasModal },
+          { id: 'insertImageModal', close: closeInsertImageModal },
+          { id: 'insertLinkModal', close: closeInsertLinkModal },
+          { id: 'insertColorModal', close: closeInsertColorModal },
+          { id: 'deletePostConfirmModal', close: closeDeletePostConfirmModal }
+        ];
+        for (const sub of subModals) {
+          const el = document.getElementById(sub.id);
+          if (el && el.style.display && el.style.display !== 'none') {
+            if (typeof sub.close === 'function') sub.close();
+            return;
+          }
+        }
         closeModal();
         closeBlogModal();
-        closeInsertImageModal();
-        closeInsertLinkModal();
-        closePixelCanvasModal();
-        if (typeof closeDeletePostConfirmModal === 'function') closeDeletePostConfirmModal();
         document.getElementById('passwordModal').style.display = 'none';
         closeAdminModal();
       }
@@ -10240,7 +10633,6 @@
     window.saveLiveButtonsChanges = saveLiveButtonsChanges;
     window.moveLivePage = moveLivePage;
     window.handleAdminGalleryNameInput = handleAdminGalleryNameInput;
-    window.previewCurrentPostModal = previewCurrentPostModal;
     window.handlePostImageAutoCaption = handlePostImageAutoCaption;
     window.handleNewGalleryPhotoUrlAutoCaption = handleNewGalleryPhotoUrlAutoCaption;
     window.openInsertLinkModal = openInsertLinkModal;
@@ -10280,10 +10672,12 @@
       renderMerchSection();
     }
 
-    let merchCardSlideshowIntervals = [];
+    var merchCardSlideshowIntervals = [];
 
     function clearMerchCardIntervals() {
-      merchCardSlideshowIntervals.forEach(id => clearInterval(id));
+      if (Array.isArray(merchCardSlideshowIntervals)) {
+        merchCardSlideshowIntervals.forEach(id => clearInterval(id));
+      }
       merchCardSlideshowIntervals = [];
     }
 
@@ -11931,6 +12325,11 @@
       if (typeof applyCurrentPostToMemory === 'function') {
         applyCurrentPostToMemory(true);
       }
+      // Si había una publicación abierta en el visor/editor directo, cerrarla limpiamente al guardar
+      const openBlogModalEl = document.getElementById('blogReadModal');
+      if (openBlogModalEl && openBlogModalEl.style.display !== 'none') {
+        closeBlogModal();
+      }
 
       const nameInputVal = (document.getElementById('adminGalleryName')?.value || '').trim();
       if (selectedAdminGalleryKey === 'new' && nameInputVal) {
@@ -11992,105 +12391,22 @@
       <h2>Gestión de Publicaciones y Galerías</h2>
       <p style="font-size: 1rem; text-align: center; color: var(--accent-light); margin-bottom: 20px; font-style: italic;">Haz clic en cualquier sección para desplegar u ocultar. Presiona Escape para salir.</p>
 
-      <!-- SECCIÓN 1: PUBLICACIÓN -->
+      <!-- SECCIÓN 1: PUBLICACIÓN (EDICIÓN INTEGRADA DIRECTA) -->
       <details class="admin-section" name="adminAccordion">
         <summary>Publicación</summary>
         <div class="admin-section-content">
           <div style="border: 1px solid var(--border-color); background: rgba(5, 5, 8, 0.45); padding: 18px;">
-            
-            <div style="background: rgba(90, 116, 191, 0.12); border: 1px solid var(--accent-blue); padding: 10px 14px; margin-bottom: 18px; border-radius: 4px;">
-              <p style="font-size: 0.95rem; color: var(--accent-light); margin: 0; line-height: 1.4;">
-                ✨ <strong>Edición Múltiple:</strong> Puedes editar o crear varios artículos. Al cambiar de publicación en el menú, se aplicarán tus cambios en la lista. Cuando termines todo, presiona <strong>"💾 GUARDAR TODOS LOS CAMBIOS"</strong> al final.
-              </p>
-            </div>
-
-            <!-- SELECCIÓN DE PUBLICACIÓN O CREAR NUEVA -->
-            <div class="admin-form-group" style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px dashed var(--accent-blue);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-                <label style="font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--accent-light); margin: 0; display: block;">Todas las Publicaciones / Administrar Artículos:</label>
-                <button type="button" class="admin-btn" onclick="createNewBlogInModal()" style="background: var(--accent-blue); color: #fff; padding: 4px 12px; font-size: 0.85rem; border-radius: 4px; border: none; cursor: pointer; font-weight: bold;">➕ Crear Nuevo</button>
+            <p style="font-size: 0.95rem; color: var(--accent-light); margin: 0 0 14px 0; line-height: 1.4;">
+              Selecciona cualquier publicación para abrirla y editarla directamente sobre su diseño final, o crea una nueva.
+            </p>
+            <div class="admin-form-group" style="margin-bottom: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                <label style="font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--accent-light); margin: 0; display: block;">Publicaciones:</label>
+                <button type="button" class="admin-btn" onclick="closeAdminModal(); createNewBlogInModal()" style="background: var(--accent-blue); color: #fff; padding: 5px 14px; font-size: 0.88rem; border-radius: 4px; border: none; cursor: pointer; font-weight: bold;">➕ Nueva Publicación</button>
               </div>
-              <select id="postSelect" onchange="handlePostSelectChange(this.value)" style="width: 100%; background: #050508; border: 1px solid var(--accent-blue); color: var(--white); padding: 10px; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; margin-bottom: 10px;"></select>
+              <select id="postSelect" onchange="closeAdminModal(); handlePostSelectChange(this.value)" style="width: 100%; background: #050508; border: 1px solid var(--accent-blue); color: var(--white); padding: 10px; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; margin-bottom: 10px;"></select>
               <div id="adminPostsList" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; padding-right: 4px; border: 1px solid rgba(90, 116, 191, 0.2); border-radius: 6px; padding: 8px; background: rgba(5,5,8,0.6);"></div>
             </div>
-
-            <!-- CARGAR CONTENIDO DESDE ARCHIVO TXT -->
-            <div class="admin-form-group" style="background: #050508; border: 1px dashed var(--accent-blue); padding: 12px; text-align: center; margin-bottom: 20px;">
-              <label for="txtFileInput" style="cursor: pointer; margin-bottom: 0; font-size: 1.1rem; color: var(--accent-light); display: block;">
-                📁 Cargar contenido desde archivo <code>.txt</code>
-              </label>
-              <input type="file" id="txtFileInput" accept=".txt" style="display: none;" onchange="handleTxtUpload(event)">
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Al subir un archivo se rellenará el contenido y el título automáticamente.</p>
-            </div>
-
-            <!-- CAMPOS DEL FORMULARIO DE PUBLICACIÓN -->
-            <div class="admin-form-group">
-              <label>Título del Blog</label>
-              <input type="text" id="postTitle" placeholder="Ej: Reflexión Nocturna">
-            </div>
-
-            <div class="admin-form-group">
-              <label>Fecha de Publicación</label>
-              <input type="date" id="postDateIso">
-            </div>
-
-            <div class="admin-form-group">
-              <label>Imagen Principal (Opcional)</label>
-              <input type="text" id="postImage" placeholder="Ej: https://midominio.com/foto.jpg">
-            </div>
-
-            <div class="admin-form-group">
-              <label>Título / Pie de la Imagen Principal (Opcional)</label>
-              <input type="text" id="postImageCaption" placeholder="Ej: Pintura de Edipo y Antígona en Colono">
-            </div>
-
-            <div class="admin-form-group">
-              <label>Ajuste de la Imagen de Vista Previa (Thumbnail)</label>
-              <select id="postImageFit">
-                <option value="cover-center">Cover - Centro (Predeterminado)</option>
-                <option value="cover-top">Cover - Arriba</option>
-                <option value="cover-bottom">Cover - Abajo</option>
-                <option value="contain">Mostrar completa (Contain)</option>
-              </select>
-            </div>
-
-            <div class="admin-form-group" style="background: rgba(90, 116, 191, 0.05); border: 1px solid var(--border-color); padding: 12px;">
-              <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 8px; color: var(--accent-light);">
-                <input type="checkbox" id="manualPreviewToggle" style="width: 18px; height: 18px; cursor: pointer;" onchange="toggleManualPreviewBox()">
-                Escribir vista previa / resumen manualmente
-              </label>
-              <div id="manualPreviewContainer" style="display: none; margin-top: 10px;">
-                <textarea id="postPreviewCustom" rows="3" placeholder="Escribe el texto corto que aparecerá en la tarjeta del blog..."></textarea>
-              </div>
-            </div>
-
-            <div class="admin-form-group">
-              <div class="admin-field-header">
-                <label style="margin-bottom: 0;">Contenido del Artículo</label>
-                <div class="admin-format-bar">
-                  <button type="button" onclick="insertFormat('postContent', 'bold')"><strong>B</strong> Negrilla</button>
-                  <button type="button" onclick="insertFormat('postContent', 'subtitle')">H Subtítulo</button>
-                  <button type="button" onclick="insertFormat('postContent', 'center')">↔️ Centrar</button>
-                  <button type="button" onclick="insertFormat('postContent', 'color')">🎨 Color de Texto</button>
-                  <button type="button" onclick="insertFormat('postContent', 'link')">🔗 Insertar Enlace</button>
-                  <button type="button" onclick="insertFormat('postContent', 'img')">🖼️ Imagen con Título</button>
-                </div>
-              </div>
-              <textarea id="postContent" rows="7" placeholder="Escribe aquí tu texto..."></textarea>
-              <p style="font-size: 0.85rem; color: var(--accent-light); margin-top: 5px;">💡 Usa los botones de formato para insertar negrilla, subtítulos, texto centrado (<code>[center]Texto[/center]</code>), color de texto (<code>[color:#8CA2E6|Texto]</code>), enlaces (<code>[Texto](URL)</code>) o imágenes (<code>[img:URL|Título]</code>).</p>
-              <div style="margin-top: 12px; text-align: left;">
-                <button type="button" class="admin-btn" onclick="previewCurrentPostModal()" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; padding: 10px 18px; margin-top: 0; background: rgba(90, 116, 191, 0.25); border: 1px solid var(--accent-light); color: var(--accent-light); font-size: 1.05rem; font-weight: bold; cursor: pointer; border-radius: 12px 12px 0 0; transition: all 0.2s ease;">
-                  👁️ Vista Previa del Artículo
-                </button>
-              </div>
-            </div>
-
-            <!-- BOTONES DE ACCIÓN PARA EL ARTÍCULO ACTUAL -->
-            <div class="admin-actions-row">
-              <button type="button" id="btnToggleCurrentPost" class="admin-btn btn-toggle-post" onclick="toggleCurrentPostVisibility()" style="display: none; background: rgba(200, 150, 50, 0.2); color: rgb(255, 210, 128); border-color: rgb(204, 163, 51);">👁️‍🗨️ Ocultar</button>
-              <button type="button" id="btnDeleteCurrentPost" class="admin-btn btn-delete-post" onclick="deleteCurrentPost()" style="display: none;">🗑️ Borrar</button>
-            </div>
-
           </div>
         </div>
       </details>
@@ -12692,113 +13008,223 @@
       // Convert [color:COLOR|Text]
       formatted = formatted.replace(/\[color:\s*([^|]+)\|([^\]]+)\]/gi, (match, color, txt) => {
         const safeColor = escapeHtmlAttr(color.trim());
-        return `<span style="color: ${safeColor};">${txt}</span>`;
+        return `<span data-blutu-color="${safeColor}" style="color: ${safeColor};">${txt}</span>`;
       });
       // Convert [center]Text[/center]
       formatted = formatted.replace(/\[center\]([\s\S]*?)\[\/center\]/gi, (match, txt) => {
-        return `<span style="display: block; text-align: center; text-align-last: center;">${txt}</span>`;
+        return `<span data-blutu-center="true" style="display: block; text-align: center; text-align-last: center;">${txt}</span>`;
       });
       // Convert [center:Text]
       formatted = formatted.replace(/\[center:\s*([^\]]+)\]/gi, (match, txt) => {
-        return `<span style="display: block; text-align: center; text-align-last: center;">${txt}</span>`;
+        return `<span data-blutu-center="true" style="display: block; text-align: center; text-align-last: center;">${txt}</span>`;
       });
       // Convert Bold **text**
       formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
       return formatted;
     }
 
-    function previewCurrentPostModal() {
-      const title = (document.getElementById('postTitle')?.value || '').trim() || 'Vista Previa del Artículo';
-      const dateIso = (document.getElementById('postDateIso')?.value || '').trim() || new Date().toISOString().split('T')[0];
-      const date = formatIsoToSpanishDate(dateIso);
-      const image = (document.getElementById('postImage')?.value || '').trim();
-      const imageCaption = (document.getElementById('postImageCaption')?.value || '').trim();
-      const rawContent = (document.getElementById('postContent')?.value || '').trim() || '*(Sin contenido aún)*';
+    /* GESTIÓN DE SELECCIÓN Y FORMATO DIRECTO EN EL ARTÍCULO (WYSIWYG) */
+    let savedBlogSelectionRange = null;
+    let savedBlogActiveBlock = null;
+    let activeBlogImageModalMode = 'insert-inline'; // 'insert-inline' | 'edit-inline' | 'cover'
+    let activeEditingInlineFigure = null;
+    let activeEditingLinkAnchor = null;
+    let activeEditingColorSpan = null;
 
-      function renderImageTag(rawMatch) {
-        const inner = rawMatch.replace(/^\[img:\s*/i, '').replace(/\]$/, '').trim();
-        const parts = inner.split('|');
-        const url = parts[0].trim();
-        const caption = parts.length > 1 ? parts.slice(1).join('|').trim() : '';
-
-        if (caption) {
-          const safeCaption = caption.replace(/"/g, '&quot;');
-          return `<figure class="inline-img-figure"><img src="${url}" class="inline-img" alt="${safeCaption}"><figcaption class="inline-img-caption">${caption}</figcaption></figure>`;
-        } else {
-          return `<img src="${url}" class="inline-img" alt="Imagen en contenido">`;
-        }
+    function getClosestEditableBlockInBody(node) {
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (!bodyEl || !node) return null;
+      let cur = node.nodeType === 1 ? node : node.parentElement;
+      while (cur && cur !== bodyEl) {
+        if (cur.parentElement === bodyEl) return cur;
+        cur = cur.parentElement;
       }
+      return null;
+    }
 
-      const paragraphs = rawContent.split('\n\n');
-      const formattedContentHTML = paragraphs.map(p => {
-        let text = p.trim();
-        if (!text) return '';
-        if (/^\[img:\s*[^\]]+\]$/i.test(text)) {
-          return renderImageTag(text);
+    function saveCurrentBlogSelection() {
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (!bodyEl || !window.getSelection) return;
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount > 0) {
+        const range = sel.getRangeAt(0);
+        if (bodyEl.contains(range.commonAncestorContainer)) {
+          savedBlogSelectionRange = range.cloneRange();
+          savedBlogActiveBlock = getClosestEditableBlockInBody(range.commonAncestorContainer);
         }
-        text = text.replace(/\[img:\s*([^\]]+)\]/gi, (match) => `</p>${renderImageTag(match)}<p>`);
-        if (text.startsWith('# ')) {
-          return `<h2>${formatPostInlineText(text.substring(2).trim())}</h2>`;
-        }
-        return `<p>${formatPostInlineText(text).replace(/\n/g, '<br>')}</p>`;
-      }).join('').replace(/<p>\s*<\/p>/gi, '');
-
-      const modalBody = document.getElementById('blogModalBody');
-      if (modalBody) {
-        modalBody.innerHTML = `
-          <div style="background: rgba(90, 116, 191, 0.2); border: 1px solid var(--accent-blue); padding: 8px 14px; margin-bottom: 20px; border-radius: 8px; text-align: center; font-size: 0.95rem; color: var(--accent-light);">
-            👁️ <strong>Modo Vista Previa de Edición</strong> — Así se verá tu artículo publicado
-          </div>
-          <h1>${escapeHtmlAttr(title)}</h1>
-          <span class="modal-date">${date}</span>
-          ${image ? `
-            <figure class="main-img-figure">
-              <img src="${escapeHtmlAttr(image)}" class="main-img" alt="${escapeHtmlAttr(title)}">
-              ${imageCaption ? `<figcaption class="main-img-caption">${escapeHtmlAttr(imageCaption)}</figcaption>` : ''}
-            </figure>
-          ` : ''}
-          ${formattedContentHTML}
-          <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px;">
-            <button class="read-more-btn" onclick="closeBlogModal()">Volver al Editor</button>
-          </div>
-        `;
-      }
-
-      const blogReadModal = document.getElementById('blogReadModal');
-      if (blogReadModal) {
-        blogReadModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        const modalBox = blogReadModal.querySelector('.blog-modal-box');
-        if (modalBox) modalBox.scrollTop = 0;
       }
     }
 
-    let targetTextareaIdForImage = 'postContent';
+    function restoreSavedBlogSelection() {
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (!bodyEl || !window.getSelection) return false;
+      bodyEl.focus();
+      if (savedBlogSelectionRange) {
+        try {
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(savedBlogSelectionRange);
+          return true;
+        } catch (e) {}
+      }
+      return false;
+    }
 
-    function openInsertImageModal(textareaId) {
-      targetTextareaIdForImage = textareaId || 'postContent';
-      const textarea = document.getElementById(targetTextareaIdForImage);
-      let initialUrl = '';
-      if (textarea) {
-        const startPos = textarea.selectionStart;
-        const endPos = textarea.selectionEnd;
-        const selectedText = textarea.value.substring(startPos, endPos).trim();
-        if (selectedText.startsWith('http')) {
-          initialUrl = selectedText;
+    function applyBlogInlineFormat(type) {
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (!bodyEl) return;
+
+      saveCurrentBlogSelection();
+
+      if (type === 'img') {
+        openBlogImageModal('insert-inline');
+        return;
+      }
+      if (type === 'link') {
+        openInsertLinkModal();
+        return;
+      }
+      if (type === 'color') {
+        openInsertColorModal();
+        return;
+      }
+
+      bodyEl.focus();
+      const sel = window.getSelection ? window.getSelection() : null;
+      if (!sel || sel.rangeCount === 0 || !bodyEl.contains(sel.anchorNode)) {
+        if (savedBlogSelectionRange) {
+          restoreSavedBlogSelection();
+        } else {
+          const firstBlock = bodyEl.querySelector('p, h2') || bodyEl;
+          const r = document.createRange();
+          r.selectNodeContents(firstBlock);
+          r.collapse(false);
+          if (sel) {
+            sel.removeAllRanges();
+            sel.addRange(r);
+          }
         }
       }
+
+      if (type === 'bold') {
+        document.execCommand('bold', false, null);
+        syncLiveBlogModalToMemory(false);
+        return;
+      }
+
+      const activeRange = (sel && sel.rangeCount > 0) ? sel.getRangeAt(0) : null;
+      let block = activeRange ? getClosestEditableBlockInBody(activeRange.commonAncestorContainer) : savedBlogActiveBlock;
+      if (!block || block.classList.contains('blutu-editable-figure')) {
+        block = bodyEl.querySelector('p, h2');
+      }
+      if (!block) return;
+
+      if (type === 'subtitle') {
+        const isCurrentlyH2 = block.tagName.toUpperCase() === 'H2';
+        const replacement = document.createElement(isCurrentlyH2 ? 'p' : 'h2');
+        if (block.getAttribute('data-blutu-center') === 'true') {
+          replacement.setAttribute('data-blutu-center', 'true');
+          replacement.style.textAlign = 'center';
+        }
+        replacement.innerHTML = block.innerHTML || '<br>';
+        bodyEl.replaceChild(replacement, block);
+        if (sel) {
+          const nr = document.createRange();
+          nr.selectNodeContents(replacement);
+          nr.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(nr);
+        }
+        syncLiveBlogModalToMemory(false);
+        return;
+      }
+
+      if (type === 'center') {
+        const nowCentered = block.getAttribute('data-blutu-center') !== 'true';
+        if (nowCentered) {
+          block.setAttribute('data-blutu-center', 'true');
+          block.style.textAlign = 'center';
+          block.style.textAlignLast = 'center';
+        } else {
+          block.removeAttribute('data-blutu-center');
+          block.style.textAlign = '';
+          block.style.textAlignLast = '';
+        }
+        syncLiveBlogModalToMemory(false);
+      }
+    }
+    window.applyBlogInlineFormat = applyBlogInlineFormat;
+    function insertFormat(targetOrType, maybeType) {
+      applyBlogInlineFormat(maybeType || targetOrType);
+    }
+    window.insertFormat = insertFormat;
+
+    function openBlogImageModal(mode = 'insert-inline', targetFigure = null) {
+      activeBlogImageModalMode = mode;
+      activeEditingInlineFigure = targetFigure || null;
+      saveCurrentBlogSelection();
+
+      const titleEl = document.getElementById('insertImageModalTitle');
       const urlInput = document.getElementById('modalImgUrl');
       const captionInput = document.getElementById('modalImgCaption');
-      if (urlInput) urlInput.value = initialUrl;
-      if (captionInput) captionInput.value = '';
+      const auraInput = document.getElementById('modalImgAura');
+      const auraPicker = document.getElementById('modalImgAuraPicker');
+      const fitGroup = document.getElementById('modalImgFitGroup');
+      const fitSelect = document.getElementById('modalImgFit');
+      const removeBtn = document.getElementById('modalImgRemoveBtn');
+      const confirmBtn = document.getElementById('modalImgConfirmBtn');
+
+      if (mode === 'cover') {
+        const post = (currentBlogIndex !== null && postsData[currentBlogIndex]) ? postsData[currentBlogIndex] : {};
+        if (titleEl) titleEl.textContent = '🖼️ Imagen de Portada';
+        if (urlInput) urlInput.value = post.image || '';
+        if (captionInput) captionInput.value = post.imageCaption || '';
+        if (auraInput) auraInput.value = post.imageAura || '';
+        if (auraPicker) auraPicker.value = (post.imageAura && post.imageAura.startsWith('#')) ? post.imageAura : '#5a74bf';
+        if (fitGroup) fitGroup.style.display = 'block';
+        if (fitSelect) fitSelect.value = post.imageFit || 'cover-center';
+        if (removeBtn) removeBtn.style.display = (post.image && post.image.trim()) ? 'inline-flex' : 'none';
+        if (confirmBtn) confirmBtn.textContent = 'Aplicar Portada';
+      } else if (mode === 'edit-inline' && targetFigure) {
+        const imgEl = targetFigure.querySelector('img');
+        const capEl = targetFigure.querySelector('figcaption');
+        const curUrl = targetFigure.getAttribute('data-img-url') || (imgEl ? imgEl.getAttribute('src') : '') || '';
+        const curCap = capEl ? (capEl.innerText || '').trim() : '';
+        const curAura = targetFigure.getAttribute('data-aura') || (imgEl ? imgEl.getAttribute('data-aura') : '') || '';
+        if (titleEl) titleEl.textContent = '🖼️ Editar Imagen del Artículo';
+        if (urlInput) urlInput.value = curUrl;
+        if (captionInput) captionInput.value = curCap;
+        if (auraInput) auraInput.value = curAura;
+        if (auraPicker) auraPicker.value = (curAura && curAura.startsWith('#')) ? curAura : '#5a74bf';
+        if (fitGroup) fitGroup.style.display = 'none';
+        if (removeBtn) removeBtn.style.display = 'inline-flex';
+        if (confirmBtn) confirmBtn.textContent = 'Aplicar Cambios';
+      } else {
+        let initialUrl = '';
+        if (savedBlogSelectionRange) {
+          const selText = savedBlogSelectionRange.toString().trim();
+          if (/^https?:\/\//i.test(selText)) initialUrl = selText;
+        }
+        if (titleEl) titleEl.textContent = '🖼️ Insertar Imagen en el Artículo';
+        if (urlInput) urlInput.value = initialUrl;
+        if (captionInput) captionInput.value = '';
+        if (auraInput) auraInput.value = '';
+        if (auraPicker) auraPicker.value = '#5a74bf';
+        if (fitGroup) fitGroup.style.display = 'none';
+        if (removeBtn) removeBtn.style.display = 'none';
+        if (confirmBtn) confirmBtn.textContent = 'Insertar Imagen';
+      }
 
       const modal = document.getElementById('insertImageModal');
       if (modal) modal.style.display = 'flex';
-
       setTimeout(() => {
-        const targetFocus = initialUrl ? captionInput : urlInput;
-        if (targetFocus) targetFocus.focus();
-      }, 100);
+        if (urlInput) urlInput.focus();
+      }, 80);
+    }
+    window.openBlogImageModal = openBlogImageModal;
+
+    function openInsertImageModal() {
+      openBlogImageModal('insert-inline');
     }
 
     function closeInsertImageModal() {
@@ -12806,53 +13232,140 @@
       if (modal) modal.style.display = 'none';
     }
 
+    function removeImageFromInsertModal() {
+      if (activeBlogImageModalMode === 'cover') {
+        removeLiveCoverImage();
+      } else if (activeBlogImageModalMode === 'edit-inline' && activeEditingInlineFigure) {
+        const bodyEl = document.getElementById('blogEditableBody');
+        activeEditingInlineFigure.remove();
+        activeEditingInlineFigure = null;
+        if (bodyEl && !bodyEl.children.length) {
+          bodyEl.innerHTML = '<p><br></p>';
+        }
+        syncLiveBlogModalToMemory(true);
+      }
+      closeInsertImageModal();
+    }
+    window.removeImageFromInsertModal = removeImageFromInsertModal;
+
     function confirmInsertImageModal() {
       const url = (document.getElementById('modalImgUrl')?.value || '').trim();
       const caption = (document.getElementById('modalImgCaption')?.value || '').trim();
+      const aura = (document.getElementById('modalImgAura')?.value || '').trim();
+      const fit = (document.getElementById('modalImgFit')?.value || 'cover-center').trim();
 
       if (!url) {
         showToastNotification('Por favor ingresa la URL de la imagen.', true);
         return;
       }
 
-      const textarea = document.getElementById(targetTextareaIdForImage);
-      if (textarea) {
-        const startPos = textarea.selectionStart;
-        const endPos = textarea.selectionEnd;
-        const text = textarea.value;
-        const tag = `[img:${url}|${caption}]`;
+      const modalBody = document.getElementById('blogModalBody');
+      const post = (currentBlogIndex !== null && postsData[currentBlogIndex]) ? postsData[currentBlogIndex] : null;
 
-        textarea.value = text.substring(0, startPos) + tag + text.substring(endPos);
-        textarea.setSelectionRange(startPos + tag.length, startPos + tag.length);
-        textarea.focus();
+      if (activeBlogImageModalMode === 'cover' && post) {
+        post.image = url;
+        post.imageCaption = caption;
+        post.imageAura = aura;
+        post.imageFit = fit;
+        post.updatedAt = new Date().toISOString();
+        const coverContainer = document.getElementById('blogLiveCoverContainer');
+        if (coverContainer) {
+          coverContainer.innerHTML = renderLiveCoverSectionHTML(post);
+        }
+        if (modalBody) {
+          setTimeout(() => applyLiveBlogImagesAura(modalBody, post), 30);
+        }
+        persistPostsToLocalVaults();
+        closeInsertImageModal();
+        return;
+      }
+
+      if (activeBlogImageModalMode === 'edit-inline' && activeEditingInlineFigure) {
+        activeEditingInlineFigure.setAttribute('data-img-url', url);
+        activeEditingInlineFigure.setAttribute('data-aura', aura);
+        const imgEl = activeEditingInlineFigure.querySelector('img');
+        if (imgEl) {
+          imgEl.src = url;
+          if (aura) imgEl.setAttribute('data-aura', aura);
+          else imgEl.removeAttribute('data-aura');
+        }
+        const capEl = activeEditingInlineFigure.querySelector('figcaption');
+        if (capEl) capEl.textContent = caption;
+        if (modalBody) {
+          setTimeout(() => applyLiveBlogImagesAura(modalBody, post), 30);
+        }
+        syncLiveBlogModalToMemory(true);
+        closeInsertImageModal();
+        return;
+      }
+
+      // Modo 'insert-inline': insertar figura directamente en el cuerpo editable
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (bodyEl) {
+        const temp = document.createElement('div');
+        temp.innerHTML = buildEditableInlineFigureHTML(url, caption, aura).trim();
+        const newFig = temp.firstElementChild;
+
+        if (newFig) {
+          const targetBlock = (savedBlogActiveBlock && bodyEl.contains(savedBlogActiveBlock))
+            ? savedBlogActiveBlock
+            : bodyEl.lastElementChild;
+
+          if (targetBlock && !(targetBlock.innerText || '').trim() && targetBlock.tagName !== 'FIGURE') {
+            bodyEl.replaceChild(newFig, targetBlock);
+          } else if (targetBlock && targetBlock.nextSibling) {
+            bodyEl.insertBefore(newFig, targetBlock.nextSibling);
+          } else {
+            bodyEl.appendChild(newFig);
+          }
+
+          if (!newFig.nextElementSibling || newFig.nextElementSibling.classList.contains('blutu-editable-figure')) {
+            const nextP = document.createElement('p');
+            nextP.innerHTML = '<br>';
+            if (newFig.nextSibling) bodyEl.insertBefore(nextP, newFig.nextSibling);
+            else bodyEl.appendChild(nextP);
+          }
+
+          if (modalBody) {
+            setTimeout(() => applyLiveBlogImagesAura(modalBody, post), 30);
+          }
+          syncLiveBlogModalToMemory(true);
+        }
       }
 
       closeInsertImageModal();
     }
 
-    let targetTextareaIdForLink = 'postContent';
-
-    function openInsertLinkModal(textareaId) {
-      targetTextareaIdForLink = textareaId || 'postContent';
-      const textarea = document.getElementById(targetTextareaIdForLink);
+    function openInsertLinkModal() {
+      saveCurrentBlogSelection();
+      activeEditingLinkAnchor = null;
       let initialText = '';
       let initialUrl = '';
 
-      if (textarea) {
-        const startPos = textarea.selectionStart;
-        const endPos = textarea.selectionEnd;
-        const selectedText = textarea.value.substring(startPos, endPos).trim();
-        if (selectedText.match(/^https?:\/\//i) || selectedText.startsWith('www.')) {
-          initialUrl = selectedText;
+      if (savedBlogSelectionRange) {
+        const node = savedBlogSelectionRange.commonAncestorContainer;
+        const el = node.nodeType === 1 ? node : node.parentElement;
+        const existingA = el ? el.closest('a') : null;
+        if (existingA && document.getElementById('blogEditableBody')?.contains(existingA)) {
+          activeEditingLinkAnchor = existingA;
+          initialText = (existingA.innerText || '').trim();
+          initialUrl = (existingA.getAttribute('href') || '').trim();
         } else {
-          initialText = selectedText;
+          const selectedText = savedBlogSelectionRange.toString().trim();
+          if (/^https?:\/\//i.test(selectedText) || selectedText.startsWith('www.')) {
+            initialUrl = selectedText;
+          } else {
+            initialText = selectedText;
+          }
         }
       }
 
       const textInput = document.getElementById('modalLinkText');
       const urlInput = document.getElementById('modalLinkUrl');
+      const removeBtn = document.getElementById('modalLinkRemoveBtn');
       if (textInput) textInput.value = initialText;
       if (urlInput) urlInput.value = initialUrl;
+      if (removeBtn) removeBtn.style.display = activeEditingLinkAnchor ? 'inline-flex' : 'none';
 
       const modal = document.getElementById('insertLinkModal');
       if (modal) modal.style.display = 'flex';
@@ -12860,13 +13373,24 @@
       setTimeout(() => {
         const targetFocus = initialText ? urlInput : textInput;
         if (targetFocus) targetFocus.focus();
-      }, 100);
+      }, 80);
     }
 
     function closeInsertLinkModal() {
       const modal = document.getElementById('insertLinkModal');
       if (modal) modal.style.display = 'none';
     }
+
+    function removeLinkFromInsertModal() {
+      if (activeEditingLinkAnchor && activeEditingLinkAnchor.parentNode) {
+        const textNode = document.createTextNode(activeEditingLinkAnchor.innerText || '');
+        activeEditingLinkAnchor.parentNode.replaceChild(textNode, activeEditingLinkAnchor);
+        activeEditingLinkAnchor = null;
+        syncLiveBlogModalToMemory(true);
+      }
+      closeInsertLinkModal();
+    }
+    window.removeLinkFromInsertModal = removeLinkFromInsertModal;
 
     function confirmInsertLinkModal() {
       const textVal = (document.getElementById('modalLinkText')?.value || '').trim();
@@ -12877,46 +13401,85 @@
         return;
       }
 
+      if (!urlVal.match(/^(https?:\/\/|mailto:|\/)/i)) {
+        urlVal = 'https://' + urlVal;
+      }
       const linkLabel = textVal || urlVal;
-      const textarea = document.getElementById(targetTextareaIdForLink);
-      if (textarea) {
-        const startPos = textarea.selectionStart;
-        const endPos = textarea.selectionEnd;
-        const text = textarea.value;
-        const tag = `[${linkLabel}](${urlVal})`;
 
-        textarea.value = text.substring(0, startPos) + tag + text.substring(endPos);
-        textarea.setSelectionRange(startPos + tag.length, startPos + tag.length);
-        textarea.focus();
+      if (activeEditingLinkAnchor && document.getElementById('blogEditableBody')?.contains(activeEditingLinkAnchor)) {
+        activeEditingLinkAnchor.setAttribute('href', urlVal);
+        activeEditingLinkAnchor.textContent = linkLabel;
+        activeEditingLinkAnchor = null;
+        syncLiveBlogModalToMemory(true);
+        closeInsertLinkModal();
+        return;
+      }
+
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (bodyEl) {
+        const aEl = document.createElement('a');
+        aEl.setAttribute('href', urlVal);
+        aEl.setAttribute('target', '_blank');
+        aEl.setAttribute('rel', 'noopener noreferrer');
+        aEl.className = 'blog-inline-link';
+        aEl.textContent = linkLabel;
+
+        if (restoreSavedBlogSelection() && window.getSelection) {
+          const sel = window.getSelection();
+          if (sel && sel.rangeCount > 0) {
+            const range = sel.getRangeAt(0);
+            range.deleteContents();
+            range.insertNode(aEl);
+            range.setStartAfter(aEl);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        } else {
+          const lastP = bodyEl.querySelector('p:last-of-type, h2:last-of-type') || bodyEl;
+          lastP.appendChild(aEl);
+        }
+        syncLiveBlogModalToMemory(true);
       }
 
       closeInsertLinkModal();
     }
 
-    let targetTextareaIdForColor = 'postContent';
-
-    function openInsertColorModal(textareaId) {
-      targetTextareaIdForColor = textareaId || 'postContent';
-      const textarea = document.getElementById(targetTextareaIdForColor);
+    function openInsertColorModal() {
+      saveCurrentBlogSelection();
+      activeEditingColorSpan = null;
       let selectedText = '';
+      let initialHex = '#8CA2E6';
 
-      if (textarea) {
-        const startPos = textarea.selectionStart;
-        const endPos = textarea.selectionEnd;
-        selectedText = textarea.value.substring(startPos, endPos).trim();
+      if (savedBlogSelectionRange) {
+        const node = savedBlogSelectionRange.commonAncestorContainer;
+        const el = node.nodeType === 1 ? node : node.parentElement;
+        const existingSpan = el ? el.closest('span[data-blutu-color]') : null;
+        if (existingSpan && document.getElementById('blogEditableBody')?.contains(existingSpan) && savedBlogSelectionRange.collapsed) {
+          activeEditingColorSpan = existingSpan;
+          selectedText = (existingSpan.innerText || '').trim();
+          initialHex = normalizeCssColorToHex(existingSpan.getAttribute('data-blutu-color') || '#8CA2E6') || '#8CA2E6';
+        } else {
+          selectedText = savedBlogSelectionRange.toString().trim();
+          if (existingSpan) {
+            activeEditingColorSpan = existingSpan;
+            initialHex = normalizeCssColorToHex(existingSpan.getAttribute('data-blutu-color') || '#8CA2E6') || '#8CA2E6';
+          }
+        }
       }
 
       const textInput = document.getElementById('modalColorText');
+      const removeBtn = document.getElementById('modalColorRemoveBtn');
       if (textInput) textInput.value = selectedText;
-
-      updateColorPreview();
+      if (removeBtn) removeBtn.style.display = activeEditingColorSpan ? 'inline-flex' : 'none';
+      selectColorPreset(initialHex);
 
       const modal = document.getElementById('insertColorModal');
       if (modal) modal.style.display = 'flex';
 
       setTimeout(() => {
         if (textInput) textInput.focus();
-      }, 100);
+      }, 80);
     }
 
     function closeInsertColorModal() {
@@ -12924,10 +13487,21 @@
       if (modal) modal.style.display = 'none';
     }
 
+    function removeColorFromInsertModal() {
+      if (activeEditingColorSpan && activeEditingColorSpan.parentNode) {
+        const textNode = document.createTextNode(activeEditingColorSpan.innerText || '');
+        activeEditingColorSpan.parentNode.replaceChild(textNode, activeEditingColorSpan);
+        activeEditingColorSpan = null;
+        syncLiveBlogModalToMemory(true);
+      }
+      closeInsertColorModal();
+    }
+    window.removeColorFromInsertModal = removeColorFromInsertModal;
+
     function selectColorPreset(hexColor) {
       const picker = document.getElementById('modalColorPicker');
       const hexInput = document.getElementById('modalColorHex');
-      if (picker) picker.value = hexColor;
+      if (picker && /^#[0-9A-Fa-f]{6}$/.test(hexColor)) picker.value = hexColor;
       if (hexInput) hexInput.value = hexColor;
       updateColorPreview();
     }
@@ -12960,70 +13534,42 @@
       const textVal = (document.getElementById('modalColorText')?.value || '').trim() || 'Texto con color';
       const colorVal = (document.getElementById('modalColorHex')?.value || '#8CA2E6').trim();
 
-      const textarea = document.getElementById(targetTextareaIdForColor);
-      if (textarea) {
-        const startPos = textarea.selectionStart;
-        const endPos = textarea.selectionEnd;
-        const text = textarea.value;
-        const tag = `[color:${colorVal}|${textVal}]`;
+      if (activeEditingColorSpan && savedBlogSelectionRange && savedBlogSelectionRange.collapsed && document.getElementById('blogEditableBody')?.contains(activeEditingColorSpan)) {
+        activeEditingColorSpan.setAttribute('data-blutu-color', colorVal);
+        activeEditingColorSpan.style.color = colorVal;
+        activeEditingColorSpan.textContent = textVal;
+        activeEditingColorSpan = null;
+        syncLiveBlogModalToMemory(true);
+        closeInsertColorModal();
+        return;
+      }
 
-        textarea.value = text.substring(0, startPos) + tag + text.substring(endPos);
-        textarea.setSelectionRange(startPos + tag.length, startPos + tag.length);
-        textarea.focus();
+      const bodyEl = document.getElementById('blogEditableBody');
+      if (bodyEl) {
+        const spanEl = document.createElement('span');
+        spanEl.setAttribute('data-blutu-color', colorVal);
+        spanEl.style.color = colorVal;
+        spanEl.textContent = textVal;
+
+        if (restoreSavedBlogSelection() && window.getSelection) {
+          const sel = window.getSelection();
+          if (sel && sel.rangeCount > 0) {
+            const range = sel.getRangeAt(0);
+            range.deleteContents();
+            range.insertNode(spanEl);
+            range.setStartAfter(spanEl);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        } else {
+          const lastP = bodyEl.querySelector('p:last-of-type, h2:last-of-type') || bodyEl;
+          lastP.appendChild(spanEl);
+        }
+        syncLiveBlogModalToMemory(true);
       }
 
       closeInsertColorModal();
-    }
-
-    function insertFormat(textareaId, type) {
-      if (type === 'img') {
-        openInsertImageModal(textareaId);
-        return;
-      }
-      if (type === 'link') {
-        openInsertLinkModal(textareaId);
-        return;
-      }
-      if (type === 'color') {
-        openInsertColorModal(textareaId);
-        return;
-      }
-
-      const textarea = document.getElementById(textareaId);
-      if (!textarea) return;
-      const startPos = textarea.selectionStart;
-      const endPos = textarea.selectionEnd;
-      const selectedText = textarea.value.substring(startPos, endPos);
-      const text = textarea.value;
-
-      if (type === 'bold') {
-        textarea.value = text.substring(0, startPos) + `**${selectedText}**` + text.substring(endPos);
-        textarea.setSelectionRange(startPos + 2, endPos + 2);
-      } else if (type === 'subtitle') {
-        textarea.value = text.substring(0, startPos) + `# ${selectedText}` + text.substring(endPos);
-        textarea.setSelectionRange(startPos + 2, endPos + 2);
-      } else if (type === 'center') {
-        const contentToCenter = selectedText || 'Texto centrado';
-        const tag = `[center]${contentToCenter}[/center]`;
-        textarea.value = text.substring(0, startPos) + tag + text.substring(endPos);
-        textarea.setSelectionRange(startPos + 8, startPos + 8 + contentToCenter.length);
-      }
-      textarea.focus();
-    }
-
-    function handleTxtUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('postContent').value = e.target.result;
-        if (!document.getElementById('postTitle').value.trim()) {
-          let name = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' ');
-          document.getElementById('postTitle').value = name.charAt(0).toUpperCase() + name.slice(1);
-        }
-      };
-      reader.readAsText(file, "UTF-8");
     }
 
     // DESTELLO DE MURCIÉLAGOS TRAIL (POOL REUTILIZABLE DE BAJO CONSUMO TÉRMICO EN MÓVILES)
@@ -15143,7 +15689,8 @@
           } catch (e) {}
 
           const activeEl = document.activeElement;
-          const isTyping = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
+          const isBlogEditorOpen = typeof window.isAdminMode !== 'undefined' && window.isAdminMode && document.getElementById('blogReadModal')?.style.display === 'flex';
+          const isTyping = isBlogEditorOpen || (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable));
           if (!isTyping && typeof window.applyAllSectionsChangesToDOM === 'function') {
             window.applyAllSectionsChangesToDOM();
           }
