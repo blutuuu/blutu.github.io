@@ -6775,12 +6775,21 @@
       </div>
     </section>
 
-    <!-- SECCIÓN DE JUEGOS (VACÍA POR AHORA) -->
+    <!-- SECCIÓN DE JUEGOS (VACÍA POR AHORA PARA VISITANTES) -->
     <section class="tombstone-section is-collapsed more-hidden-section" id="gamesSection" style="--anim-color: #8ca2e6;">
-      <div class="collapsible-header" onclick="toggleSectionCollapse('gamesSection', this)" title="Haz clic para desplegar u ocultar">
-        <h2 style="margin: 0; text-align: center;">Juegos</h2>
+      <div class="collapsible-header" onclick="toggleSectionCollapse('gamesSection', this)" title="Haz clic para desplegar u ocultar" style="position: relative;">
+        <h2 style="margin: 0; text-align: center;">Juegos <span id="gamesSectionHiddenBadge" class="section-hidden-badge" style="display: none; font-size: 0.75rem; vertical-align: middle; margin-left: 8px; color: #ff6b6b; border: 1px solid #ff6b6b; padding: 2px 6px; border-radius: 4px; background: rgba(255,107,107,0.15);">[Oculto]</span></h2>
+        <button type="button" id="headerQuickToggleGamesBtn" class="wysiwyg-tool-btn toggle-games-section-btn" onclick="event.stopPropagation(); toggleGamesSectionVisibility();" title="Mostrar u ocultar la sección de Juegos a los visitantes" style="display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 0.74rem; padding: 4px 9px; z-index: 4;">🙈 Ocultar</button>
       </div>
-      <div class="collapsible-body" id="gamesSectionBody"></div>
+      <div class="collapsible-body" id="gamesSectionBody">
+        <!-- BARRA LIGERA DE VISIBILIDAD DE JUEGOS (SOLO EN MODO EDICIÓN) -->
+        <div id="inlineGamesAdmin" class="inline-admin-panel" style="display: none; margin-bottom: 6px; margin-top: 6px; padding: 10px 14px; background: rgba(9, 11, 16, 0.65);">
+          <div class="inline-admin-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0; border-bottom: none; padding-bottom: 0; gap: 10px; flex-wrap: wrap;">
+            <span style="font-size: 0.86rem; color: var(--text-muted); font-family: 'Cormorant Garamond', serif; font-style: italic;">Controla si la sección Juegos es visible u oculta para los visitantes.</span>
+            <button type="button" class="wysiwyg-tool-btn toggle-games-section-btn" onclick="toggleGamesSectionVisibility()" title="Mostrar u ocultar toda la sección de Juegos a visitantes" style="font-size: 0.8rem; padding: 5px 12px;">🙈 Ocultar sección</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- SECCIÓN DE MURO DE VISITAS EN TIEMPO REAL -->
@@ -7910,6 +7919,7 @@
     let liveSectionDescription = "Emisiones y transmisiones en directo";
     let currentLivePage = 0;
 
+    let isGamesSectionVisible = true;
     let isBuzonSectionVisible = true;
     let hiddenCommentIds = [];
 
@@ -7926,6 +7936,10 @@
       const storedBuzonVis = localStorage.getItem('blutu_buzon_visible');
       if (storedBuzonVis !== null) {
         isBuzonSectionVisible = (storedBuzonVis === 'true');
+      }
+      const storedGamesVis = localStorage.getItem('blutu_games_visible');
+      if (storedGamesVis !== null) {
+        isGamesSectionVisible = (storedGamesVis === 'true');
       }
     } catch (e) {
       console.warn('Error reading buzon storage:', e);
@@ -7956,6 +7970,7 @@
         const buzonOrMuro = parsed.muro || parsed.buzon;
         if (buzonOrMuro) {
           if (typeof buzonOrMuro.isVisible === 'boolean') isBuzonSectionVisible = buzonOrMuro.isVisible;
+          if (typeof buzonOrMuro.gamesVisible === 'boolean') isGamesSectionVisible = buzonOrMuro.gamesVisible;
           if (Array.isArray(buzonOrMuro.hiddenCommentIds)) hiddenCommentIds = buzonOrMuro.hiddenCommentIds;
         }
       }
@@ -7998,6 +8013,7 @@
     window.liveSectionDescription = liveSectionDescription;
     window.isMerchSectionVisible = isMerchSectionVisible;
     window.merchSectionDescription = merchSectionDescription;
+    window.isGamesSectionVisible = isGamesSectionVisible;
     window.isBuzonSectionVisible = isBuzonSectionVisible;
     window.hiddenCommentIds = hiddenCommentIds;
 
@@ -9927,7 +9943,7 @@
       ctx.drawImage(sprites.logo, -totalDrawSize * 0.5, -totalDrawSize * 0.5, totalDrawSize, totalDrawSize);
       ctx.restore();
 
-      // Pausa cada 200 puntos: moneda colombiana de 200 en trazos transparentes girando más lento (cara y cruz) + "+200" abajo
+      // Pausa cada 200 puntos: moneda(s) colombiana(s) de 200 en trazos transparentes girando (1 en +200; N monedas en 1000 y sus múltiplos: 5, 10, 15...)
       if (blutuEgg.state === 'MILESTONE_PAUSE' && sprites.coinCruz && sprites.coinCara) {
         const u = Math.min(1, blutuEgg.milestoneElapsed / blutuEgg.milestoneDuration);
         const fadeAlpha = u < 0.10 ? (u / 0.10) : (u > 0.88 ? Math.max(0, (1 - u) / 0.12) : 1);
@@ -9936,33 +9952,103 @@
           : (u > 0.90 ? (1 - 0.10 * ((u - 0.90) / 0.10)) : 1);
 
         const isCompact = w < 520;
-        const coinDiam = (isCompact ? 68 : 78) * popScale;
         const coinPadRatio = sprites.coinPad / sprites.coinInner;
-        const coinDrawH = coinDiam * (1 + coinPadRatio * 2);
         const cx = w * 0.5;
-        const cy = (isCompact ? h * 0.40 : h * 0.41) - Math.sin(u * Math.PI) * 3;
-
-        // Giro 3D pausado y fluido (1 sola vuelta completa de 360° en ~1.95s para apreciar con calma cara y cruz)
         const spinProgress = 0.88 * u + 0.12 * (0.5 - 0.5 * Math.cos(u * Math.PI));
-        const theta = spinProgress * Math.PI * 2;
-        const cosTheta = Math.cos(theta);
-        const sinTheta = Math.sin(theta);
-        const absCos = Math.abs(cosTheta);
-        const activeFace = cosTheta >= 0 ? sprites.coinCruz : sprites.coinCara;
+        const baseTheta = spinProgress * Math.PI * 2;
+        const coinCount = blutuEgg.milestoneIsThousand ? Math.max(5, blutuEgg.difficultyTier) : 1;
+
+        let cy = (isCompact ? h * 0.40 : h * 0.41) - Math.sin(u * Math.PI) * 3;
+        let labelY = 0;
+        let veilRx = 0;
+        let veilRy = 0;
+        let batRefDiam = (isCompact ? 68 : 78) * popScale;
+        const coinPlacements = [];
+
+        if (!blutuEgg.milestoneIsThousand) {
+          const coinDiam = (isCompact ? 68 : 78) * popScale;
+          cy = (isCompact ? h * 0.40 : h * 0.41) - Math.sin(u * Math.PI) * 3;
+          veilRx = coinDiam * 0.92;
+          veilRy = veilRx;
+          labelY = cy + coinDiam * 0.5 + (isCompact ? 17 : 20);
+          coinPlacements.push({
+            x: cx,
+            y: cy,
+            diam: coinDiam,
+            theta: baseTheta
+          });
+        } else {
+          const rows = coinCount <= 5 ? 1 : (coinCount <= 10 ? 2 : (coinCount <= 15 ? 3 : Math.min(4, Math.ceil(coinCount / (isCompact ? 7 : 10)))));
+          const maxCols = Math.ceil(coinCount / rows);
+          const availW = Math.max(180, w - (isCompact ? 48 : 88));
+          const topSafeY = 24;
+          const bottomSafeY = blutuEgg.groundY - (isCompact ? 28 : 32);
+          const availH = Math.max(60, bottomSafeY - topSafeY);
+          const idealDiam = rows === 1
+            ? (isCompact ? 42 : 52)
+            : (rows === 2 ? (isCompact ? 32 : 39) : (rows === 3 ? (isCompact ? 25 : 31) : (isCompact ? 21 : 25)));
+          const singleDiam = Math.max(
+            14,
+            Math.min(idealDiam, availW / Math.max(1, maxCols * 1.12), availH / Math.max(1, rows * 1.02))
+          ) * popScale;
+
+          const stepY = rows > 1 ? Math.min(singleDiam * 0.94, Math.max(singleDiam * 0.72, (availH - singleDiam) / (rows - 1))) : 0;
+          const totalClusterH = (rows - 1) * stepY + singleDiam;
+          cy = Math.max(
+            topSafeY + totalClusterH * 0.5,
+            Math.min(bottomSafeY - totalClusterH * 0.5, isCompact ? h * 0.38 : h * 0.39)
+          ) - Math.sin(u * Math.PI) * 2.5;
+
+          const spread = u < 0.18 ? (1 - Math.pow(1 - u / 0.18, 2.35)) : 1;
+          let maxHalfSpanX = singleDiam * 0.6;
+          let idxCounter = 0;
+
+          for (let r = 0; r < rows; r++) {
+            const remaining = coinCount - idxCounter;
+            const rowsLeft = rows - r;
+            const rowLen = Math.ceil(remaining / rowsLeft);
+            const stepX = rowLen > 1 ? Math.min(singleDiam * 1.16, (availW - singleDiam) / (rowLen - 1)) : 0;
+            const rowHalfSpan = (rowLen - 1) * 0.5 * stepX + singleDiam * 0.5;
+            if (rowHalfSpan > maxHalfSpanX) maxHalfSpanX = rowHalfSpan;
+            const rowBaseY = cy + (r - (rows - 1) * 0.5) * stepY;
+
+            for (let c = 0; c < rowLen; c++) {
+              const normCol = rowLen > 1 ? ((c - (rowLen - 1) * 0.5) / ((rowLen - 1) * 0.5)) : 0;
+              const arcDy = rows === 1 ? (normCol * normCol * 4.5 - 2.2) : (normCol * normCol * 2.2 - 1.1);
+              const targetX = cx + (c - (rowLen - 1) * 0.5) * stepX;
+              const targetY = rowBaseY + arcDy;
+              coinPlacements.push({
+                x: cx + (targetX - cx) * spread,
+                y: cy + (targetY - cy) * spread,
+                diam: singleDiam,
+                theta: baseTheta + normCol * 0.28 - r * 0.14
+              });
+              idxCounter++;
+            }
+          }
+
+          const clusterBottomY = cy + (rows - 1) * 0.5 * stepY + singleDiam * 0.5 + (rows === 1 ? 2.5 : 1.2);
+          labelY = Math.min(blutuEgg.groundY - 9, clusterBottomY + (isCompact ? 15 : 18));
+          veilRx = Math.max(batRefDiam * 1.05, maxHalfSpanX + 22);
+          veilRy = Math.max(batRefDiam * 0.95, (labelY - cy) + 20);
+        }
 
         ctx.save();
 
-        // Halo oscuro traslúcido muy suave detrás para preservar contraste sobre lápidas o murciélagos sin perder transparencia
-        const veilR = coinDiam * (blutuEgg.milestoneIsThousand ? 1.05 : 0.92);
-        const veilGrad = ctx.createRadialGradient(cx, cy + 8, coinDiam * 0.12, cx, cy + 8, veilR);
-        veilGrad.addColorStop(0, 'rgba(5, 7, 13, ' + (0.52 * fadeAlpha).toFixed(3) + ')');
+        // Halo oscuro traslúcido suave detrás del conjunto de monedas + etiqueta para preservar contraste
+        ctx.save();
+        ctx.translate(cx, cy + 8);
+        ctx.scale(veilRx / Math.max(1, veilRy), 1);
+        const veilGrad = ctx.createRadialGradient(0, 0, veilRy * 0.12, 0, 0, veilRy);
+        veilGrad.addColorStop(0, 'rgba(5, 7, 13, ' + (0.54 * fadeAlpha).toFixed(3) + ')');
         veilGrad.addColorStop(1, 'rgba(5, 7, 13, 0)');
         ctx.fillStyle = veilGrad;
         ctx.beginPath();
-        ctx.arc(cx, cy + 8, veilR, 0, Math.PI * 2);
+        ctx.arc(0, 0, veilRy, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
 
-        // Cada 1000 puntos: bandada viva de murciélagos saliendo desde DETRÁS de la moneda
+        // Cada 1000 puntos: bandada viva de murciélagos saliendo desde DETRÁS de las monedas
         if (blutuEgg.milestoneIsThousand && blutuEgg.milestoneBats.length > 0 && sprites.bats) {
           const baseBatW = isCompact ? 34 : 40;
           const baseBatH = isCompact ? 18 : 21;
@@ -9973,7 +10059,7 @@
             if (mb.delay > 0) continue;
 
             const dist = Math.hypot(mb.dx, mb.dy);
-            const emergeScale = Math.min(1, 0.30 + (dist / (coinDiam * 0.54)) * 0.70);
+            const emergeScale = Math.min(1, 0.30 + (dist / (batRefDiam * 0.54)) * 0.70);
             const batAlpha = fadeAlpha * Math.min(1, mb.age / 0.11) * Math.max(0, 1 - Math.max(0, mb.age - 1.38) / 0.44);
             if (batAlpha <= 0.02) continue;
 
@@ -9999,34 +10085,41 @@
 
         ctx.globalAlpha = fadeAlpha;
 
-        // Canto / grosor en trazos cuando la moneda gira de perfil
-        const edgeShift = sinTheta * 2.6;
-        if (absCos < 0.96) {
+        // Dibujar la moneda (o las N monedas correspondientes en 1000 y sus múltiplos)
+        for (let i = 0; i < coinPlacements.length; i++) {
+          const cp = coinPlacements[i];
+          const cosT = Math.cos(cp.theta);
+          const sinT = Math.sin(cp.theta);
+          const absCos = Math.abs(cosT);
+          const activeFace = cosT >= 0 ? sprites.coinCruz : sprites.coinCara;
+          const cpDrawH = cp.diam * (1 + coinPadRatio * 2);
+          const edgeShift = sinT * Math.max(1.2, cp.diam * 0.035);
+
+          if (absCos < 0.96) {
+            ctx.save();
+            ctx.translate(cp.x + edgeShift, cp.y);
+            ctx.strokeStyle = 'rgba(140, 162, 230, 0.65)';
+            ctx.lineWidth = Math.max(1.0, (1 - absCos) * (cp.diam > 50 ? 2.2 : 1.6));
+            ctx.beginPath();
+            ctx.ellipse(0, 0, Math.max(1.0, cp.diam * 0.5 * absCos), cp.diam * 0.5, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+          }
+
           ctx.save();
-          ctx.translate(cx + edgeShift, cy);
-          ctx.strokeStyle = 'rgba(140, 162, 230, 0.65)';
-          ctx.lineWidth = Math.max(1.2, (1 - absCos) * 2.2);
-          ctx.beginPath();
-          ctx.ellipse(0, 0, Math.max(1.2, coinDiam * 0.5 * absCos), coinDiam * 0.5, 0, 0, Math.PI * 2);
-          ctx.stroke();
+          ctx.translate(cp.x, cp.y);
+          ctx.scale(Math.max(0.035, absCos), 1);
+          ctx.drawImage(activeFace, -cpDrawH * 0.5, -cpDrawH * 0.5, cpDrawH, cpDrawH);
           ctx.restore();
         }
 
-        // Trazos de la cara visible (Cruz "200 PESOS" o Cara Quimbaya)
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.scale(Math.max(0.035, absCos), 1);
-        ctx.drawImage(activeFace, -coinDrawH * 0.5, -coinDrawH * 0.5, coinDrawH, coinDrawH);
-        ctx.restore();
-
-        // Texto debajo de la moneda: "+200" habitual, o "200x5", "200x10", "200x15"... al llegar a 1000 y sus múltiplos
+        // Texto debajo: "+200" habitual, o "200x5", "200x10", "200x15"... al llegar a 1000 y sus múltiplos
         const milestoneLabel = blutuEgg.milestoneIsThousand
           ? ('200x' + blutuEgg.difficultyTier)
           : '+200';
         const labelFontPx = blutuEgg.milestoneIsThousand
           ? (isCompact ? 16 : 18)
           : (isCompact ? 15 : 17);
-        const labelY = cy + coinDiam * 0.5 + (isCompact ? 17 : 20);
         ctx.font = '700 ' + labelFontPx + "px 'Cinzel', Georgia, serif";
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -18453,6 +18546,7 @@
       if (typeof window.liveSectionDescription === 'string') liveSectionDescription = window.liveSectionDescription;
       if (typeof window.isMerchSectionVisible === 'boolean') isMerchSectionVisible = window.isMerchSectionVisible;
       if (typeof window.merchSectionDescription === 'string') merchSectionDescription = window.merchSectionDescription;
+      if (typeof window.isGamesSectionVisible === 'boolean') isGamesSectionVisible = window.isGamesSectionVisible;
       if (typeof window.isBuzonSectionVisible === 'boolean') isBuzonSectionVisible = window.isBuzonSectionVisible;
       if (window.hiddenCommentIds) hiddenCommentIds = window.hiddenCommentIds;
 
@@ -18463,6 +18557,7 @@
       if (typeof renderGalleryTabs === 'function') renderGalleryTabs();
       if (typeof renderLiveSection === 'function') renderLiveSection();
       if (typeof renderMerchSection === 'function') renderMerchSection();
+      if (typeof updateGamesVisibilityUI === 'function') updateGamesVisibilityUI();
       if (typeof toggleBuzonVisibility === 'function') toggleBuzonVisibility(isBuzonSectionVisible);
       if (typeof renderCommentsListFromMemory === 'function') renderCommentsListFromMemory();
       if (typeof refreshAdminCommentsList === 'function') refreshAdminCommentsList();
@@ -18514,6 +18609,7 @@
           cartCfg: sourceOverride.cartCfg || {},
           isMerchVisible: Boolean(sourceOverride.isMerchVisible),
           merchDesc: String(sourceOverride.merchDesc || ''),
+          isGamesVisible: sourceOverride.isGamesVisible !== undefined ? Boolean(sourceOverride.isGamesVisible) : true,
           isBuzonVisible: Boolean(sourceOverride.isBuzonVisible),
           hiddenComments: [...(sourceOverride.hiddenComments || [])].sort()
         });
@@ -18555,6 +18651,7 @@
         cartCfg: cartConfig || {},
         isMerchVisible: Boolean(isMerchSectionVisible),
         merchDesc: String(merchSectionDescription || ''),
+        isGamesVisible: Boolean(isGamesSectionVisible),
         isBuzonVisible: Boolean(isBuzonSectionVisible),
         hiddenComments: [...(Array.isArray(hiddenCommentIds) ? hiddenCommentIds : [])].sort()
       });
@@ -18576,6 +18673,7 @@
         cartCfg: deepCloneAdminValue(cartConfig || {}),
         isMerchVisible: Boolean(isMerchSectionVisible),
         merchDesc: String(merchSectionDescription || ''),
+        isGamesVisible: Boolean(isGamesSectionVisible),
         isBuzonVisible: Boolean(isBuzonSectionVisible),
         hiddenComments: deepCloneAdminValue(Array.isArray(hiddenCommentIds) ? hiddenCommentIds : [])
       };
@@ -18656,6 +18754,7 @@
         isMerchSectionVisible = Boolean(baseline.isMerchVisible);
         merchSectionDescription = String(baseline.merchDesc || '');
 
+        isGamesSectionVisible = baseline.isGamesVisible !== undefined ? Boolean(baseline.isGamesVisible) : true;
         isBuzonSectionVisible = Boolean(baseline.isBuzonVisible);
         hiddenCommentIds = deepCloneAdminValue(baseline.hiddenComments);
 
@@ -18669,6 +18768,7 @@
         window.cartConfig = cartConfig;
         window.isMerchSectionVisible = isMerchSectionVisible;
         window.merchSectionDescription = merchSectionDescription;
+        window.isGamesSectionVisible = isGamesSectionVisible;
         window.isBuzonSectionVisible = isBuzonSectionVisible;
         window.hiddenCommentIds = hiddenCommentIds;
 
@@ -18680,6 +18780,7 @@
         try {
           localStorage.setItem('blutu_hidden_comments', JSON.stringify(hiddenCommentIds));
           localStorage.setItem('blutu_buzon_visible', String(isBuzonSectionVisible));
+          localStorage.setItem('blutu_games_visible', String(isGamesSectionVisible));
           localStorage.setItem('blutu_permanent_posts_vault', JSON.stringify(postsData));
           localStorage.setItem('blutu_live_site_data', JSON.stringify({
             posts: postsData,
@@ -18699,10 +18800,12 @@
             },
             buzon: {
               isVisible: isBuzonSectionVisible,
+              gamesVisible: isGamesSectionVisible,
               hiddenCommentIds: hiddenCommentIds
             },
             muro: {
               isVisible: isBuzonSectionVisible,
+              gamesVisible: isGamesSectionVisible,
               hiddenCommentIds: hiddenCommentIds
             },
             updatedAt: Date.now()
@@ -18804,6 +18907,7 @@
       window.liveSectionDescription = liveSectionDescription;
       window.isMerchSectionVisible = isMerchSectionVisible;
       window.merchSectionDescription = merchSectionDescription;
+      window.isGamesSectionVisible = isGamesSectionVisible;
       window.isBuzonSectionVisible = isBuzonSectionVisible;
       window.hiddenCommentIds = hiddenCommentIds;
 
@@ -18924,7 +19028,20 @@
         </div>
       </details>
 
-      <!-- SECCIÓN 5: GESTOR DE MURO DE VISITAS (COMENTARIOS) -->
+      <!-- SECCIÓN 5: JUEGOS -->
+      <details class="admin-section" id="adminGamesSection" name="adminAccordion">
+        <summary>Juegos 🎮</summary>
+        <div class="admin-section-content">
+          <div style="border: 1px solid var(--border-color); background: rgba(5, 5, 8, 0.45); padding: 16px;">
+            <p style="font-size: 0.92rem; color: var(--accent-light); margin: 0 0 12px 0; line-height: 1.4;">
+              Oculta o muestra la sección "Juegos" para los visitantes regulares.
+            </p>
+            <button type="button" class="wysiwyg-tool-btn toggle-games-section-btn" onclick="toggleGamesSectionVisibility()" style="font-size: 0.85rem; padding: 6px 14px;">🙈 Ocultar sección</button>
+          </div>
+        </div>
+      </details>
+
+      <!-- SECCIÓN 6: GESTOR DE MURO DE VISITAS (COMENTARIOS) -->
       <details class="admin-section" id="adminCommentsSection" name="adminAccordion" ontoggle="if(this.open) refreshAdminCommentsList()">
         <summary>Gestor del Muro de visitas (Comentarios y Respuestas) ✉️</summary>
         <div class="admin-section-content">
@@ -18997,12 +19114,15 @@
       const blogAdmin = document.getElementById('inlineBlogAdmin');
       const merchAdmin = document.getElementById('inlineMerchAdmin');
       const galleryAdmin = document.getElementById('inlineGalleryAdmin');
+      const gamesAdmin = document.getElementById('inlineGamesAdmin');
       const commentsAdmin = document.getElementById('inlineCommentsAdmin');
       const liveSection = document.getElementById('liveSection');
       const merchSection = document.getElementById('merchSection');
+      const gamesSection = document.getElementById('gamesSection');
       const commentsSection = document.getElementById('commentsSection');
       const liveBadge = document.getElementById('liveSectionHiddenBadge');
       const merchBadge = document.getElementById('merchSectionHiddenBadge');
+      const gamesBadge = document.getElementById('gamesSectionHiddenBadge');
       const buzonBadge = document.getElementById('buzonSectionHiddenBadge');
 
       if (isAdminMode) {
@@ -19012,14 +19132,16 @@
         if (blogAdmin) blogAdmin.style.display = 'block';
         if (merchAdmin) merchAdmin.style.display = 'block';
         if (galleryAdmin) galleryAdmin.style.display = 'block';
+        if (gamesAdmin) gamesAdmin.style.display = 'block';
         if (commentsAdmin) commentsAdmin.style.display = 'block';
 
         if (liveSection) liveSection.style.display = 'block';
         if (merchSection) merchSection.style.display = 'block';
         if (typeof showAllMoreSectionsForAdmin === 'function') {
           showAllMoreSectionsForAdmin();
-        } else if (commentsSection) {
-          commentsSection.style.display = 'block';
+        } else {
+          if (gamesSection) gamesSection.style.display = 'block';
+          if (commentsSection) commentsSection.style.display = 'block';
         }
 
         // Al entrar al modo edición, todas las secciones permanecen plegadas
@@ -19037,7 +19159,9 @@
 
         if (liveBadge) liveBadge.style.display = (isLiveSectionVisible === false) ? 'inline-block' : 'none';
         if (merchBadge) merchBadge.style.display = (isMerchSectionVisible === false) ? 'inline-block' : 'none';
+        if (gamesBadge) gamesBadge.style.display = (isGamesSectionVisible === false) ? 'inline-block' : 'none';
         if (buzonBadge) buzonBadge.style.display = (isBuzonSectionVisible === false) ? 'inline-block' : 'none';
+        if (typeof updateGamesVisibilityUI === 'function') updateGamesVisibilityUI();
 
         const inlineBuzonCheck = document.getElementById('inlineBuzonVisibleCheckbox');
         if (inlineBuzonCheck) inlineBuzonCheck.checked = (isBuzonSectionVisible !== false);
@@ -19063,6 +19187,7 @@
         if (blogAdmin) blogAdmin.style.display = 'none';
         if (merchAdmin) merchAdmin.style.display = 'none';
         if (galleryAdmin) galleryAdmin.style.display = 'none';
+        if (gamesAdmin) gamesAdmin.style.display = 'none';
         if (commentsAdmin) commentsAdmin.style.display = 'none';
 
         if (typeof closeGalleryMediaModal === 'function') closeGalleryMediaModal();
@@ -19088,13 +19213,16 @@
 
         if (typeof resetMoreSectionsForVisitor === 'function') {
           resetMoreSectionsForVisitor();
-        } else if (commentsSection) {
-          commentsSection.style.display = (isBuzonSectionVisible !== false) ? 'block' : 'none';
+        } else {
+          if (gamesSection) gamesSection.style.display = (isGamesSectionVisible !== false) ? 'block' : 'none';
+          if (commentsSection) commentsSection.style.display = (isBuzonSectionVisible !== false) ? 'block' : 'none';
         }
 
         if (liveBadge) liveBadge.style.display = 'none';
         if (merchBadge) merchBadge.style.display = 'none';
+        if (gamesBadge) gamesBadge.style.display = 'none';
         if (buzonBadge) buzonBadge.style.display = 'none';
+        if (typeof updateGamesVisibilityUI === 'function') updateGamesVisibilityUI();
 
         if (typeof renderGalleryTabs === 'function') renderGalleryTabs(true);
         if (typeof renderLiveSection === 'function') renderLiveSection();
@@ -19217,6 +19345,7 @@
           ['gamesSection', 'commentsSection'].forEach(id => {
             const sec = document.getElementById(id);
             if (!sec) return;
+            if (id === 'gamesSection' && typeof isGamesSectionVisible !== 'undefined' && isGamesSectionVisible === false) return;
             if (id === 'commentsSection' && typeof isBuzonSectionVisible !== 'undefined' && isBuzonSectionVisible === false) return;
             sec.classList.remove('more-hidden-section');
           });
@@ -19267,6 +19396,9 @@
       }
       if (/let merchSectionDescription = "[\s\S]*?";/.test(currentDocumentHTML)) {
         currentDocumentHTML = currentDocumentHTML.replace(/let merchSectionDescription = "[\s\S]*?";/, `let merchSectionDescription = ${JSON.stringify(merchSectionDescription)};`);
+      }
+      if (/let isGamesSectionVisible = (true|false);/.test(currentDocumentHTML)) {
+        currentDocumentHTML = currentDocumentHTML.replace(/let isGamesSectionVisible = (true|false);/, `let isGamesSectionVisible = ${isGamesSectionVisible};`);
       }
       if (/let isBuzonSectionVisible = (true|false);/.test(currentDocumentHTML)) {
         currentDocumentHTML = currentDocumentHTML.replace(/let isBuzonSectionVisible = (true|false);/, `let isBuzonSectionVisible = ${isBuzonSectionVisible};`);
@@ -20536,7 +20668,12 @@
         window.hasRevealedMoreSections = true;
         isRevealingMoreSections = false;
 
-        const targetIds = ['gallerySection', 'blogSection', 'muchMoreSection'];
+        const targetIds = ['gallerySection', 'blogSection'];
+        const hasAnyMuchMoreVisible = (typeof isGamesSectionVisible === 'undefined' || isGamesSectionVisible !== false) ||
+          (typeof isBuzonSectionVisible === 'undefined' || isBuzonSectionVisible !== false);
+        if (hasAnyMuchMoreVisible) {
+          targetIds.push('muchMoreSection');
+        }
         const stepDelayMs = 280;
         targetIds.forEach((id, idx) => {
           const stepTimer = setTimeout(() => {
@@ -20591,7 +20728,10 @@
         window.hasRevealedMuchMoreSections = true;
         isRevealingMuchMoreSections = false;
 
-        const targetIds = ['gamesSection'];
+        const targetIds = [];
+        if (typeof isGamesSectionVisible === 'undefined' || isGamesSectionVisible !== false) {
+          targetIds.push('gamesSection');
+        }
         if (typeof isBuzonSectionVisible === 'undefined' || isBuzonSectionVisible !== false) {
           targetIds.push('commentsSection');
         }
@@ -20603,7 +20743,7 @@
             if (!panel) return;
             panel.classList.add('is-collapsed');
             panel.classList.remove('more-hidden-section');
-            if (id === 'commentsSection') {
+            if (id === 'commentsSection' || id === 'gamesSection') {
               panel.style.display = 'block';
             } else {
               panel.style.display = '';
@@ -20625,6 +20765,109 @@
       moreRevealTimers.push(vanishTimer);
     }
     window.revealMuchMoreSections = revealMuchMoreSections;
+
+    function syncMuchMoreTriggerForVisitor() {
+      if (isAdminMode) return;
+      if (!hasRevealedMoreSections || hasRevealedMuchMoreSections) return;
+      const muchMoreEl = document.getElementById('muchMoreSection');
+      if (!muchMoreEl) return;
+      const hasAnyChild = (isGamesSectionVisible !== false) || (isBuzonSectionVisible !== false);
+      if (hasAnyChild) {
+        muchMoreEl.classList.remove('more-hidden-section');
+        muchMoreEl.style.display = '';
+      } else {
+        muchMoreEl.classList.add('more-hidden-section');
+        muchMoreEl.style.display = 'none';
+      }
+    }
+    window.syncMuchMoreTriggerForVisitor = syncMuchMoreTriggerForVisitor;
+
+    function updateGamesVisibilityUI() {
+      const isCurrentAdmin = Boolean(isAdminMode);
+      const gamesBadge = document.getElementById('gamesSectionHiddenBadge');
+      if (gamesBadge) {
+        gamesBadge.style.display = (isCurrentAdmin && !isGamesSectionVisible) ? 'inline-block' : 'none';
+      }
+
+      const quickBtn = document.getElementById('headerQuickToggleGamesBtn');
+      document.querySelectorAll('.toggle-games-section-btn').forEach(btn => {
+        const isHeaderQuick = btn === quickBtn;
+        if (isCurrentAdmin) {
+          btn.style.display = 'inline-flex';
+          if (isGamesSectionVisible) {
+            btn.innerHTML = isHeaderQuick ? '🙈 Ocultar' : '🙈 Ocultar sección';
+            btn.style.background = 'rgba(50, 180, 80, 0.2)';
+            btn.style.borderColor = '#32b450';
+            btn.style.color = '#80ff9f';
+            btn.title = 'Visible para visitantes — haz clic para ocultar la sección Juegos';
+          } else {
+            btn.innerHTML = isHeaderQuick ? '👁️ Mostrar' : '👁️ Mostrar sección';
+            btn.style.background = 'rgba(200, 150, 50, 0.25)';
+            btn.style.borderColor = '#ffd280';
+            btn.style.color = '#ffd280';
+            btn.title = 'Oculta para visitantes — haz clic para mostrar la sección Juegos';
+          }
+        } else {
+          btn.style.display = 'none';
+        }
+      });
+
+      const gamesSection = document.getElementById('gamesSection');
+      if (gamesSection) {
+        if (isCurrentAdmin) {
+          gamesSection.classList.remove('more-hidden-section');
+          gamesSection.style.display = 'block';
+        } else if (hasRevealedMuchMoreSections) {
+          if (isGamesSectionVisible) {
+            gamesSection.classList.remove('more-hidden-section');
+            gamesSection.style.display = 'block';
+          } else {
+            gamesSection.style.display = 'none';
+          }
+        } else {
+          gamesSection.classList.add('more-hidden-section');
+          gamesSection.style.display = isGamesSectionVisible ? '' : 'none';
+        }
+      }
+
+      syncMuchMoreTriggerForVisitor();
+      if (typeof syncLastVisibleTombstoneSection === 'function') {
+        syncLastVisibleTombstoneSection();
+      }
+    }
+    window.updateGamesVisibilityUI = updateGamesVisibilityUI;
+
+    function toggleGamesSectionVisibility(forceVisible) {
+      if (typeof forceVisible === 'boolean') {
+        isGamesSectionVisible = forceVisible;
+      } else {
+        isGamesSectionVisible = !isGamesSectionVisible;
+      }
+      window.isGamesSectionVisible = isGamesSectionVisible;
+
+      try {
+        localStorage.setItem('blutu_games_visible', String(isGamesSectionVisible));
+        const cachedRaw = localStorage.getItem('blutu_live_site_data');
+        const parsed = cachedRaw ? JSON.parse(cachedRaw) : {};
+        parsed.buzon = {
+          ...(parsed.buzon || {}),
+          isVisible: isBuzonSectionVisible,
+          gamesVisible: isGamesSectionVisible,
+          hiddenCommentIds: hiddenCommentIds
+        };
+        parsed.muro = {
+          ...(parsed.muro || {}),
+          isVisible: isBuzonSectionVisible,
+          gamesVisible: isGamesSectionVisible,
+          hiddenCommentIds: hiddenCommentIds
+        };
+        parsed.updatedAt = Date.now();
+        localStorage.setItem('blutu_live_site_data', JSON.stringify(parsed));
+      } catch (e) {}
+
+      updateGamesVisibilityUI();
+    }
+    window.toggleGamesSectionVisibility = toggleGamesSectionVisibility;
 
     function initCollapsibleSections() {
       const sectionIds = ['liveSection', 'musicSection', 'contactSection', 'merchSection', 'moreSection', 'gallerySection', 'blogSection', 'muchMoreSection', 'gamesSection', 'commentsSection'];
@@ -21149,6 +21392,9 @@
         } else {
           commentsSection.style.display = 'none';
         }
+      }
+      if (typeof window.syncMuchMoreTriggerForVisitor === 'function') {
+        window.syncMuchMoreTriggerForVisitor();
       }
       if (typeof window.syncLastVisibleTombstoneSection === 'function') {
         window.syncLastVisibleTombstoneSection();
@@ -22040,7 +22286,7 @@
 
       const muroObj = source.muro || source.buzon || {};
       const hiddenIds = Array.isArray(muroObj.hiddenCommentIds) ? muroObj.hiddenCommentIds : [];
-      const muroSig = `${muroObj.isVisible !== false ? '1' : '0'}:[${hiddenIds.join(',')}]`;
+      const muroSig = `${muroObj.isVisible !== false ? '1' : '0'}:${muroObj.gamesVisible !== false ? '1' : '0'}:[${hiddenIds.join(',')}]`;
 
       return JSON.stringify({ postsSig, galSig, liveSig, merchSig, muroSig });
     }
@@ -22064,6 +22310,7 @@
         },
         muro: {
           isVisible: !!window.isBuzonSectionVisible,
+          gamesVisible: window.isGamesSectionVisible !== false,
           hiddenCommentIds: Array.isArray(window.hiddenCommentIds) ? window.hiddenCommentIds : []
         }
       };
@@ -22216,10 +22463,12 @@
         },
         buzon: {
           isVisible: !!window.isBuzonSectionVisible,
+          gamesVisible: window.isGamesSectionVisible !== false,
           hiddenCommentIds: Array.isArray(window.hiddenCommentIds) ? window.hiddenCommentIds : []
         },
         muro: {
           isVisible: !!window.isBuzonSectionVisible,
+          gamesVisible: window.isGamesSectionVisible !== false,
           hiddenCommentIds: Array.isArray(window.hiddenCommentIds) ? window.hiddenCommentIds : []
         },
         updatedAt: serverTimestamp()
@@ -22362,6 +22611,12 @@
           const buzonOrMuro = data.muro || data.buzon;
           if (buzonOrMuro) {
             if (typeof buzonOrMuro.isVisible === 'boolean') window.isBuzonSectionVisible = buzonOrMuro.isVisible;
+            if (typeof buzonOrMuro.gamesVisible === 'boolean') {
+              window.isGamesSectionVisible = buzonOrMuro.gamesVisible;
+              try {
+                localStorage.setItem('blutu_games_visible', String(window.isGamesSectionVisible));
+              } catch (e) {}
+            }
             if (Array.isArray(buzonOrMuro.hiddenCommentIds)) window.hiddenCommentIds = buzonOrMuro.hiddenCommentIds;
           }
 
@@ -22384,10 +22639,12 @@
               },
               buzon: {
                 isVisible: window.isBuzonSectionVisible,
+                gamesVisible: window.isGamesSectionVisible,
                 hiddenCommentIds: window.hiddenCommentIds
               },
               muro: {
                 isVisible: window.isBuzonSectionVisible,
+                gamesVisible: window.isGamesSectionVisible,
                 hiddenCommentIds: window.hiddenCommentIds
               },
               updatedAt: Date.now()
